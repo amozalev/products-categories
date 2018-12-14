@@ -8,6 +8,7 @@ import { ContentComponent } from './content/content.component';
 import { ProductItemComponent } from './content/product-item/product-item.component';
 import { ProductListComponent } from './content/product-list/product-list.component';
 import { ProductDetailsComponent } from './content/product-details/product-details.component';
+import {ProductService} from './content/product.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { ProductDetailsComponent } from './content/product-details/product-detai
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
