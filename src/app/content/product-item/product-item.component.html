@@ -6,7 +6,13 @@
     <h4 class="card-title">
       <a href="#">{{ product.title }}</a>
     </h4>
-    <h5>${{ product.price }}</h5>
+    <!--<h5>${{ product.price }}</h5>-->
+    <div class="action-wrap">
+      <a routerLink="#" class="btn btn-primary btn-sm float-right"><fa name="shopping-cart"></fa></a>
+      <div class="price-wrap h5">
+        <span class="price-new">${{ product.price }}</span>
+      </div>
+    </div>
     <p class="card-text">{{ product.description }}</p>
   </div>
   <div class="card-footer">
