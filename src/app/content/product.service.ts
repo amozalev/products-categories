@@ -41,7 +41,26 @@ export class ProductService {
       'vegetables')
   ];
 
+  private products_in_cart: Product[] = [];
+
   getProducts() {
     return this.products.slice();
+  }
+
+  getCartProducts() {
+    return this.products_in_cart.slice();
+  }
+
+  getProductById(id: number) {
+    const product = this.products.find((prod) => {
+      return prod.id === id;
+    });
+    return product;
+  }
+
+  addToCart(product_id: number) {
+    const product = this.getProductById(product_id);
+    this.products_in_cart.push(product);
+    console.log('cart:', this.getCartProducts());
   }
 }

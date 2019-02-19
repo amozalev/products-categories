@@ -11,6 +11,7 @@ import {ProductListComponent} from './content/product-list/product-list.componen
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
 import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
+import { CartComponent } from './content/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {AppRoutingModule} from './app-routing.module';
     ContentComponent,
     ProductItemComponent,
     ProductListComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

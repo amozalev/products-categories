@@ -8,7 +8,7 @@
     </h4>
     <!--<h5>${{ product.price }}</h5>-->
     <div class="action-wrap">
-      <a routerLink="#" class="btn btn-primary btn-sm float-right"><fa name="shopping-cart"></fa></a>
+      <a [routerLink]="" class="float-right" (click)="addToCart()"><fa name="shopping-cart" size="lg"></fa></a>
       <div class="price-wrap h5">
         <span class="price-new">${{ product.price }}</span>
       </div>
