@@ -1,4 +1,5 @@
 import {Product} from '../shared/product.model';
+import {Subject} from 'rxjs';
 
 export class ProductService {
   private products: Product[] = [
@@ -41,7 +42,9 @@ export class ProductService {
       'vegetables')
   ];
 
-  private products_in_cart: Product[] = [];
+  products_in_cart: Product[] = [];
+  productsCountChanged = new Subject<number>();
+  products_count = 0;
 
   getProducts() {
     return this.products.slice();
@@ -61,6 +64,9 @@ export class ProductService {
   addToCart(product_id: number) {
     const product = this.getProductById(product_id);
     this.products_in_cart.push(product);
+    this.products_count++;
+    this.productsCountChanged.next(this.products_count);
+
     console.log('cart:', this.getCartProducts());
   }
 }

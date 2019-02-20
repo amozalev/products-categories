@@ -23,9 +23,13 @@
           <a class="nav-link" href="#">Contact</a>
         </li>
         <li>
-          <a routerLink="cart" class="nav-link">
-            <fa name="shopping-cart" size="lg"></fa>
-          </a>
+          <div id="cart_div">
+            <span class="p1 fa-stack fa-2x has-badge" [attr.data-count]="product_count">
+              <a routerLink="cart" class="nav-link">
+                <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse" data-count="4b"></i>
+              </a>
+            </span>
+          </div>
         </li>
       </ul>
     </div>
