@@ -4,42 +4,42 @@ import {Subject} from 'rxjs';
 export class ProductService {
   private products: Product[] = [
     new Product(1,
-      'Apple1',
+      'Red apple',
       11,
-      'Fresh and tasty apple',
+      'Red apple',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
       'food'),
 
     new Product(2,
-      'Apple2',
+      'Green apple',
       9,
-      'Fresh and tasty apple',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
+      'Green apple',
+      'https://ru0.anyfad.com/items/t2@91855199-6b17-4538-8599-55583e517052/Frukty-yabloko-zelenyy-8-sm.jpg',
       'fruits'),
     new Product(3,
-      'Apple3',
+      'Yellow apple',
       3,
-      'Fresh and tasty apple',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
+      'Yellow apple',
+      'https://apolytosdiallaktikos.files.wordpress.com/2018/04/images.jpeg',
       'vegetables'),
     new Product(4,
-      'Apple4',
+      'Tomato',
       4,
-      'Fresh and tasty apple',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
-      'fruits'),
+      'Tomato',
+      'https://static.ruvita.ru/store/product/243x243_e670ea3a9e423780f3c7787efc204dd1.jpg',
+      'vegetable'),
     new Product(5,
-      'Apple5',
+      'Cucumber',
       5,
-      'Fresh and tasty apple',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
-      'food'),
+      'Cucumber',
+      'https://demos.famethemes.com/onepress-plus/wp-content/uploads/sites/18/2016/02/project1-640x400.jpg',
+      'vegetable'),
     new Product(6,
-      'Apple6',
+      'Pumpkin',
       13,
-      'Fresh and tasty apple',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
-      'vegetables')
+      'Pumpkin',
+      'https://purepng.com/public/uploads/thumbnail/purepng.com-pumpkinpumpkinvegetablefoodroundedfruitpumpkins-1701527312953yikz1.png',
+      'vegetable')
   ];
 
   products_in_cart: Product[] = [];
@@ -68,8 +68,8 @@ export class ProductService {
         return true;
       }
     });
+    product.amount++;
     if (!product_exists) {
-      product.amount++;
       this.products_in_cart.push(product);
       this.products_count++;
       this.productsCountChanged.next(this.products_count);

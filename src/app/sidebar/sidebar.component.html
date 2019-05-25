@@ -1,6 +1,10 @@
 <h1 class="my-4">Shop Name</h1>
 <div class="list-group">
-  <a href="#" class="list-group-item">Category 1</a>
-  <a href="#" class="list-group-item">Category 2</a>
-  <a href="#" class="list-group-item">Category 3</a>
+  <a [routerLink]=""
+     class="list-group-item"
+     style="cursor: pointer"
+     *ngFor="let category of categories; let i = index"
+     (click)="filterBy(i)">
+    {{category.normal_name}}
+  </a>
 </div>

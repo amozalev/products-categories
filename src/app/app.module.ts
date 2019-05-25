@@ -11,7 +11,8 @@ import {ProductListComponent} from './content/product-list/product-list.componen
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
 import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
-import { CartComponent } from './content/cart/cart.component';
+import {CartComponent} from './content/cart/cart.component';
+import {CategoryService} from './content/product-list/Category.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { CartComponent } from './content/cart/cart.component';
     AngularFontAwesomeModule,
     AppRoutingModule
   ],
-  providers: [ProductService],
+  providers: [ProductService, CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
