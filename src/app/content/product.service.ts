@@ -8,46 +8,55 @@ export class ProductService {
       11,
       'Red apple',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg',
-      'food'),
+      1),
 
     new Product(2,
       'Green apple',
       9,
       'Green apple',
       'https://ru0.anyfad.com/items/t2@91855199-6b17-4538-8599-55583e517052/Frukty-yabloko-zelenyy-8-sm.jpg',
-      'fruits'),
+      1),
     new Product(3,
       'Yellow apple',
       3,
       'Yellow apple',
       'https://apolytosdiallaktikos.files.wordpress.com/2018/04/images.jpeg',
-      'vegetables'),
+      1),
     new Product(4,
       'Tomato',
       4,
       'Tomato',
       'https://static.ruvita.ru/store/product/243x243_e670ea3a9e423780f3c7787efc204dd1.jpg',
-      'vegetable'),
+      2),
     new Product(5,
       'Cucumber',
       5,
       'Cucumber',
       'https://demos.famethemes.com/onepress-plus/wp-content/uploads/sites/18/2016/02/project1-640x400.jpg',
-      'vegetable'),
+      2),
     new Product(6,
       'Pumpkin',
       13,
       'Pumpkin',
       'https://purepng.com/public/uploads/thumbnail/purepng.com-pumpkinpumpkinvegetablefoodroundedfruitpumpkins-1701527312953yikz1.png',
-      'vegetable')
+      2)
   ];
+  private filteredProducts: Product[];
 
   products_in_cart: Product[] = [];
   productsCountChanged = new Subject<number>();
   products_count = 0;
 
-  getProducts() {
+  getProducts(filterBy: number = null) {
+    console.log(filterBy);
+    this.filteredProducts = filterBy ? this.performFilter(filterBy) : this.products.slice();
     return this.products.slice();
+  }
+
+  performFilter(filterBy: number): Product[] {
+    const _filterBy = filterBy.toString();
+    return this.products.filter((product: Product) =>
+      product.category.toString().indexOf(_filterBy) !== -1);
   }
 
   getCartProducts() {

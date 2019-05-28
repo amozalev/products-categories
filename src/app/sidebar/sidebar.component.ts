@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {CategoryService} from '../content/product-list/Category.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {CategoryService} from '../content/product-list/category.service';
 import {Category} from '../shared/category.model';
+import {ProductService} from '../content/product.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,20 +9,22 @@ import {Category} from '../shared/category.model';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  // @Input() category_id: number;
   categories: Category[];
 
-  constructor(private categoryService: CategoryService) {
-    this.categories = this.categoryService.getCategories();
+  constructor(private categoryService: CategoryService,
+              private productService: ProductService) {
   }
 
   ngOnInit() {
+    this.categories = this.categoryService.getCategories();
   }
 
   getCategories() {
     return this.categories;
   }
 
-  filterBy(id) {
-
+  filterBy(id: number) {
+    this.productService.getProducts(id);
   }
 }

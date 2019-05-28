@@ -12,7 +12,7 @@ import {ProductDetailsComponent} from './content/product-details/product-details
 import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
 import {CartComponent} from './content/cart/cart.component';
-import {CategoryService} from './content/product-list/Category.service';
+import {CategoryService} from './content/product-list/category.service';
 
 @NgModule({
   declarations: [
