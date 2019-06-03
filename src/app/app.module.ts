@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
@@ -13,6 +14,7 @@ import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
 import {CartComponent} from './content/cart/cart.component';
 import {CategoryService} from './content/product-list/category.service';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import {CategoryService} from './content/product-list/category.service';
     ProductItemComponent,
     ProductListComponent,
     ProductDetailsComponent,
-    CartComponent
+    CartComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     AngularFontAwesomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [ProductService, CategoryService],
   bootstrap: [AppComponent]
