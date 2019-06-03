@@ -7,9 +7,9 @@ import {CartComponent} from './content/cart/cart.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
-  {path: 'products', component: ProductListComponent},
-  {path: 'products/:id', component: ProductDetailsComponent},
-  {path: 'products/category/:category_name', component: ProductListComponent},
+  {path: 'products', component: ProductListComponent, pathMatch: 'full'},
+  {path: 'products/:id', component: ProductDetailsComponent, pathMatch: 'full'},
+  {path: 'products/category/:category_name', component: ProductListComponent, pathMatch: 'full'},
   {path: 'test', component: ProductDetailsComponent},
   {path: 'cart', component: CartComponent}
 ];
