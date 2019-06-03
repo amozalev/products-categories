@@ -32,7 +32,7 @@ export class ProductService {
       'Cucumber',
       5,
       'Cucumber',
-      'https://demos.famethemes.com/onepress-plus/wp-content/uploads/sites/18/2016/02/project1-640x400.jpg',
+      'https://sklep.swiatkwiatow.pl/images/thumbnails/320/290/detailed/45/010473.jpg',
       'vegetable'),
     new Product(6,
       'Pumpkin',
