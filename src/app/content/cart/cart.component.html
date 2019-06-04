@@ -45,7 +45,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="$ {{product.price}}"
+                value="{{ currency }}{{product.price}}"
                 [attr.disabled]="true"
                 formControlName="price">
             </td>
@@ -53,7 +53,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="$ {{product.price * prod_amount.value}}"
+                value="{{ currency }}{{product.price * prod_amount.value}}"
                 [attr.disabled]="true"
                 formControlName="total_price">
             </td>
@@ -79,8 +79,8 @@
           <!--                        <td class="col-md-1" style="text-align: center">-->
           <!--                        <input type="email" class="form-control" id="exampleInputEmail1" value="2">-->
           <!--                        </td>-->
-          <!--                        <td class="col-md-1 text-center"><strong>$4.99</strong></td>-->
-          <!--                        <td class="col-md-1 text-center"><strong>$9.98</strong></td>-->
+          <!--                        <td class="col-md-1 text-center"><strong>{{ currency }}4.99</strong></td>-->
+          <!--                        <td class="col-md-1 text-center"><strong>{{ currency }}9.98</strong></td>-->
           <!--                        <td class="col-md-1">-->
           <!--                        <button type="button" class="btn btn-danger">-->
           <!--                            <span class="glyphicon glyphicon-remove"></span> Remove-->
@@ -91,30 +91,32 @@
             <td>  </td>
             <td>  </td>
             <td><h5>Subtotal</h5></td>
-            <td class="text-right"><h5><strong>$ {{total_price}}</strong></h5></td>
+            <td class="text-right"><h5><strong>{{ currency }} {{total_price}}</strong></h5></td>
           </tr>
           <tr>
             <td>  </td>
             <td>  </td>
             <td>  </td>
             <td><h5>Estimated shipping</h5></td>
-            <td class="text-right"><h5><strong>$6.94</strong></h5></td>
+            <td class="text-right"><h5><strong>{{ currency }}{{shipping_price}}</strong></h5></td>
           </tr>
           <tr>
             <td>  </td>
             <td>  </td>
             <td>  </td>
             <td><h3>Total</h3></td>
-            <td class="text-right"><h3><strong>$31.53</strong></h3></td>
+            <td class="text-right"><h3><strong>{{ currency }}{{total_price + shipping_price}}</strong></h3></td>
           </tr>
           <tr>
             <td>  </td>
             <td>  </td>
             <td>  </td>
             <td>
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-              </button>
+              <a [routerLink]="['/products']">
+                <button type="button" class="btn btn-default">
+                  <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                </button>
+              </a>
             </td>
             <td>
               <button

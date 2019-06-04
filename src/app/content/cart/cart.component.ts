@@ -3,12 +3,16 @@ import {ProductService} from '../product.service';
 import {Product} from '../../shared/product.model';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
+import {AppConfig} from '../../app.config';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
+  currency: string;
+  shipping_price: number;
   total_price: number;
   cartForm: FormGroup;
 
@@ -16,6 +20,8 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currency = AppConfig.currency;
+    this.shipping_price = AppConfig.shipping_price;
     this.initForm();
   }
 

@@ -15,7 +15,8 @@ import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
 import {CartComponent} from './content/cart/cart.component';
 import {CategoryService} from './content/product-list/category.service';
-import { AdminComponent } from './admin/admin.component';
+import {AdminComponent} from './admin/admin.component';
+import {AppConfig} from './app.config';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { AdminComponent } from './admin/admin.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductService, CategoryService],
+  providers: [AppConfig, ProductService, CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
