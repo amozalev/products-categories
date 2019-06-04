@@ -83,15 +83,16 @@ export class ProductService {
       }
     });
     product.amount++;
+    this.products_count++;
+    this.productsCountChanged.next(this.products_count);
     if (!product_exists) {
       this.products_in_cart.push(product);
-      this.products_count++;
-      this.productsCountChanged.next(this.products_count);
     }
   }
 
-  removeFromCart(index: number) {
-    this.products_in_cart.splice(index, 1);
+  removeFromCart(product_id: number) {
+    const product = this.getProductById(product_id);
+    product.amount--;
     this.products_count--;
     this.productsCountChanged.next(this.products_count);
   }

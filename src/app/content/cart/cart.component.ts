@@ -13,8 +13,9 @@ import {AppConfig} from '../../app.config';
 export class CartComponent implements OnInit {
   currency: string;
   shipping_price: number;
-  total_price: number;
+  subtotal_price: number;
   cartForm: FormGroup;
+  product_count = 0;
 
   constructor(private productService: ProductService) {
   }
@@ -22,14 +23,15 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     this.currency = AppConfig.currency;
     this.shipping_price = AppConfig.shipping_price;
+    this.product_count = this.productService.products_count;
     this.initForm();
   }
 
   getCartProducts() {
-    this.total_price = 0;
+    this.subtotal_price = 0;
     const products_in_cart = this.productService.getCartProducts();
     products_in_cart.forEach((i) => {
-      this.total_price += (i.amount * i.price);
+      this.subtotal_price += (i.amount * i.price);
     });
     return products_in_cart;
   }
@@ -38,13 +40,20 @@ export class CartComponent implements OnInit {
     this.productService.removeFromCart(index);
   }
 
-  onAmountChanged(index: number) {
-    this.total_price = 0;
+  onAmountChanged(index: number, product_id: number, event) {
+    console.log('event: ', event.target.value);
+    this.subtotal_price = 0;
+
+    if (event.target.value > this.productService.products_count) {
+      this.productService.addToCart(product_id);
+    } else {
+      this.productService.removeFromCart(product_id);
+    }
     const products_in_cart = this.productService.getCartProducts();
 
-    products_in_cart[index].amount = this.cartForm.get('amount').value;
+    // products_in_cart[index].amount = this.cartForm.get('amount').value;
     products_in_cart.forEach((i) => {
-      this.total_price += (i.amount * i.price);
+      this.subtotal_price += (i.amount * i.price);
     });
   }
 
@@ -57,13 +66,13 @@ export class CartComponent implements OnInit {
     const id = 0;
     const amount = 0;
     const price = 0;
-    const total_price = 0;
+    const subtotal_price = 0;
 
     this.cartForm = new FormGroup({
       'id': new FormControl(),
       'amount': new FormControl(),
       'price': new FormControl(),
-      'total_price': new FormControl()
+      'subtotal_price': new FormControl()
     });
   }
 

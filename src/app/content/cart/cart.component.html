@@ -38,7 +38,7 @@
                 class="form-control"
                 value="{{product.amount}}"
                 formControlName="amount"
-                (change)="onAmountChanged(i)"
+                (change)="onAmountChanged(i, product.id, $event)"
                 #prod_amount>
             </td>
             <td class="col-sm-2 col-md-2 text-center">
@@ -55,7 +55,7 @@
                 class="form-control"
                 value="{{ currency }}{{product.price * prod_amount.value}}"
                 [attr.disabled]="true"
-                formControlName="total_price">
+                formControlName="subtotal_price">
             </td>
             <td class="col-sm-1 col-md-1">
               <button
@@ -91,7 +91,7 @@
             <td>  </td>
             <td>  </td>
             <td><h5>Subtotal</h5></td>
-            <td class="text-right"><h5><strong>{{ currency }} {{total_price}}</strong></h5></td>
+            <td class="text-right"><h5><strong>{{ currency }} {{subtotal_price}}</strong></h5></td>
           </tr>
           <tr>
             <td>  </td>
@@ -105,7 +105,7 @@
             <td>  </td>
             <td>  </td>
             <td><h3>Total</h3></td>
-            <td class="text-right"><h3><strong>{{ currency }}{{total_price + shipping_price}}</strong></h3></td>
+            <td class="text-right"><h3><strong>{{ currency }}{{subtotal_price + shipping_price}}</strong></h3></td>
           </tr>
           <tr>
             <td>  </td>
