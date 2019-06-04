@@ -4,7 +4,7 @@
      [routerLink]="['/products/category', category.name]"
      class="list-group-item"
      style="cursor: pointer"
-
+     [routerLinkActive]="['active']"
      (click)="filterBy(i)">
     {{category.normal_name}}
   </a>
