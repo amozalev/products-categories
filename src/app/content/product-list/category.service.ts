@@ -21,7 +21,6 @@ export class CategoryService {
     const category = this.categories.find((r) => {
       return r.id === cat_id;
     });
-    console.log('cat_name: ', category);
     return category.name;
   }
 }

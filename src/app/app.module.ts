@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
@@ -32,7 +33,8 @@ import { AdminComponent } from './admin/admin.component';
     BrowserModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [ProductService, CategoryService],
   bootstrap: [AppComponent]

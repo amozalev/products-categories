@@ -22,13 +22,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params) => {
       this.category_name = params['category_name'];
     });
-    console.log('got cat_name: ', this.category_name);
 
     this.products = this.productService.getFilteredProducts(this.category_name);
     this.productsSubscription = this.productService.productsListChanged.subscribe((products: Product[]) => {
       this.products = products;
     });
-    console.log('list: ', this.products);
   }
 
   ngOnDestroy() {

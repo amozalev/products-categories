@@ -53,7 +53,6 @@ export class ProductService {
   }
 
   getFilteredProducts(filterBy: string = null) {
-    console.log('filterBy: ', filterBy);
     this.filteredProducts = filterBy ? this.performFilter(filterBy) : this.getProducts();
 
     this.productsListChanged.next(this.filteredProducts);
@@ -89,17 +88,11 @@ export class ProductService {
       this.products_count++;
       this.productsCountChanged.next(this.products_count);
     }
-
-
-    console.log('cart:', this.getCartProducts());
   }
 
   removeFromCart(index: number) {
     this.products_in_cart.splice(index, 1);
     this.products_count--;
     this.productsCountChanged.next(this.products_count);
-
-    console.log('cart:', this.getCartProducts());
-
   }
 }
