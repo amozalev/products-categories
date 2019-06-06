@@ -23,6 +23,11 @@
           <a class="nav-link" [routerLink]="">Contact</a>
         </li>
         <li>
+          <a routerLink="admin" class="nav-link">
+            <fa name="user" size="lg"></fa>
+          </a>
+        </li>
+        <li>
           <a routerLink="cart" class="nav-link">
             <fa name="shopping-cart" size="lg"></fa>
             <span *ngIf="product_count" id="product_count" class="fa-stack fa-1x">{{ product_count}}</span>
