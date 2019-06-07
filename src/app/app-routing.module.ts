@@ -5,6 +5,9 @@ import {ProductListComponent} from './content/product-list/product-list.componen
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
 import {CartComponent} from './content/cart/cart.component';
 import {AdminComponent} from './admin/admin.component';
+import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
+import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
+import {AdminProductComponent} from './admin/admin-product/admin-product.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -13,7 +16,8 @@ const appRoutes: Routes = [
   {path: 'products/category/:category_name', component: ProductListComponent, pathMatch: 'full'},
   {path: 'cart', component: CartComponent},
   {path: 'admin', component: AdminComponent},
-  {path: 'admin/:section', component: AdminComponent}
+  {path: 'admin/category', component: AdminCategoryComponent},
+  {path: 'admin/product', component: AdminProductComponent}
 ];
 
 @NgModule({

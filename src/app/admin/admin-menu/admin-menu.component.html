@@ -1,0 +1,30 @@
+<h2 class="my-4">
+  <a [routerLink]="['/admin']"
+     style="cursor: pointer"
+     [routerLinkActive]="['active']">
+    Admin panel
+  </a>
+</h2>
+<ul class="list-group">
+<!--  <li class="list-group-item">-->
+  <!--    <a [routerLink]="['/admin']"-->
+  <!--       style="cursor: pointer"-->
+  <!--       [routerLinkActive]="['active']">-->
+  <!--      Dashboard-->
+  <!--    </a>-->
+  <!--  </li>-->
+  <li class="list-group-item">
+    <a [routerLink]="['/admin/category'] "
+       style="cursor: pointer"
+       [routerLinkActive]="['active']">
+      Categories
+    </a>
+  </li>
+  <li class="list-group-item">
+    <a [routerLink]="['/admin/product']"
+       style="cursor: pointer"
+       [routerLinkActive]="['active']">
+      Products
+    </a>
+  </li>
+</ul>

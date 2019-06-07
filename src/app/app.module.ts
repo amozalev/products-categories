@@ -7,7 +7,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
-import {ContentComponent} from './content/content.component';
 import {ProductItemComponent} from './content/product-item/product-item.component';
 import {ProductListComponent} from './content/product-list/product-list.component';
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
@@ -17,18 +16,25 @@ import {CartComponent} from './content/cart/cart.component';
 import {CategoryService} from './content/product-list/category.service';
 import {AdminComponent} from './admin/admin.component';
 import {AppConfig} from './app.config';
+import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
+import {AdminProductComponent} from './admin/admin-product/admin-product.component';
+import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
+import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    ContentComponent,
     ProductItemComponent,
     ProductListComponent,
     ProductDetailsComponent,
     CartComponent,
-    AdminComponent
+    AdminComponent,
+    AdminCategoryComponent,
+    AdminProductComponent,
+    AdminDashboardComponent,
+    AdminMenuComponent
   ],
   imports: [
     BrowserModule,
