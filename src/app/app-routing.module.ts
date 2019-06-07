@@ -12,7 +12,8 @@ const appRoutes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent, pathMatch: 'full'},
   {path: 'products/category/:category_name', component: ProductListComponent, pathMatch: 'full'},
   {path: 'cart', component: CartComponent},
-  {path: 'admin', component: AdminComponent}
+  {path: 'admin', component: AdminComponent},
+  {path: 'admin/:section', component: AdminComponent}
 ];
 
 @NgModule({

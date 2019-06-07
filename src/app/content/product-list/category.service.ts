@@ -28,33 +28,34 @@ export class CategoryService {
   ];
 
   getCategories() {
-    this.categories.slice().forEach((val) => {
-
-      if (val.parent != null) {
-        const parent_category = this.categories[val.parent];
-
-        const _index = this.final_categories.findIndex((category) => {
-          if (parent_category.id === category.id) {
-            return category;
-          }
-        });
-        if (_index === -1) {
-          this.final_categories.push(parent_category);
-        }
-        this.final_categories[_index].children.push(val);
-
-      } else {
-        const _index = this.final_categories.findIndex((category) => {
-          if (val.id === category.id) {
-            return category;
-          }
-        });
-        if (_index === -1) {
-          this.final_categories.push(val);
-        }
-      }
-
-    });
+    this.final_categories = this.categories.slice();
+    // this.categories.slice().forEach((val) => {
+    //
+    //   if (val.parent != null) {
+    //     const parent_category = this.categories[val.parent];
+    //
+    //     const _index = this.final_categories.findIndex((category) => {
+    //       if (parent_category.id === category.id) {
+    //         return category;
+    //       }
+    //     });
+    //     if (_index === -1) {
+    //       this.final_categories.push(parent_category);
+    //     }
+    //     this.final_categories[_index].children.push(val);
+    //
+    //   } else {
+    //     const _index = this.final_categories.findIndex((category) => {
+    //       if (val.id === category.id) {
+    //         return category;
+    //       }
+    //     });
+    //     if (_index === -1) {
+    //       this.final_categories.push(val);
+    //     }
+    //   }
+    //
+    // });
     console.log('final_categories: ', this.final_categories);
 
     return this.final_categories;
