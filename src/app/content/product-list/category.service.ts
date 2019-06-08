@@ -1,9 +1,11 @@
 import {Category} from '../../shared/category.model';
-import index from '@angular/cli/lib/cli';
+import {Subject} from 'rxjs';
 
 export class CategoryService {
   // final_categories: { [id: number]: { category: Category }[] }[];
-  final_categories: any[] = [];
+  // final_categories: any[] = [];
+  categoryListChanged = new Subject<Category[]>();
+
   private categories: Category[] = [
     new Category(
       0,
@@ -28,7 +30,7 @@ export class CategoryService {
   ];
 
   getCategories() {
-    this.final_categories = this.categories.slice();
+    // this.final_categories = this.categories.slice();
     // this.categories.slice().forEach((val) => {
     //
     //   if (val.parent != null) {
@@ -56,9 +58,10 @@ export class CategoryService {
     //   }
     //
     // });
-    console.log('final_categories: ', this.final_categories);
-
-    return this.final_categories;
+    // console.log('final_categories: ', this.final_categories);
+    // this.categoryListChanged.next(this.final_categories);
+    // return this.final_categories;
+    return this.categories.slice();
   }
 
   getCategoryNameById(cat_id: number) {
@@ -66,5 +69,15 @@ export class CategoryService {
       return r.id === cat_id;
     });
     return category.name;
+  }
+
+  addCategory(category: Category) {
+    this.categories.push(category);
+    this.categoryListChanged.next(this.categories.slice());
+  }
+
+  deleteCategory(_index: number) {
+    this.categories.splice(_index, 1);
+    this.categoryListChanged.next(this.categories.slice());
   }
 }

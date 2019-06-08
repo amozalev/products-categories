@@ -1,12 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AppComponent} from './app.component';
 import {ProductListComponent} from './content/product-list/product-list.component';
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
 import {CartComponent} from './content/cart/cart.component';
 import {AdminComponent} from './admin/admin.component';
 import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
-import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
 import {AdminProductComponent} from './admin/admin-product/admin-product.component';
 
 const appRoutes: Routes = [
