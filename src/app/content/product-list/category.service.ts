@@ -9,20 +9,20 @@ export class CategoryService {
 
   private categories: Category[] = [
     new Category(
-      0,
+      1,
       'fruit',
       'Fruits',
       null,
       []),
     new Category(
-      1,
+      2,
       'vegetable',
       'Vegetables',
       null,
       []
     ),
     new Category(
-      2,
+      3,
       'tropical_fruit',
       'Tropical fruits',
       0,

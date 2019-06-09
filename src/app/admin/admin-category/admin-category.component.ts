@@ -71,7 +71,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
       id = this.editedId;
     } else {
       // console.log('adminCategoriesForm: ', this.form.value);
-      id = this.categoryService.getCategories().length;
+      id = this.categoryService.getCategories().length + 1;
     }
     const newCategory = new Category(
       id,
