@@ -40,7 +40,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    console.log('editedCategoryId: ', this.editedId);
     if (this.editedId !== undefined) {
       this.categoryService.deleteCategory(this.editedId);
       this.form.reset();
@@ -82,7 +81,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     );
     this.categoryService.addCategory(newCategory, this.editMode);
     this.form.reset();
-
   }
 
   initCategoriesForm() {

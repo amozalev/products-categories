@@ -7,11 +7,12 @@ tr {
 }
 
 input.ng-invalid.ng-touched {
-  border: 1px solid red;
+  border: 1px solid #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, .25);
 }
 
 .help-block {
-  color: red;
+  color: #dc3545;
 }
 
 label {
