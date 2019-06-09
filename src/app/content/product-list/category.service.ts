@@ -5,6 +5,7 @@ export class CategoryService {
   // final_categories: { [id: number]: { category: Category }[] }[];
   // final_categories: any[] = [];
   categoryListChanged = new Subject<Category[]>();
+  editedCategory = new Subject<number>();
 
   private categories: Category[] = [
     new Category(
@@ -64,20 +65,36 @@ export class CategoryService {
     return this.categories.slice();
   }
 
-  getCategoryNameById(cat_id: number) {
+  getCategoryById(cat_id: number) {
     const category = this.categories.find((r) => {
       return r.id === cat_id;
     });
-    return category.name;
+    return category;
   }
 
-  addCategory(category: Category) {
-    this.categories.push(category);
-    this.categoryListChanged.next(this.categories.slice());
+  addCategory(category: Category, editMode = false) {
+    if (!editMode) {
+      this.categories.push(category);
+      this.categoryListChanged.next(this.categories.slice());
+    } else {
+      const index = this.categories.findIndex((c) => {
+        return c.id === category.id;
+      });
+      if (index !== -1) {
+        this.categories[index] = category;
+        this.categoryListChanged.next(this.categories.slice());
+      }
+    }
   }
 
-  deleteCategory(_index: number) {
-    this.categories.splice(_index, 1);
-    this.categoryListChanged.next(this.categories.slice());
+
+  deleteCategory(id: number) {
+    const index = this.categories.findIndex((c) => {
+      return c.id === id;
+    });
+    if (index !== -1) {
+      this.categories.splice(index, 1);
+      this.categoryListChanged.next(this.categories.slice());
+    }
   }
 }

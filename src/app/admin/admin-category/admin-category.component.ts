@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../content/product-list/category.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Category} from '../../shared/category.model';
 
@@ -10,51 +10,96 @@ import {Category} from '../../shared/category.model';
   styleUrls: ['./admin-category.component.css']
 })
 export class AdminCategoryComponent implements OnInit, OnDestroy {
-  adminCategoriesForm: FormGroup;
+  editMode: boolean;
+  editedId: number;
+  form: FormGroup;
   categories: Category[];
   categorySubscription: Subscription;
+  editedCategorySubscription: Subscription;
+  editedCategory: Category;
 
   constructor(private categoryService: CategoryService) {
   }
 
   ngOnInit() {
+    this.editMode = false;
     this.initCategoriesForm();
     this.categories = this.categoryService.getCategories();
     this.categorySubscription = this.categoryService.categoryListChanged.subscribe((categories) => {
       this.categories = categories;
     });
+
+    this.editedCategorySubscription = this.categoryService.editedCategory.subscribe((id) => {
+      this.editedId = id;
+    });
   }
 
   ngOnDestroy(): void {
     this.categorySubscription.unsubscribe();
+    this.editedCategorySubscription.unsubscribe();
   }
 
-
-  onAddCategory() {
-    console.log('adminCategoriesForm: ', this.adminCategoriesForm.value);
-    const id = this.categoryService.getCategories().length;
-    const newCategory = new Category(
-      id,
-      this.adminCategoriesForm.value.name,
-      this.adminCategoriesForm.value.normal_name,
-      this.adminCategoriesForm.value.parent,
-    );
-    this.categoryService.addCategory(newCategory);
+  onDelete() {
+    console.log('editedCategoryId: ', this.editedId);
+    if (this.editedId !== undefined) {
+      this.categoryService.deleteCategory(this.editedId);
+      this.form.reset();
+    }
+    this.editedId = undefined;
+    this.editMode = false;
   }
 
-  onDeleteCategory(index: number) {
-    this.categoryService.deleteCategory(index);
+  onEdit(id: number) {
+    this.editMode = true;
+    this.editedId = id;
+    this.categoryService.editedCategory.next(id);
+    this.editedCategory = this.categoryService.getCategoryById(this.editedId);
+
+    this.form.get('name').setValue(this.editedCategory.name);
+    this.form.get('normal_name').setValue(this.editedCategory.normal_name);
+    this.form.get('parent').setValue(this.editedCategory.parent);
+  }
+
+  onClear() {
+    this.form.reset();
+    this.editMode = false;
   }
 
   onSubmit() {
+    let id = null;
+    if (this.editMode) {
+      this.editMode = true;
+      id = this.editedId;
+    } else {
+      // console.log('adminCategoriesForm: ', this.form.value);
+      id = this.categoryService.getCategories().length;
+    }
+    const newCategory = new Category(
+      id,
+      this.form.value.name,
+      this.form.value.normal_name,
+      this.form.value.parent,
+    );
+    this.categoryService.addCategory(newCategory, this.editMode);
+    this.form.reset();
 
   }
 
   initCategoriesForm() {
-    this.adminCategoriesForm = new FormGroup({
-      'name': new FormControl(),
-      'normal_name': new FormControl(),
-      'parent': new FormControl()
+    let name = '';
+    let normal_name = '';
+    let parent = '';
+
+    if (this.editMode) {
+      name = this.form.value.name;
+      normal_name = this.form.value.normal_name;
+      parent = this.form.value.parent;
+    }
+
+    this.form = new FormGroup({
+      'name': new FormControl(name, [Validators.required, Validators.minLength(3)]),
+      'normal_name': new FormControl(normal_name, [Validators.required, Validators.minLength(4)]),
+      'parent': new FormControl(parent)
     });
   }
 
