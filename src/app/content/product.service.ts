@@ -46,6 +46,7 @@ export class ProductService {
   products_in_cart: Product[] = [];
   productsCountChanged = new Subject<number>();
   productsListChanged = new Subject<Product[]>();
+  editedProduct = new Subject<number>();
   products_count = 0;
 
   getProducts() {
@@ -64,14 +65,30 @@ export class ProductService {
       product.category.indexOf(filterBy) !== -1);
   }
 
-  addProduct(product: Product) {
-    this.products.push(product);
-    this.productsListChanged.next(this.products.slice());
+  addProduct(product: Product, editMode = false) {
+    if (!editMode) {
+      this.products.push(product);
+      this.productsListChanged.next(this.products.slice());
+    } else {
+      const index = this.products.findIndex((c) => {
+        return c.id === product.id;
+      });
+      if (index !== -1) {
+        this.products[index] = product;
+        this.productsListChanged.next(this.products.slice());
+      }
+    }
+
   }
 
-  deleteProduct(_index: number) {
-    this.products.splice(_index, 1);
-    this.productsListChanged.next(this.products.slice());
+  deleteProduct(id: number) {
+    const index = this.products.findIndex((c) => {
+      return c.id === id;
+    });
+    if (index !== -1) {
+      this.products.splice(index, 1);
+      this.productsListChanged.next(this.products.slice());
+    }
   }
 
   getCartProducts() {
