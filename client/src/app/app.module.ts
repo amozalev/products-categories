@@ -20,31 +20,37 @@ import {AdminCategoryComponent} from './admin/admin-category/admin-category.comp
 import {AdminProductComponent} from './admin/admin-product/admin-product.component';
 import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
 import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
+import {CartGuardService} from './content/cart/cart-guard.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    SidebarComponent,
-    ProductItemComponent,
-    ProductListComponent,
-    ProductDetailsComponent,
-    CartComponent,
-    AdminComponent,
-    AdminCategoryComponent,
-    AdminProductComponent,
-    AdminDashboardComponent,
-    AdminMenuComponent
-  ],
-  imports: [
-    BrowserModule,
-    AngularFontAwesomeModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [AppConfig, ProductService, CategoryService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        SidebarComponent,
+        ProductItemComponent,
+        ProductListComponent,
+        ProductDetailsComponent,
+        CartComponent,
+        AdminComponent,
+        AdminCategoryComponent,
+        AdminProductComponent,
+        AdminDashboardComponent,
+        AdminMenuComponent
+    ],
+    imports: [
+        BrowserModule,
+        AngularFontAwesomeModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    providers: [
+        AppConfig,
+        ProductService,
+        CategoryService,
+        CartGuardService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

@@ -4,6 +4,7 @@ import {Product} from '../../shared/product.model';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {AppConfig} from '../../app.config';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -17,13 +18,15 @@ export class CartComponent implements OnInit {
   cartForm: FormGroup;
   product_count = 0;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.currency = AppConfig.currency;
     this.shipping_price = AppConfig.shipping_price;
-    this.product_count = this.productService.products_count;
+    this.product_count = this.productService.cartProductsCount;
     this.initForm();
   }
 
@@ -36,15 +39,18 @@ export class CartComponent implements OnInit {
     return products_in_cart;
   }
 
-  removeProduct(index: number) {
+  removeFromCart(index: number) {
     this.productService.removeFromCart(index);
+    if (!this.productService.cartProductsCount) {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 
   onAmountChanged(index: number, product_id: number, event) {
     console.log('event: ', event.target.value);
     this.subtotal_price = 0;
 
-    if (event.target.value > this.productService.products_count) {
+    if (event.target.value > this.productService.cartProductsCount) {
       this.productService.addToCart(product_id);
     } else {
       this.productService.removeFromCart(product_id);
