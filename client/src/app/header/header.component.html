@@ -40,12 +40,14 @@
                             <fa name="user" size="lg"></fa>
                         </a>
                     </li>
-                    <li *ngIf="getProductsCount()">
+                    <li>
                         <a routerLink="cart"
                            class="nav-link">
                             <fa name="shopping-cart" size="lg"></fa>
-                            <span *ngIf="product_count" id="product_count"
-                                  class="fa-stack fa-1x">{{ product_count}}</span>
+                            <span id="product_count"
+                                  class="fa-stack fa-1x">
+                                {{ product_count ? product_count : ''}}
+                            </span>
                         </a>
                     </li>
                 </div>

@@ -121,6 +121,9 @@ export class ProductService {
         const product = this.cartProducts[index];
         this.cartProducts.splice(index, 1);
         this.cartProductsCount -= product.amount;
+        if (this.cartProductsCount < 0) {
+            this.cartProductsCount = 0;
+        }
         this.cartProductsCountChanged.next(this.cartProductsCount);
     }
 }
