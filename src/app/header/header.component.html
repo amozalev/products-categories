@@ -29,22 +29,24 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="">Contact</a>
         </li>
-        <li>
-          <a routerLink="admin" class="nav-link">
-            <fa name="cog" size="lg"></fa>
-          </a>
-        </li>
-        <li>
-          <a routerLink="user" class="nav-link">
-            <fa name="user" size="lg"></fa>
-          </a>
-        </li>
-        <li>
-          <a routerLink="cart" class="nav-link">
-            <fa name="shopping-cart" size="lg"></fa>
-            <span *ngIf="product_count" id="product_count" class="fa-stack fa-1x">{{ product_count}}</span>
-          </a>
-        </li>
+        <div class="btn-group d-flex" role="group">
+          <li>
+            <a routerLink="admin" class="nav-link">
+              <fa name="cog" size="lg"></fa>
+            </a>
+          </li>
+          <li>
+            <a routerLink="user" class="nav-link">
+              <fa name="user" size="lg"></fa>
+            </a>
+          </li>
+          <li>
+            <a routerLink="cart" class="nav-link">
+              <fa name="shopping-cart" size="lg"></fa>
+              <span *ngIf="product_count" id="product_count" class="fa-stack fa-1x">{{ product_count}}</span>
+            </a>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
