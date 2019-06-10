@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   productCountSubscription: Subscription;
   product_count = 0;
+  collapsedNav = true;
 
   constructor(private productService: ProductService) {
   }
@@ -24,5 +25,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productCountSubscription.unsubscribe();
+  }
+
+  collapseNav() {
+    this.collapsedNav = !this.collapsedNav;
   }
 }
