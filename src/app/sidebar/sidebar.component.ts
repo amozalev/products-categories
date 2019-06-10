@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit {
   }
 
   filterBy(id: number) {
-    const category = this.categoryService.getCategoryById(id);
+    const category = this.categoryService.getCategoryById(id + 1);
     this.productService.getFilteredProducts(category.name);
   }
 }
