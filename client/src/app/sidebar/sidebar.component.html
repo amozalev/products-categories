@@ -5,6 +5,7 @@
     <a [routerLink]="['/products/category', category.name]"
        style="cursor: pointer"
        [routerLinkActive]="['active']"
+       [routerLinkActiveOptions]="{exact: true}"
        (click)="filterBy(i)">
       {{category.normal_name}}
     </a>
