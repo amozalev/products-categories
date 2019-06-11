@@ -1,5 +1,6 @@
 class Config(object):
-    DB_HOST = 'localhost'
+    DB_HOST = '127.0.0.1'
     DB_PORT = 27017
     DB_DB = 'products'
-    debug = True
+    DB_USER = 'admin'
+    DB_USER_PASSWORD = 'password'

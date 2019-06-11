@@ -1,7 +1,7 @@
 from flask import Flask
 from server import config
 from .api_v1 import api_v1_bp, api
-from .database import Mongo
+from .database import Mongo, mongodb_uri
 
 
 def init_app():
