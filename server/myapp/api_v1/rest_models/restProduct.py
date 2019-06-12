@@ -1,22 +1,17 @@
-from flask_restful import Resource
-from server.myapp.database import db
-from flask import jsonify
-from bson import ObjectId
-from server.myapp.utils import bson_to_json
-from bson.json_util import dumps
 import json
-from bson import json_util
+import bson
+from flask_restful import Resource
+from server.myapp.db_models.Product import Product as _Product
 
 
 class Product(Resource):
     def get(self, product_id=None):
-        query = {}
         if product_id is not None:
-            query = {'_id': ObjectId(product_id)}
-
-        # json.dumps(item, default=json_util.default)
-        result = [bson_to_json(item) for item in db.product.find(query)]
-        return jsonify({'data': result})
+            products = _Product.objects(_id=bson.ObjectId(product_id))
+        else:
+            products = _Product.objects
+        data = json.loads(products.to_json())
+        return {'data': data}
 
     def post(self):
         pass

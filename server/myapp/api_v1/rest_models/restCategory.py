@@ -1,12 +1,16 @@
+import json
+import bson
 from flask_restful import Resource
-from server.myapp.database import db
-from server.myapp.utils import bson_to_json
+from server.myapp.db_models.Category import Category as _Category
 
 
 class Category(Resource):
-    def get(self, category_id):
-        print('get categories')
-        data = [bson_to_json(item) for item in db.product.find({})]
+    def get(self, category_id=None):
+        if category_id is not None:
+            categories = _Category.objects(_id=bson.ObjectId(category_id))
+        else:
+            categories = _Category.objects
+        data = json.loads(categories.to_json())
         return {'data': data}
 
     def post(self):
