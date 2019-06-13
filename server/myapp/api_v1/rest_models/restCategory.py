@@ -1,28 +1,33 @@
 import json
 import bson
-from flask_restful import Resource, reqparse, abort, marshal_with, fields
+from flask import jsonify
+from flask_restful import Resource, reqparse, abort, marshal_with, marshal, fields
 from mongoengine import DoesNotExist, ValidationError
 
 from server.myapp.db_models.Category import Category
 
 final_category = {
-    '_id': fields.String,
+    'id': fields.String,
     'name': fields.String,
     'normal_name': fields.String,
     'parent': fields.String
 }
 
 
+# final_categories_list = {
+#     'tasks': fields.List(fields.Nested(final_category))
+# }
+
+
 class RestCategory(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
-        self.reqparse.add_argument('_id', type=str,)
+        self.reqparse.add_argument('_id', type=str, )
         self.reqparse.add_argument('name', type=str)
         self.reqparse.add_argument('normal_name', type=str)
         self.reqparse.add_argument('parent', type=str)
         super(RestCategory, self).__init__()
 
-    @marshal_with(final_category, envelope='data')
     def get(self, category_id: str = None, skip: int = 0, limit: int = 10) -> json:
         self.reqparse.add_argument('skip', type=int)
         self.reqparse.add_argument('limit', type=int)
@@ -33,41 +38,54 @@ class RestCategory(Resource):
             limit = args['limit']
 
         if category_id is not None:
-            categories = Category.objects(_id=bson.ObjectId(category_id))
+            categories = Category.objects(pk=bson.ObjectId(category_id))
         else:
             categories = Category.objects
-        data = json.loads(categories.skip(skip).limit(limit).to_json())
-        return data
 
-    @marshal_with(final_category, envelope='data')
+        result = {'data': [marshal(item, final_category) for item in categories.skip(skip).limit(limit)]}
+        return jsonify(result)
+
     def put(self, category_id: str = None) -> json:
         if category_id is None:
             abort(404, message=f'Category id is not set.')
 
         args = self.reqparse.parse_args()
-        tmp = {}
+        tmp_dict = {}
         for k, v in args.items():
             if v is not None:
-                tmp[k] = v
+                tmp_dict[k] = v
 
         try:
-            Category.objects.get(_id=bson.ObjectId(category_id))
+            category = Category.objects.get(pk=bson.ObjectId(category_id))
         except DoesNotExist:
             abort(404, message=f'Category {category_id} doesn\'t exist.')
-        tmp['_id'] = bson.ObjectId(category_id)
+
+        try:
+            category.update(**tmp_dict)
+        except ValidationError:
+            result = {'error': 'Fields are required: _id, name, normal_name, parent'}
+            return jsonify(result)
+
+        category = Category.objects.get(pk=bson.ObjectId(category_id))
+
+        result = marshal(category, final_category, envelope='data')
+        return jsonify(result)
+
+    def post(self) -> json:
+        args = self.reqparse.parse_args()
+        tmp = {}
+        for k, v in args.items():
+            if k != '_id' and v is not None:
+                tmp[k] = v
 
         category = Category(**tmp)
         try:
-            saved_cat = category.save()
+            saved_cat = category.save(force_insert=True)
         except ValidationError:
-            result = {'error': 'Fields are required: _id, name, normal_name, parent'}
-            return result
-        result = json.loads(saved_cat.to_json())
+            abort(400, message='Fields are required: name, normal_name, parent')
 
-        return result
-
-    def post(self):
-        pass
+        result = marshal(saved_cat, final_category, envelope='data')
+        return jsonify(result)
 
     def delete(self):
         pass

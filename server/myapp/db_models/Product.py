@@ -2,7 +2,6 @@ from mongoengine import *
 
 
 class Product(Document):
-    _id = ObjectIdField(required=True)
     title = StringField(required=True)
     description = StringField(required=True)
     volume = FloatField(required=True)
