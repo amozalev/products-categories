@@ -1,7 +1,7 @@
 import json
 import bson
-from flask import jsonify
-from flask_restful import Resource, reqparse, abort, marshal_with, marshal, fields
+from flask import jsonify, request, make_response
+from flask_restful import Resource, reqparse, abort, marshal, fields
 from mongoengine import DoesNotExist, ValidationError
 
 from server.myapp.db_models.Category import Category
@@ -12,11 +12,6 @@ final_category = {
     'normal_name': fields.String,
     'parent': fields.String
 }
-
-
-# final_categories_list = {
-#     'tasks': fields.List(fields.Nested(final_category))
-# }
 
 
 class RestCategory(Resource):
@@ -84,8 +79,11 @@ class RestCategory(Resource):
         except ValidationError:
             abort(400, message='Fields are required: name, normal_name, parent')
 
-        result = marshal(saved_cat, final_category, envelope='data')
-        return jsonify(result)
+        result = json.dumps(marshal(saved_cat, final_category, envelope='data'))
+        response = make_response(result, 201)
+        response.mimetype = "application/json"
+        response.headers.extend({"Location": request.url})
+        return response
 
     def delete(self):
         pass
