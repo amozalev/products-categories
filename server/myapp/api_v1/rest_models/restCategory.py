@@ -85,5 +85,15 @@ class RestCategory(Resource):
         response.headers.extend({"Location": request.url})
         return response
 
-    def delete(self):
-        pass
+    def delete(self, category_id: str = None) -> json:
+        if category_id is None:
+            abort(404, message=f'Category id is not set.')
+
+        try:
+            category = Category.objects.get(pk=bson.ObjectId(category_id))
+        except DoesNotExist:
+            abort(404, message=f'Category {category_id} doesn\'t exist.')
+
+        category.delete()
+
+        return {'status': 'accepted'}, 204
