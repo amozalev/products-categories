@@ -42,7 +42,7 @@ class RestCategory(Resource):
 
     def put(self, category_id: str = None) -> json:
         if category_id is None:
-            abort(404, message=f'Category id is not set.')
+            abort(404, error=404, message=f'Category id is not set.')
 
         args = self.reqparse.parse_args()
         tmp_dict = {}
@@ -53,7 +53,7 @@ class RestCategory(Resource):
         try:
             category = Category.objects.get(pk=bson.ObjectId(category_id))
         except DoesNotExist:
-            abort(404, message=f'Category {category_id} doesn\'t exist.')
+            abort(404, error=404, message=f'Category {category_id} doesn\'t exist.')
 
         try:
             category.update(**tmp_dict)
@@ -77,7 +77,7 @@ class RestCategory(Resource):
         try:
             saved_cat = category.save()
         except ValidationError:
-            abort(400, message='Fields are required: name, normal_name, parent')
+            abort(400, error=400, message='All fields are required: name, normal_name, parent')
 
         result = json.dumps(marshal(saved_cat, final_category, envelope='data'))
         response = make_response(result, 201)
@@ -87,12 +87,12 @@ class RestCategory(Resource):
 
     def delete(self, category_id: str = None) -> json:
         if category_id is None:
-            abort(404, message=f'Category id is not set.')
+            abort(404, error=404, message=f'Category id is not set.')
 
         try:
             category = Category.objects.get(pk=bson.ObjectId(category_id))
         except DoesNotExist:
-            abort(404, message=f'Category {category_id} doesn\'t exist.')
+            abort(404, error=404, message=f'Category {category_id} doesn\'t exist.')
 
         category.delete()
 
