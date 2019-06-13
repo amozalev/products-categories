@@ -1,20 +1,28 @@
 import json
 import bson
-from flask_restful import Resource, reqparse, abort
-from mongoengine import DoesNotExist
+from flask_restful import Resource, reqparse, abort, marshal_with, fields
+from mongoengine import DoesNotExist, ValidationError
 
 from server.myapp.db_models.Category import Category
+
+final_category = {
+    '_id': fields.String,
+    'name': fields.String,
+    'normal_name': fields.String,
+    'parent': fields.String
+}
 
 
 class RestCategory(Resource):
     def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('_id', required=True, type=str)
-        self.reqparse.add_argument('name', required=True, type=str)
-        self.reqparse.add_argument('normal_name', required=True, type=str)
-        self.reqparse.add_argument('parent', required=True, type=str)
+        self.reqparse = reqparse.RequestParser(bundle_errors=True)
+        self.reqparse.add_argument('_id', type=str,)
+        self.reqparse.add_argument('name', type=str)
+        self.reqparse.add_argument('normal_name', type=str)
+        self.reqparse.add_argument('parent', type=str)
         super(RestCategory, self).__init__()
 
+    @marshal_with(final_category, envelope='data')
     def get(self, category_id: str = None, skip: int = 0, limit: int = 10) -> json:
         self.reqparse.add_argument('skip', type=int)
         self.reqparse.add_argument('limit', type=int)
@@ -29,9 +37,13 @@ class RestCategory(Resource):
         else:
             categories = Category.objects
         data = json.loads(categories.skip(skip).limit(limit).to_json())
-        return {'data': data}
+        return data
 
-    def put(self) -> json:
+    @marshal_with(final_category, envelope='data')
+    def put(self, category_id: str = None) -> json:
+        if category_id is None:
+            abort(404, message=f'Category id is not set.')
+
         args = self.reqparse.parse_args()
         tmp = {}
         for k, v in args.items():
@@ -39,16 +51,20 @@ class RestCategory(Resource):
                 tmp[k] = v
 
         try:
-            cat_id = Category.objects.get(_id=bson.ObjectId(args['_id']))
-            if cat_id:
-                print('cat_id: ', cat_id)
+            Category.objects.get(_id=bson.ObjectId(category_id))
         except DoesNotExist:
-            abort(404, message=f'Category {args["_id"]} doesn\'t exist.')
+            abort(404, message=f'Category {category_id} doesn\'t exist.')
+        tmp['_id'] = bson.ObjectId(category_id)
 
         category = Category(**tmp)
-        result = category.save()
-        data = json.loads(result.to_json())
-        return {'data': data}
+        try:
+            saved_cat = category.save()
+        except ValidationError:
+            result = {'error': 'Fields are required: _id, name, normal_name, parent'}
+            return result
+        result = json.loads(saved_cat.to_json())
+
+        return result
 
     def post(self):
         pass
