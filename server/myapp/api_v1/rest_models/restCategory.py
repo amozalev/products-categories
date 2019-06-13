@@ -75,7 +75,7 @@ class RestCategory(Resource):
 
         category = Category(**tmp)
         try:
-            saved_cat = category.save(force_insert=True)
+            saved_cat = category.save()
         except ValidationError:
             abort(400, message='Fields are required: name, normal_name, parent')
 
