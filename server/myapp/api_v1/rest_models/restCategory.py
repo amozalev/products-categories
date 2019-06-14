@@ -23,21 +23,37 @@ class RestCategory(Resource):
         self.reqparse.add_argument('parent', type=str)
         super(RestCategory, self).__init__()
 
-    def get(self, category_id: str = None, skip: int = 0, limit: int = 10) -> json:
-        self.reqparse.add_argument('skip', type=int)
+    def get(self, category_id: str = None, offset: int = 0, limit: int = 10) -> json:
+        self.reqparse.add_argument('offset', type=int)
         self.reqparse.add_argument('limit', type=int)
         args = self.reqparse.parse_args()
-        if args['skip'] is not None:
-            skip = args['skip']
+        if args['offset'] is not None:
+            offset = args['offset']
         if args['limit'] is not None:
             limit = args['limit']
 
+        result = {}
         if category_id is not None:
-            categories = Category.objects(pk=bson.ObjectId(category_id))
+            try:
+                category = Category.objects.get(pk=bson.ObjectId(category_id))
+            except DoesNotExist:
+                abort(404, error=404, message=f'Category {category_id} doesn\'t exist.')
+            result.update({
+                'data': marshal(category, final_category)
+            })
         else:
-            categories = Category.objects
+            categories = Category.objects.order_by('id').skip(offset).limit(limit)
+            total = categories.count()
+            result.update({
+                'from': offset,
+                'to': offset + limit,
+                'next': f'{request.base_url}?offset={offset + limit}&limit={limit}',
+                'total': total,
+                'data': [marshal(item, final_category) for item in categories]
+            })
+            if offset - limit >= 0:
+                result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
 
-        result = {'data': [marshal(item, final_category) for item in categories.skip(skip).limit(limit)]}
         return jsonify(result)
 
     def put(self, category_id: str = None) -> json:
@@ -82,7 +98,7 @@ class RestCategory(Resource):
         result = json.dumps(marshal(saved_cat, final_category, envelope='data'))
         response = make_response(result, 201)
         response.mimetype = "application/json"
-        response.headers.extend({"Location": request.url})
+        response.headers.extend({"Location": f'{request.url}/{saved_cat.id}'})
         return response
 
     def delete(self, category_id: str = None) -> json:
