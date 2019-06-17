@@ -1,4 +1,4 @@
-from .myapp import init_app
+from myapp import init_app
 
 app = init_app()
 

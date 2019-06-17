@@ -4,7 +4,7 @@ from flask import jsonify, request, make_response
 from flask_restful import Resource, reqparse, abort, marshal, fields
 from mongoengine import DoesNotExist, ValidationError
 
-from server.myapp.db_models.Category import Category
+from myapp.db_models.Category import Category
 
 final_category = {
     'id': fields.String,

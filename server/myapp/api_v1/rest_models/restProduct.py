@@ -1,7 +1,7 @@
 import json
 import bson
 from flask_restful import Resource, reqparse
-from server.myapp.db_models.Product import Product
+from myapp.db_models.Product import Product
 
 
 class RestProduct(Resource):
