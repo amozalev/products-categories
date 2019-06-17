@@ -65,6 +65,8 @@ class RestCategory(Resource):
         for k, v in args.items():
             if v is not None:
                 tmp_dict[k] = v
+            if k == 'parent' and not len(v):
+                tmp_dict[k] = None
 
         try:
             category = Category.objects.get(pk=bson.ObjectId(category_id))
@@ -84,12 +86,14 @@ class RestCategory(Resource):
 
     def post(self) -> json:
         args = self.reqparse.parse_args()
-        tmp = {}
+        tmp_dict = {}
         for k, v in args.items():
             if k != '_id' and v is not None:
-                tmp[k] = v
+                tmp_dict[k] = v
+            if k == 'parent' and not len(v):
+                tmp_dict[k] = None
 
-        category = Category(**tmp)
+        category = Category(**tmp_dict)
         try:
             saved_cat = category.save()
         except ValidationError:
