@@ -25,8 +25,8 @@ class RestBaseClass(Resource):
         if item_id is not None:
             try:
                 item = self.cls.objects.get(pk=bson.ObjectId(item_id))
-            except DoesNotExist:
-                abort(404, error=404, message=f'self.cls {item_id} doesn\'t exist.')
+            except DoesNotExist as err:
+                abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
             self.result.update({
                 'data': marshal(item, self.final_item)
             })
@@ -47,7 +47,7 @@ class RestBaseClass(Resource):
 
     def put(self, item_id: str = None) -> json:
         if item_id is None:
-            abort(404, error=404, message=f'self.cls id is not set.')
+            abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
 
         args = self.reqparse.parse_args()
         tmp_dict = {}
@@ -58,13 +58,12 @@ class RestBaseClass(Resource):
 
         try:
             item = self.cls.objects.get(pk=bson.ObjectId(item_id))
-        except DoesNotExist:
-            abort(404, error=404, message=f'self.cls {item_id} doesn\'t exist.')
+        except DoesNotExist as err:
+            abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
         try:
             item.update(**tmp_dict)
-        except ValidationError:
-            self.result.update({'error': 'Fields are required: name, normal_name'})
-            abort(400, error=400, message=f'Fields are required: name, normal_name.')
+        except ValidationError as err:
+            abort(400, error=400, message=err)
 
         item = self.cls.objects.get(pk=bson.ObjectId(item_id))
 
@@ -83,8 +82,9 @@ class RestBaseClass(Resource):
         item = self.cls(**tmp_dict)
         try:
             saved_cat = item.save()
-        except ValidationError:
-            abort(400, error=400, message='Fields are required: name, normal_name')
+        except ValidationError as err:
+            abort(400, error=400, message=err)
+            # return {'error': 400, 'message': err}
 
         self.result.update({'data': marshal(saved_cat, self.final_item)})
         response = make_response(jsonify(self.result), 201)
@@ -96,16 +96,16 @@ class RestBaseClass(Resource):
 
     def delete(self, item_id: str = None) -> json:
         if item_id is None:
-            abort(404, error=404, message=f'self.cls id is not set.')
+            abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
 
         try:
             item = self.cls.objects.get(pk=bson.ObjectId(item_id))
-        except DoesNotExist:
-            abort(404, error=404, message=f'self.cls {item_id} doesn\'t exist.')
+        except DoesNotExist as err:
+            abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
 
         item.delete()
 
         self.result.update({'status': 'accepted'})
-        response = make_response(jsonify(self.result), 204)
-        print('base resp: ', response)
+        response = make_response(jsonify(self.result), 200)
+        response.mimetype = "application/json"
         return response
