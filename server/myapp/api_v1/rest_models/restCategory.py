@@ -16,6 +16,9 @@ final_category = {
 
 class RestCategory(Resource):
     def __init__(self):
+        self.result = {
+            'version': '1'
+        }
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.add_argument('_id', type=str)
         self.reqparse.add_argument('name', type=str)
@@ -32,29 +35,28 @@ class RestCategory(Resource):
         if args['limit'] is not None:
             limit = args['limit']
 
-        result = {}
         if category_id is not None:
             try:
                 category = Category.objects.get(pk=bson.ObjectId(category_id))
             except DoesNotExist:
                 abort(404, error=404, message=f'Category {category_id} doesn\'t exist.')
-            result.update({
+            self.result.update({
                 'data': marshal(category, final_category)
             })
         else:
             categories = Category.objects.order_by('id').skip(offset).limit(limit)
             total = categories.count()
-            result.update({
+            self.result.update({
                 'from': offset,
                 'to': offset + limit,
                 'next': f'{request.base_url}?offset={offset + limit}&limit={limit}',
                 'total': total,
                 'data': [marshal(item, final_category) for item in categories]
             })
-            if offset - limit >= 0:
-                result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
+            if offset - limit > 0:
+                self.result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
 
-        return jsonify(result)
+        return jsonify(self.result)
 
     def put(self, category_id: str = None) -> json:
         self.reqparse.remove_argument('_id')
@@ -68,8 +70,9 @@ class RestCategory(Resource):
         args = self.reqparse.parse_args()
         tmp_dict = {}
         for k, v in args.items():
-            # if v is not None:
             tmp_dict[k] = v
+            if k == 'parent' and v == '':
+                tmp_dict[k] = None
 
         try:
             category = Category.objects.get(pk=bson.ObjectId(category_id))
@@ -78,14 +81,13 @@ class RestCategory(Resource):
         try:
             category.update(**tmp_dict)
         except ValidationError:
-            result = {'error': 'Fields are required: name, normal_name'}
+            self.result.update({'error': 'Fields are required: name, normal_name'})
             abort(400, error=400, message=f'Fields are required: name, normal_name.')
-            # return jsonify(result)
 
         category = Category.objects.get(pk=bson.ObjectId(category_id))
 
-        result = marshal(category, final_category, envelope='data')
-        return jsonify(result)
+        self.result.update(marshal(category, final_category, envelope='data'))
+        return jsonify(self.result)
 
     def post(self) -> json:
         self.reqparse.add_argument('name', type=str, required=True)
@@ -97,17 +99,21 @@ class RestCategory(Resource):
         for k, v in args.items():
             if k != '_id':
                 tmp_dict[k] = v
+            if k == 'parent' and v == '':
+                tmp_dict[k] = None
 
         category = Category(**tmp_dict)
         try:
             saved_cat = category.save()
         except ValidationError:
-            abort(400, error=400, message='All fields are required: name, normal_name')
+            abort(400, error=400, message='Fields are required: name, normal_name')
 
-        result = json.dumps(marshal(saved_cat, final_category, envelope='data'))
-        response = make_response(result, 201)
+        self.result.update({'data': marshal(saved_cat, final_category)})
+        response = make_response(jsonify(self.result), 201)
         response.mimetype = "application/json"
         response.headers.extend({"Location": f'{request.url}/{saved_cat.id}'})
+        # response = MyResponse(self.result, status=201)
+        # response.headers.extend({"Location": f'{request.url}/{saved_cat.id}'})
         return response
 
     def delete(self, category_id: str = None) -> json:
@@ -121,4 +127,6 @@ class RestCategory(Resource):
 
         category.delete()
 
-        return {'status': 'accepted'}, 204
+        self.result.update({'status': 'accepted'})
+        response = make_response(jsonify(self.result), 204)
+        return response
