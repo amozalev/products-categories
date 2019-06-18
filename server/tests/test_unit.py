@@ -51,8 +51,9 @@ class Test(unittest.TestCase):
             connect(config.Config.DB_DB, host=self.mongodb_uri)
 
     def tearDown(self):
-        Category.objects.delete()
-        Product.objects.delete()
+        # Category.objects.delete()
+        # Product.objects.delete()
+        self.setUp()
         disconnect()
 
     def test_success_get_categories(self):
@@ -157,7 +158,6 @@ class Test(unittest.TestCase):
                                                          })
         self.assertEqual(resp.status_code, 200)
         json_data = resp.get_json()
-        print('json_data: ', json_data)
         self.assertFalse('previous' in json_data)
 
     if __name__ == '__main__':
