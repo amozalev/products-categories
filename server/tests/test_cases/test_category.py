@@ -88,7 +88,8 @@ class TestCategory(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_put_category_without_necessary_argument(self):
-        resp = self.app.put('/api/v1/categories/000000000000000000000000', json={'normal_name': 'TestCategory PUT Item1'})
+        resp = self.app.put('/api/v1/categories/000000000000000000000000',
+                            json={'normal_name': 'TestCategory PUT Item1'})
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_put_category_doesnt_exist_with_arguments(self):
@@ -121,7 +122,7 @@ class TestCategory(unittest.TestCase):
 
     def test_success_delete_category(self):
         resp = self.app.delete('/api/v1/categories/5d00ffbcedc0ef0a350fd1e5')
-        self.assertEqual(resp.status_code, 204)
+        self.assertEqual(resp.status_code, 200)
 
     def test_fails_delete_category_id_is_absent(self):
         resp = self.app.delete('/api/v1/categories/')
@@ -157,3 +158,7 @@ class TestCategory(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         json_data = resp.get_json()
         self.assertFalse('previous' in json_data)
+
+
+if __name__ == '__main__':
+    unittest.main()
