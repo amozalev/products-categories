@@ -5,7 +5,7 @@
     "description": "Топлёное молоко",
     "picture": "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
     "category": "5d078e806bc6c411efbdb551",
-    "volume": 1,
+    "volume": 1.0,
     "units": "литр",
     "producer": "Пискарёвский молокозавод"
   },
@@ -15,7 +15,7 @@
     "description": "Ржаной из муки крупного помола",
     "picture": "https://zdraveda.ru/wp-content/uploads/2019/01/rzhanoj-hleb-1-300x195.jpg",
     "category": "5d078e806bc6c421efbdb551",
-    "volume": 1,
+    "volume": 1.0,
     "units": "кг",
     "producer": "Каравай"
   },
@@ -25,7 +25,7 @@
     "description": "Сорт красных яблок",
     "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg",
     "category": "5d00ffbcedc0ef0a350fd1e5",
-    "volume": 1,
+    "volume": 1.0,
     "units": "кг",
     "producer": "Краснодарские фрукты"
   },
@@ -35,7 +35,7 @@
     "description": "Яблоки сорта \"Антоновка\"",
     "picture": "https://ru0.anyfad.com/items/t2@91855199-6b17-4538-8599-55583e517052/Frukty-yabloko-zelenyy-8-sm.jpg",
     "category": "5d00ffbcedc0ef0a350fd1e5",
-    "volume": 1,
+    "volume": 1.5,
     "units": "кг",
     "producer": "Краснодарские фрукты"
   },
@@ -46,7 +46,7 @@
     "picture": "https://apolytosdiallaktikos.files.wordpress.com/2018/04/images.jpeg",
     "category": "5d00ffbcedc0ef0a350fd1e5",
     "amount": 0,
-    "volume": 1,
+    "volume": 0.9,
     "units": "кг",
     "producer": "ООО \"Псковский сад\""
   },
