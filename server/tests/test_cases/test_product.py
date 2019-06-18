@@ -24,7 +24,7 @@ class TestProduct(unittest.TestCase):
 
         with app.app_context():
             self.db.category.delete_many({})
-            with open('tests/categories.json') as _file:
+            with open('tests/categories_test_data.json') as _file:
                 data = json.load(_file)
             self.db.category.insert_many({'_id': bson.ObjectId(cat['_id']),
                                           'name': cat['name'],
@@ -33,7 +33,7 @@ class TestProduct(unittest.TestCase):
                                          for cat in data)
 
             self.db.product.delete_many({})
-            with open('tests/products.json') as _file:
+            with open('tests/products_test_data.json') as _file:
                 data = json.load(_file)
             self.db.product.insert_many({'_id': bson.ObjectId(prod['_id']),
                                          'title': prod['title'],
