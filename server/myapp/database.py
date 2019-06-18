@@ -8,6 +8,9 @@ class Mongo(object):
         self._client = MongoClient(host, port)
         self.db = self._client[dbase]
 
+    def close(self):
+        return self._client.close()
+
 
 # Create DB connection
 mongodb_uri = f'mongodb://{config.Config.DB_USER}:{config.Config.DB_USER_PASSWORD}@' \

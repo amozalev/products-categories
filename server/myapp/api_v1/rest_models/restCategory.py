@@ -17,7 +17,7 @@ final_category = {
 class RestCategory(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
-        self.reqparse.add_argument('_id', type=str, )
+        self.reqparse.add_argument('_id', type=str)
         self.reqparse.add_argument('name', type=str)
         self.reqparse.add_argument('normal_name', type=str)
         self.reqparse.add_argument('parent', type=str)
@@ -57,27 +57,30 @@ class RestCategory(Resource):
         return jsonify(result)
 
     def put(self, category_id: str = None) -> json:
+        self.reqparse.remove_argument('_id')
+        self.reqparse.add_argument('name', type=str, required=True)
+        self.reqparse.add_argument('normal_name', type=str, required=True)
+        self.reqparse.add_argument('parent', type=str)
+
         if category_id is None:
             abort(404, error=404, message=f'Category id is not set.')
 
         args = self.reqparse.parse_args()
         tmp_dict = {}
         for k, v in args.items():
-            if v is not None:
-                tmp_dict[k] = v
-            if k == 'parent' and not len(v):
-                tmp_dict[k] = None
+            # if v is not None:
+            tmp_dict[k] = v
 
         try:
             category = Category.objects.get(pk=bson.ObjectId(category_id))
         except DoesNotExist:
             abort(404, error=404, message=f'Category {category_id} doesn\'t exist.')
-
         try:
             category.update(**tmp_dict)
         except ValidationError:
-            result = {'error': 'Fields are required: _id, name, normal_name, parent'}
-            return jsonify(result)
+            result = {'error': 'Fields are required: name, normal_name'}
+            abort(400, error=400, message=f'Fields are required: name, normal_name.')
+            # return jsonify(result)
 
         category = Category.objects.get(pk=bson.ObjectId(category_id))
 
@@ -85,19 +88,21 @@ class RestCategory(Resource):
         return jsonify(result)
 
     def post(self) -> json:
+        self.reqparse.add_argument('name', type=str, required=True)
+        self.reqparse.add_argument('normal_name', type=str, required=True)
+        self.reqparse.add_argument('parent', type=str)
+
         args = self.reqparse.parse_args()
         tmp_dict = {}
         for k, v in args.items():
-            if k != '_id' and v is not None:
+            if k != '_id':
                 tmp_dict[k] = v
-            if k == 'parent' and not len(v):
-                tmp_dict[k] = None
 
         category = Category(**tmp_dict)
         try:
             saved_cat = category.save()
         except ValidationError:
-            abort(400, error=400, message='All fields are required: name, normal_name, parent')
+            abort(400, error=400, message='All fields are required: name, normal_name')
 
         result = json.dumps(marshal(saved_cat, final_category, envelope='data'))
         response = make_response(result, 201)
