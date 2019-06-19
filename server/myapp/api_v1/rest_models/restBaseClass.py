@@ -7,12 +7,14 @@ from mongoengine import DoesNotExist, ValidationError
 
 class RestBaseClass(Resource):
     final_item = {}
+    saved_item = None
 
-    def __init__(self, classname):
+    def __init__(self, classname, obj_title):
         self.result = {
-            'version': '1'
+            'version': '1.0'
         }
         self.cls = classname
+        self.obj_title = obj_title
         super(RestBaseClass, self).__init__()
 
     def get(self, item_id: str = None, offset: int = 0, limit: int = 10) -> json:
@@ -28,7 +30,11 @@ class RestBaseClass(Resource):
             except DoesNotExist as err:
                 abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
             self.result.update({
-                'data': marshal(item, self.final_item)
+                'data': marshal(item, self.final_item),
+                '_links': {
+                    'self': {'href': f'{request.base_url}{self.obj_title}/{item_id}'},
+                    f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                }
             })
         else:
             items = self.cls.objects.order_by('id').skip(offset).limit(limit)
@@ -38,7 +44,10 @@ class RestBaseClass(Resource):
                 'to': offset + limit,
                 'next': f'{request.base_url}?offset={offset + limit}&limit={limit}',
                 'total': total,
-                'data': [marshal(item, self.final_item) for item in items]
+                'data': [marshal(item, self.final_item) for item in items],
+                '_links': {
+                    f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                }
             })
             if offset - limit > 0:
                 self.result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
@@ -66,8 +75,13 @@ class RestBaseClass(Resource):
             abort(400, error=400, message=err)
 
         item = self.cls.objects.get(pk=bson.ObjectId(item_id))
-
-        self.result.update(marshal(item, self.final_item, envelope='data'))
+        self.result.update({
+            'data': marshal(item, self.final_item),
+            '_links': {
+                'self': {'href': f'{request.base_url}{self.obj_title}/{item_id}'},
+                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+            }
+        })
         return jsonify(self.result)
 
     def post(self) -> json:
@@ -81,17 +95,23 @@ class RestBaseClass(Resource):
 
         item = self.cls(**tmp_dict)
         try:
-            saved_cat = item.save()
+            self.saved_item = item.save()
         except ValidationError as err:
             abort(400, error=400, message=err)
             # return {'error': 400, 'message': err}
 
-        self.result.update({'data': marshal(saved_cat, self.final_item)})
+        self.result.update({
+            'data': marshal(self.saved_item, self.final_item),
+            '_links': {
+                'self': {'href': f'{request.base_url}{self.obj_title}/{self.saved_item.id}'},
+                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+            }
+        })
         response = make_response(jsonify(self.result), 201)
         response.mimetype = "application/json"
-        response.headers.extend({"Location": f'{request.url}/{saved_cat.id}'})
+        response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})
         # response = MyResponse(self.result, status=201)
-        # response.headers.extend({"Location": f'{request.url}/{saved_cat.id}'})
+        # response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})
         return response
 
     def delete(self, item_id: str = None) -> json:
@@ -105,7 +125,12 @@ class RestBaseClass(Resource):
 
         item.delete()
 
-        self.result.update({'status': 'accepted'})
+        self.result.update({
+            'status': 'accepted',
+            '_links': {
+                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+            }
+        })
         response = make_response(jsonify(self.result), 200)
         response.mimetype = "application/json"
         return response
