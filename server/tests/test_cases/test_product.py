@@ -200,6 +200,14 @@ class TestProduct(unittest.TestCase):
         json_data = resp.get_json()
         self.assertFalse('previous' in json_data)
 
+    def test_success_get_products_by_category(self):
+        resp = self.app.get('/api/v1/categories/5d078e806bc6c411efbdb54f/products')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_fail_get_products_by_category_doesnt_exist(self):
+        resp = self.app.get('/api/v1/categories/000000000000000000000000/products')
+        self.assertEqual(resp.status_code, 404)
+
 
 if __name__ == '__main__':
     unittest.main()
