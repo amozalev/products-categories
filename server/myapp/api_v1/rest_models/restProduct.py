@@ -57,7 +57,7 @@ class RestProduct(RestBaseClass):
 
         super(RestProduct, self).__init__(getattr(Product, 'Product'), self.title, self.schema)
 
-    def get(self, item_id: str = None, offset: int = 0, limit: int = 10) -> json:
+    def get(self, prod_id: str = None, offset: int = 0, limit: int = 10) -> json:
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.replace_argument('_id', type=str)
         self.reqparse.replace_argument('title', type=str)
@@ -71,19 +71,19 @@ class RestProduct(RestBaseClass):
         self.reqparse.add_argument('offset', type=int)
         self.reqparse.add_argument('limit', type=int)
 
-        return super(RestProduct, self).get(item_id=item_id, offset=offset, limit=limit)
+        return super(RestProduct, self).get(item_id=prod_id, offset=offset, limit=limit)
 
-    def put(self, item_id: str = None) -> json:
+    def put(self, prod_id: str = None) -> json:
         self.reqparse.remove_argument('_id')
 
-        return super(RestProduct, self).put(item_id)
+        return super(RestProduct, self).put(prod_id)
 
     def post(self) -> json:
         self.reqparse.replace_argument('_id', type=str)
 
         return super(RestProduct, self).post()
 
-    def delete(self, item_id: str = None) -> json:
+    def delete(self, prod_id: str = None) -> json:
         self.reqparse.replace_argument('_id', type=str)
         self.reqparse.replace_argument('title', type=str)
         self.reqparse.replace_argument('price', type=float)
@@ -96,4 +96,4 @@ class RestProduct(RestBaseClass):
         self.reqparse.add_argument('offset', type=int)
         self.reqparse.add_argument('limit', type=int)
 
-        return super(RestProduct, self).delete(item_id)
+        return super(RestProduct, self).delete(prod_id)

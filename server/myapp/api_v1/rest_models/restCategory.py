@@ -51,19 +51,19 @@ class RestCategory(RestBaseClass):
 
         super(RestCategory, self).__init__(getattr(Category, 'Category'), self.title, self.schema)
 
-    def get(self, item_id: str = None, offset: int = 0, limit: int = 10) -> json:
+    def get(self, cat_id: str = None, offset: int = 0, limit: int = 10) -> json:
         self.reqparse.add_argument('offset', type=int)
         self.reqparse.add_argument('limit', type=int)
 
-        return super(RestCategory, self).get(item_id=item_id, offset=offset, limit=limit)
+        return super(RestCategory, self).get(item_id=cat_id, offset=offset, limit=limit)
 
-    def put(self, item_id: str = None) -> json:
+    def put(self, cat_id: str = None) -> json:
         self.reqparse.remove_argument('_id')
         self.reqparse.add_argument('name', type=str, required=True)
         self.reqparse.add_argument('normal_name', type=str, required=True)
         self.reqparse.add_argument('parent_id', type=str)
 
-        return super(RestCategory, self).put(item_id)
+        return super(RestCategory, self).put(cat_id)
 
     def post(self) -> json:
         self.reqparse.add_argument('name', type=str, required=True)
@@ -72,5 +72,5 @@ class RestCategory(RestBaseClass):
 
         return super(RestCategory, self).post()
 
-    def delete(self, item_id: str = None) -> json:
-        return super(RestCategory, self).delete(item_id)
+    def delete(self, cat_id: str = None) -> json:
+        return super(RestCategory, self).delete(cat_id)

@@ -20,17 +20,19 @@ class RestProductsByCategory(Resource):
     def __init__(self):
         pass
 
-    def get(self, item_id):
-        if item_id is not None:
+    def get(self, cat_id):
+        if cat_id is not None:
             try:
-                category = Category.objects(pk=bson.ObjectId(item_id)).get()
+                category = Category.objects(pk=bson.ObjectId(cat_id)).get()
                 items = Product.objects(category_id=category['id'])
             except DoesNotExist as err:
-                abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
+                abort(404, error=404, message=err)
 
             self.result.update({
                 'data': [self.product_schema.dump(item).data for item in items],
                 'category': self.category_schema.dump(category).data
             })
+        else:
+            abort(404, error=404, message='Category id is absent')
 
         return jsonify(self.result)
