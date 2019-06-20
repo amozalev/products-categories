@@ -29,7 +29,7 @@ class TestProduct(unittest.TestCase):
             self.db.category.insert_many({'_id': bson.ObjectId(cat['_id']),
                                           'name': cat['name'],
                                           'normal_name': cat['normal_name'],
-                                          'parent': bson.ObjectId(cat['parent']) if cat['parent'] else None}
+                                          'parent_id': bson.ObjectId(cat['parent_id']) if cat['parent_id'] else None}
                                          for cat in data)
 
             self.db.product.delete_many({})
@@ -40,7 +40,7 @@ class TestProduct(unittest.TestCase):
                                          'price': prod['price'],
                                          'description': prod['description'],
                                          'picture': prod['picture'],
-                                         'category': bson.ObjectId(prod['category']),
+                                         'category_id': bson.ObjectId(prod['category_id']),
                                          'volume': prod['volume'],
                                          'units': prod['units'],
                                          'producer': prod['producer']
@@ -72,7 +72,7 @@ class TestProduct(unittest.TestCase):
                                                                                'price': 10.5,
                                                                                'description': 'f',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                                               'category': '5d00ffbcedc0ef0a350fd1e5',
+                                                                               'category_id': '5d00ffbcedc0ef0a350fd1e5',
                                                                                'volume': 1.1,
                                                                                'units': 'литр',
                                                                                'producer': 'ООО '
@@ -84,7 +84,7 @@ class TestProduct(unittest.TestCase):
                                                                                'price': 1.1,
                                                                                'description': None,
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                                               'category': '5d078e806bc6c411efbdb54f',
+                                                                               'category_id': '5d078e806bc6c411efbdb54f',
                                                                                'volume': 1.2,
                                                                                'units': '',
                                                                                'producer': ''
@@ -96,7 +96,7 @@ class TestProduct(unittest.TestCase):
                                                                                'price': 1.1,
                                                                                'description': 'Description',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                                               'category': '5d078e806bc6c411efbdb54f',
+                                                                               'category_id': '5d078e806bc6c411efbdb54f',
                                                                                'volume': 1.2,
                                                                                'units': '',
                                                                                'producer': ''
@@ -120,7 +120,7 @@ class TestProduct(unittest.TestCase):
                                                                                'price': 2.2,
                                                                                'description': 'descr',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                                               'category': '5d078e806bc6c411efbdb551',
+                                                                               'category_id': '5d078e806bc6c411efbdb551',
                                                                                'volume': 1.4,
                                                                                'units': 'литр',
                                                                                'producer': 'ООО'
@@ -132,7 +132,7 @@ class TestProduct(unittest.TestCase):
                                                         'price': 2.2,
                                                         'description': 'descr',
                                                         'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                        'category': '5d078e806bc6c411efbdb551',
+                                                        'category_id': '5d078e806bc6c411efbdb551',
                                                         'volume': 1.5,
                                                         'units': 'литр',
                                                         'producer': 'ООО'
@@ -144,7 +144,7 @@ class TestProduct(unittest.TestCase):
                                                         'price': 2.2,
                                                         'description': 'descr',
                                                         'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-                                                        'category': '5d078e806bc6c411efbdb551',
+                                                        'category_id': '5d078e806bc6c411efbdb551',
                                                         'volume': 1.1,
                                                         'units': 'литр',
                                                         'producer': ''
@@ -153,12 +153,12 @@ class TestProduct(unittest.TestCase):
 
     def test_fail_post_product_without_name(self):
         resp = self.app.post('/api/v1/products/', json={'normal_name': 'TestCategory POST Item',
-                                                        'parent': None})
+                                                        'parent_id': None})
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_post_product_without_normalname(self):
         resp = self.app.post('/api/v1/products/', json={'name': 'test_post_item',
-                                                        'parent': None})
+                                                        'parent_id': None})
         self.assertEqual(resp.status_code, 400)
 
     def test_success_delete_product(self):

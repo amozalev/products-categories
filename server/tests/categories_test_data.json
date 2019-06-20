@@ -3,30 +3,30 @@
     "_id": "5d00ffbcedc0ef0a350fd1e5",
     "name": "fruit",
     "normal_name": "Fruits",
-    "parent": null
+    "parent_id": null
   },
   {
     "_id": "5d078e806bc6c411efbdb54f",
     "name": "vegetable",
     "normal_name": "Vegetables",
-    "parent": null
+    "parent_id": null
   },
   {
     "_id": "5d078e806bc6c411efbdb550",
     "name": "tropical_fruit",
     "normal_name": "Tropical fruits",
-    "parent": "5d00ffbcedc0ef0a350fd1e5"
+    "parent_id": "5d00ffbcedc0ef0a350fd1e5"
   },
   {
     "_id": "5d078e806bc6c411efbdb551",
     "name": "milk",
     "normal_name": "Milk products",
-    "parent": null
+    "parent_id": null
   },
   {
     "_id": "5d078e806bc6c421efbdb551",
     "name": "bread",
     "normal_name": "Bread",
-    "parent": null
+    "parent_id": null
   }
 ]

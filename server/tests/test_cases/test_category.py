@@ -29,7 +29,7 @@ class TestCategory(unittest.TestCase):
             self.db.category.insert_many({'_id': bson.ObjectId(cat['_id']),
                                           'name': cat['name'],
                                           'normal_name': cat['normal_name'],
-                                          'parent': bson.ObjectId(cat['parent']) if cat['parent'] else None}
+                                          'parent_id': bson.ObjectId(cat['parent_id']) if cat['parent_id'] else None}
                                          for cat in data)
 
             self.db.product.delete_many({})
@@ -40,7 +40,7 @@ class TestCategory(unittest.TestCase):
                                             'price': prod['price'],
                                             'description': prod['description'],
                                             'picture': prod['picture'],
-                                            'category': prod['category'],
+                                            'category_id': prod['category_id'],
                                             'volume': prod['volume'],
                                             'units': prod['units'],
                                             'producer': prod['producer']
@@ -70,13 +70,13 @@ class TestCategory(unittest.TestCase):
     def test_success_put_category_by_id(self):
         resp = self.app.put('/api/v1/categories/5d00ffbcedc0ef0a350fd1e5', json={'name': 'updated_fruit',
                                                                                  'normal_name': 'Updated fruits',
-                                                                                 'parent': None})
+                                                                                 'parent_id': None})
         self.assertEqual(resp.status_code, 200)
 
     def test_success_put_category_parent_has_null_length(self):
         resp = self.app.put('/api/v1/categories/5d00ffbcedc0ef0a350fd1e5', json={'name': 'test_put_item1',
                                                                                  'normal_name': 'TestCategory PUT Item1',
-                                                                                 'parent': ''})
+                                                                                 'parent_id': ''})
         self.assertEqual(resp.status_code, 200)
 
     def test_fail_put_category_id_is_absent(self):
@@ -95,29 +95,29 @@ class TestCategory(unittest.TestCase):
     def test_fail_put_category_doesnt_exist_with_arguments(self):
         resp = self.app.put('/api/v1/categories/000000000000000000000000', json={'name': 'test_put_item1',
                                                                                  'normal_name': 'TestCategory PUT Item1',
-                                                                                 'parent': None})
+                                                                                 'parent_id': None})
         self.assertEqual(resp.status_code, 404)
 
     def test_success_post_category(self):
         resp = self.app.post('/api/v1/categories/', json={'name': 'test_post_item1',
                                                           'normal_name': 'TestCategory POST Item1',
-                                                          'parent': None})
+                                                          'parent_id': None})
         self.assertEqual(resp.status_code, 201)
 
     def test_success_post_category_parent_has_null_length(self):
         resp = self.app.post('/api/v1/categories/', json={'name': 'test_post_item1',
                                                           'normal_name': 'TestCategory PUT Item1',
-                                                          'parent': ''})
+                                                          'parent_id': ''})
         self.assertEqual(resp.status_code, 201)
 
     def test_fail_post_category_without_name(self):
         resp = self.app.post('/api/v1/categories/', json={'normal_name': 'TestCategory POST Item',
-                                                          'parent': None})
+                                                          'parent_id': None})
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_post_category_without_normalname(self):
         resp = self.app.post('/api/v1/categories/', json={'name': 'test_post_item',
-                                                          'parent': None})
+                                                          'parent_id': None})
         self.assertEqual(resp.status_code, 400)
 
     def test_success_delete_category(self):

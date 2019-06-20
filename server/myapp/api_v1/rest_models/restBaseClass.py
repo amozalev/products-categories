@@ -62,7 +62,7 @@ class RestBaseClass(Resource):
         tmp_dict = {}
         for k, v in args.items():
             tmp_dict[k] = v
-            if k == 'parent' and v == '':
+            if k == 'parent_id' and v == '':
                 tmp_dict[k] = None
 
         try:
@@ -90,7 +90,7 @@ class RestBaseClass(Resource):
         for k, v in args.items():
             if k != '_id':
                 tmp_dict[k] = v
-            if k == 'parent' and v == '':
+            if k == 'parent_id' and v == '':
                 tmp_dict[k] = None
 
         item = self.cls(**tmp_dict)
