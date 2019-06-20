@@ -1,0 +1,36 @@
+import bson
+from typing import Any, Dict
+from flask import jsonify
+from flask_restful import Resource, abort
+from mongoengine import DoesNotExist
+
+from myapp.db_models.Category import Category
+from myapp.db_models.Product import Product
+from .restProduct import ProductSchema
+from .restCategory import CategorySchema
+
+
+class RestProductsByCategory(Resource):
+    product_schema = ProductSchema()
+    category_schema = CategorySchema()
+    result: Dict[str, Any] = {
+        'version': 1.0
+    }
+
+    def __init__(self):
+        pass
+
+    def get(self, item_id):
+        if item_id is not None:
+            try:
+                category = Category.objects(pk=bson.ObjectId(item_id)).get()
+                items = Product.objects(category_id=category['id'])
+            except DoesNotExist as err:
+                abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
+
+            self.result.update({
+                'data': [self.product_schema.dump(item).data for item in items],
+                'category': self.category_schema.dump(category).data
+            })
+
+        return jsonify(self.result)
