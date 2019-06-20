@@ -31,7 +31,7 @@ class RestBaseClass(Resource):
                 abort(404, error=404, message=f'{err}. {self.cls.__name__} {item_id} doesn\'t exist.')
 
             self.result.update({
-                'data': self.schema.dump(item),
+                'data': self.schema.dump(item).data,
                 '_links': {
                     f'all_{self.obj_title}': {'href': f'{request.base_url}'.strip(item_id)}
                 }
@@ -76,7 +76,7 @@ class RestBaseClass(Resource):
 
         item = self.cls.objects.get(pk=bson.ObjectId(item_id))
         self.result.update({
-            'data': self.schema.dump(item),
+            'data': self.schema.dump(item).data,
             '_links': {
                 'self': {'href': f'{request.base_url}{self.obj_title}/{item_id}'},
                 f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
@@ -101,7 +101,7 @@ class RestBaseClass(Resource):
             # return {'error': 400, 'message': err}
 
         self.result.update({
-            'data': self.schema.dump(self.saved_item),
+            'data': self.schema.dump(self.saved_item).data,
             '_links': {
                 'self': {'href': f'{request.base_url}{self.obj_title}/{self.saved_item.id}'},
                 f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}

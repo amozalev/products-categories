@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, url_for
 from flask_restful import reqparse
 from marshmallow import Schema, fields, post_dump
 
@@ -13,17 +13,29 @@ class ProductSchema(Schema):
     price = fields.Float()
     description = fields.Str()
     picture = fields.Str()
-    category_id = fields.Str()
+    categoryId = fields.Str(attribute='category_id')
     volume = fields.Float()
     units = fields.Str()
     producer = fields.Str()
 
     @post_dump
     def add_link(self, in_data):
+        for k, v in in_data.items():
+            if not v:
+                in_data[k] = ''
+
         if not request.base_url.endswith(in_data['id']):
-            in_data['_links'] = {'self': {'href': f'{request.base_url}' + in_data['id']}}
+            in_data['_links'] = {
+                'self': {
+                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.products")}' + in_data['id']
+                }
+            }
         else:
-            in_data['_links'] = {'self': {'href': f'{request.base_url}'}}
+            in_data['_links'] = {
+                'self': {
+                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.products")}'
+                }
+            }
         return in_data
 
 

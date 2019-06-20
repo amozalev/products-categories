@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, url_for
 from flask_restful import reqparse
 from marshmallow import Schema, fields, post_dump
 
@@ -10,15 +10,31 @@ from myapp.db_models import Category
 class CategorySchema(Schema):
     id = fields.Str()
     name = fields.Str()
-    normal_name = fields.Str()
-    parent_id = fields.Str()
+    displayName = fields.Str(attribute='normal_name')
+    parentCategoryId = fields.Str(attribute='parent_id')
 
     @post_dump
     def add_link(self, in_data):
+        for k, v in in_data.items():
+            if not v:
+                in_data[k] = ''
+
         if not request.base_url.endswith(in_data['id']):
-            in_data['_links'] = {'self': {'href': f'{request.base_url}' + in_data['id']}}
+            in_data['_links'] = {
+                'self': {
+                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}' + in_data['id']
+                },
+                'productsOfCategory': {
+                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}' +
+                            in_data['id'] + '/products'
+                }
+            }
         else:
-            in_data['_links'] = {'self': {'href': f'{request.base_url}'}}
+            in_data['_links'] = {
+                'self': {
+                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}'
+                }
+            }
         return in_data
 
 
