@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
@@ -21,36 +22,39 @@ import {AdminProductComponent} from './admin/admin-product/admin-product.compone
 import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
 import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
+import {DataStorageService} from './shared/dataStorage.service';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        SidebarComponent,
-        ProductItemComponent,
-        ProductListComponent,
-        ProductDetailsComponent,
-        CartComponent,
-        AdminComponent,
-        AdminCategoryComponent,
-        AdminProductComponent,
-        AdminDashboardComponent,
-        AdminMenuComponent
-    ],
-    imports: [
-        BrowserModule,
-        AngularFontAwesomeModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule
-    ],
-    providers: [
-        AppConfig,
-        ProductService,
-        CategoryService,
-        CartGuardService
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    SidebarComponent,
+    ProductItemComponent,
+    ProductListComponent,
+    ProductDetailsComponent,
+    CartComponent,
+    AdminComponent,
+    AdminCategoryComponent,
+    AdminProductComponent,
+    AdminDashboardComponent,
+    AdminMenuComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AngularFontAwesomeModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    AppConfig,
+    ProductService,
+    CategoryService,
+    CartGuardService,
+    DataStorageService
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

@@ -5,7 +5,7 @@
     "price": 64.5,
     "description": "Топлёное молоко",
     "picture": "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
-    "category_id": "5d078e806bc6c411efbdb551",
+    "categoryId": "5d078e806bc6c411efbdb551",
     "volume": 1.0,
     "units": "литр",
     "producer": "Пискарёвский молокозавод"
@@ -16,7 +16,7 @@
     "price": 50,
     "description": "Ржаной из муки крупного помола",
     "picture": "https://zdraveda.ru/wp-content/uploads/2019/01/rzhanoj-hleb-1-300x195.jpg",
-    "category_id": "5d078e806bc6c421efbdb551",
+    "categoryId": "5d078e806bc6c421efbdb551",
     "volume": 1.0,
     "units": "кг",
     "producer": "Каравай"
@@ -27,7 +27,7 @@
     "price": 25.5,
     "description": "Сорт красных яблок",
     "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg",
-    "category_id": "5d00ffbcedc0ef0a350fd1e5",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
     "volume": 1.0,
     "units": "кг",
     "producer": "Краснодарские фрукты"
@@ -38,7 +38,7 @@
     "price": 36.5,
     "description": "Яблоки сорта \"Антоновка\"",
     "picture": "https://ru0.anyfad.com/items/t2@91855199-6b17-4538-8599-55583e517052/Frukty-yabloko-zelenyy-8-sm.jpg",
-    "category_id": "5d00ffbcedc0ef0a350fd1e5",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
     "volume": 1.5,
     "units": "кг",
     "producer": "Краснодарские фрукты"
@@ -49,7 +49,7 @@
     "price": 23,
     "description": "Яблоки сорта \"Гольден\"",
     "picture": "https://apolytosdiallaktikos.files.wordpress.com/2018/04/images.jpeg",
-    "category_id": "5d00ffbcedc0ef0a350fd1e5",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
     "amount": 0,
     "volume": 0.9,
     "units": "кг",
@@ -61,7 +61,7 @@
     "price": 50,
     "description": "Томат алый вытянутый",
     "picture": "https://static.ruvita.ru/store/product/243x243_e670ea3a9e423780f3c7787efc204dd1.jpg",
-    "category_id": "5d078e806bc6c411efbdb54f",
+    "categoryId": "5d078e806bc6c411efbdb54f",
     "volume": 1,
     "units": "кг",
     "producer": "ООО \"Псковский сад\""
@@ -72,7 +72,7 @@
     "price": 50,
     "description": "Ржаной из муки крупного помола",
     "picture": "https://sklep.swiatkwiatow.pl/images/thumbnails/320/290/detailed/45/010473.jpg",
-    "category_id": "5d078e806bc6c411efbdb54f",
+    "categoryId": "5d078e806bc6c411efbdb54f",
     "volume": 1,
     "units": "кг",
     "producer": "ООО \"Леновощь\""
@@ -83,7 +83,7 @@
     "price": 50,
     "description": "Жёлтая тыква",
     "picture": "https://purepng.com/public/uploads/thumbnail/purepng.com-pumpkinpumpkinvegetablefoodroundedfruitpumpkins-1701527312953yikz1.png",
-    "category_id": "5d078e806bc6c411efbdb54f",
+    "categoryId": "5d078e806bc6c411efbdb54f",
     "volume": 1,
     "units": "кг",
     "producer": "ООО \"Псковский сад\""

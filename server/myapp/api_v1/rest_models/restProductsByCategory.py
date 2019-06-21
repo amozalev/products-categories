@@ -24,7 +24,7 @@ class RestProductsByCategory(Resource):
         if cat_id is not None:
             try:
                 category = Category.objects(pk=bson.ObjectId(cat_id)).get()
-                items = Product.objects(category_id=category['id'])
+                items = Product.objects(categoryId=category['id'])
             except DoesNotExist as err:
                 abort(404, error=404, message=err)
 

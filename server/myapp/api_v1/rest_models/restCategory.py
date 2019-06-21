@@ -10,8 +10,8 @@ from myapp.db_models import Category
 class CategorySchema(Schema):
     id = fields.Str()
     name = fields.Str()
-    displayName = fields.Str(attribute='normal_name')
-    parentCategoryId = fields.Str(attribute='parent_id')
+    displayName = fields.Str()
+    parentId = fields.Str()
 
     @post_dump
     def add_link(self, in_data):
@@ -46,8 +46,8 @@ class RestCategory(RestBaseClass):
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.add_argument('_id', type=str)
         self.reqparse.add_argument('name', type=str)
-        self.reqparse.add_argument('normal_name', type=str)
-        self.reqparse.add_argument('parent_id', type=str)
+        self.reqparse.add_argument('displayName', type=str)
+        self.reqparse.add_argument('parentId', type=str)
 
         super(RestCategory, self).__init__(getattr(Category, 'Category'), self.title, self.schema)
 
@@ -60,15 +60,15 @@ class RestCategory(RestBaseClass):
     def put(self, cat_id: str = None) -> json:
         self.reqparse.remove_argument('_id')
         self.reqparse.add_argument('name', type=str, required=True)
-        self.reqparse.add_argument('normal_name', type=str, required=True)
-        self.reqparse.add_argument('parent_id', type=str)
+        self.reqparse.add_argument('displayName', type=str, required=True)
+        self.reqparse.add_argument('parentId', type=str)
 
         return super(RestCategory, self).put(cat_id)
 
     def post(self) -> json:
         self.reqparse.add_argument('name', type=str, required=True)
-        self.reqparse.add_argument('normal_name', type=str, required=True)
-        self.reqparse.add_argument('parent_id', type=str)
+        self.reqparse.add_argument('displayName', type=str, required=True)
+        self.reqparse.add_argument('parentId', type=str)
 
         return super(RestCategory, self).post()
 

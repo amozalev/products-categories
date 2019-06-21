@@ -8,34 +8,34 @@ export class CategoryService {
   editedCategory = new Subject<number>();
 
   private categories: Category[] = [
-    new Category(
-      1,
-      'fruit',
-      'Fruits',
-      null,
-      []),
-    new Category(
-      2,
-      'vegetable',
-      'Vegetables',
-      null,
-      []
-    ),
-    new Category(
-      3,
-      'tropical_fruit',
-      'Tropical fruits',
-      0,
-      []
-    )
+    // new Category(
+    //   1,
+    //   'fruit',
+    //   'Fruits',
+    //   null,
+    //   []),
+    // new Category(
+    //   2,
+    //   'vegetable',
+    //   'Vegetables',
+    //   null,
+    //   []
+    // ),
+    // new Category(
+    //   3,
+    //   'tropical_fruit',
+    //   'Tropical fruits',
+    //   0,
+    //   []
+    // )
   ];
 
   getCategories() {
     // this.final_categories = this.categories.slice();
     // this.categories.slice().forEach((val) => {
     //
-    //   if (val.parent != null) {
-    //     const parent_category = this.categories[val.parent];
+    //   if (val.parentId != null) {
+    //     const parent_category = this.categories[val.parentId];
     //
     //     const _index = this.final_categories.findIndex((category) => {
     //       if (parent_category.id === category.id) {
@@ -65,7 +65,15 @@ export class CategoryService {
     return this.categories.slice();
   }
 
+  setCategories(categories: Category[]) {
+    this.categories = categories;
+    this.categoryListChanged.next(this.categories);
+  }
+
   getCategoryById(cat_id: number) {
+    console.log('cat_id: ', cat_id);
+    console.log('categories: ', this.categories);
+
     const category = this.categories.find((r) => {
       return r.id === cat_id;
     });

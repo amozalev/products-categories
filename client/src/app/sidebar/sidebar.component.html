@@ -6,8 +6,8 @@
        style="cursor: pointer"
        [routerLinkActive]="['active']"
        [routerLinkActiveOptions]="{exact: true}"
-       (click)="filterBy(i)">
-      {{category.normal_name}}
+       (click)="filterBy(category['id'])">
+      {{category.displayName}}
     </a>
 
 <!--    <ul *ngIf="category.children.length">-->
@@ -16,7 +16,7 @@
     <!--        <a [routerLink]="['/products/category', childCat.name]"-->
     <!--           style="cursor: pointer"-->
     <!--           (click)="filterBy(j)">-->
-    <!--          {{childCat.normal_name}}-->
+    <!--          {{childCat.displayName}}-->
     <!--        </a>-->
     <!--      </li>-->
     <!--    </ul>-->

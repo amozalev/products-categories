@@ -57,7 +57,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.form.get('price').setValue(this.editedProduct.price);
     this.form.get('description').setValue(this.editedProduct.description);
     this.form.get('picture').setValue(this.editedProduct.picture);
-    this.form.get('category').setValue(this.editedProduct.category);
+    this.form.get('category').setValue(this.editedProduct.categoryId);
   }
 
   onClear() {
@@ -79,7 +79,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       this.form.value.price,
       this.form.value.description,
       this.form.value.picture,
-      this.form.value.category
+      this.form.value.categoryId
     );
     this.productService.addProduct(newProduct, this.editMode);
     this.form.reset();
@@ -97,7 +97,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       price = this.form.value.price;
       description = this.form.value.description;
       picture = this.form.value.picture;
-      category = this.form.value.category;
+      category = this.form.value.categoryId;
     }
 
     this.form = new FormGroup({

@@ -62,7 +62,7 @@ export class ProductService {
 
     performFilter(filterBy: string): Product[] {
         return this.products.filter((product: Product) =>
-            product.category.indexOf(filterBy) !== -1);
+            product.categoryId.indexOf(filterBy) !== -1);
     }
 
     addProduct(product: Product, editMode = false) {

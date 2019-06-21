@@ -52,7 +52,11 @@ class RestBaseClass(Resource):
             if offset - limit > 0:
                 self.result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
 
-        return jsonify(self.result)
+        # return jsonify(self.result)
+        response = make_response(jsonify(self.result), 200)
+        response.mimetype = "application/json"
+        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        return response
 
     def put(self, item_id: str = None) -> json:
         if item_id is None:
@@ -62,7 +66,7 @@ class RestBaseClass(Resource):
         tmp_dict = {}
         for k, v in args.items():
             tmp_dict[k] = v
-            if k == 'parent_id' and v == '':
+            if k == 'parentId' and v == '':
                 tmp_dict[k] = None
 
         try:
@@ -82,7 +86,11 @@ class RestBaseClass(Resource):
                 f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
             }
         })
-        return jsonify(self.result)
+        # return jsonify(self.result)
+        response = make_response(jsonify(self.result), 200)
+        response.mimetype = "application/json"
+        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        return response
 
     def post(self) -> json:
         args = self.reqparse.parse_args()
@@ -90,7 +98,7 @@ class RestBaseClass(Resource):
         for k, v in args.items():
             if k != '_id':
                 tmp_dict[k] = v
-            if k == 'parent_id' and v == '':
+            if k == 'parentId' and v == '':
                 tmp_dict[k] = None
 
         item = self.cls(**tmp_dict)
@@ -133,4 +141,5 @@ class RestBaseClass(Resource):
         })
         response = make_response(jsonify(self.result), 200)
         response.mimetype = "application/json"
+        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
         return response

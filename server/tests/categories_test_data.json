@@ -2,31 +2,31 @@
   {
     "_id": "5d00ffbcedc0ef0a350fd1e5",
     "name": "fruit",
-    "normal_name": "Fruits",
-    "parent_id": null
+    "displayName": "Fruits",
+    "parentId": null
   },
   {
     "_id": "5d078e806bc6c411efbdb54f",
     "name": "vegetable",
-    "normal_name": "Vegetables",
-    "parent_id": null
+    "displayName": "Vegetables",
+    "parentId": null
   },
   {
     "_id": "5d078e806bc6c411efbdb550",
     "name": "tropical_fruit",
-    "normal_name": "Tropical fruits",
-    "parent_id": "5d00ffbcedc0ef0a350fd1e5"
+    "displayName": "Tropical fruits",
+    "parentId": "5d00ffbcedc0ef0a350fd1e5"
   },
   {
     "_id": "5d078e806bc6c411efbdb551",
     "name": "milk",
-    "normal_name": "Milk products",
-    "parent_id": null
+    "displayName": "Milk products",
+    "parentId": null
   },
   {
     "_id": "5d078e806bc6c421efbdb551",
     "name": "bread",
-    "normal_name": "Bread",
-    "parent_id": null
+    "displayName": "Bread",
+    "parentId": null
   }
 ]

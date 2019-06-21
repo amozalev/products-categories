@@ -22,24 +22,24 @@
               </span>
             </div>
             <div class="form-group col">
-              <label for="normal_name">Normal name</label>
+              <label for="displayName">Display name</label>
               <input
                 type="text"
-                id="normal_name"
-                formControlName="normal_name"
+                id="displayName"
+                formControlName="displayName"
                 class="form-control"
-                placeholder="Normal name">
-              <span *ngIf="!form.get('normal_name').valid && form.get('normal_name').touched"
+                placeholder="Display name">
+              <span *ngIf="!form.get('displayName').valid && form.get('displayName').touched"
                     class="help-block">
-                Please add normal name
+                Please add display name
               </span>
             </div>
             <div class="form-group col">
-              <label for="parent">Parent categories</label>
+              <label for="parentId">Parent categories</label>
               <input
                 type="text"
-                id="parent"
-                formControlName="parent"
+                id="parentId"
+                formControlName="parentId"
                 class="form-control"
                 placeholder="0">
             </div>
@@ -80,8 +80,8 @@
                 (click)="onEdit(category.id)">
               <td>{{i + 1}}</td>
               <td>{{category.name}}</td>
-              <td>{{category.normal_name}}</td>
-              <td>{{category.parent}}</td>
+              <td>{{category.displayName}}</td>
+              <td>{{category.parentId}}</td>
             </tr>
             </tbody>
           </table>
@@ -99,16 +99,16 @@
           <!--            <div class="form-group col">-->
           <!--              <input-->
           <!--                type="text"-->
-          <!--                formControlName="normal_name"-->
+          <!--                formControlName="displayName"-->
           <!--                class="form-control"-->
-          <!--                value="{{category.normal_name}}">-->
+          <!--                value="{{category.displayName}}">-->
           <!--            </div>-->
           <!--            <div class="form-group col">-->
           <!--              <input-->
           <!--                type="text"-->
-          <!--                formControlName="parent"-->
+          <!--                formControlName="parentId"-->
           <!--                class="form-control"-->
-          <!--                value="{{category.parent}}">-->
+          <!--                value="{{category.parentId}}">-->
           <!--            </div>-->
           <!--            <div class="form-group col-xs-2">-->
           <!--              <button-->

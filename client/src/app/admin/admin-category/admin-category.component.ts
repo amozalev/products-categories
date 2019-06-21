@@ -55,8 +55,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.editedCategory = this.categoryService.getCategoryById(this.editedId);
 
     this.form.get('name').setValue(this.editedCategory.name);
-    this.form.get('normal_name').setValue(this.editedCategory.normal_name);
-    this.form.get('parent').setValue(this.editedCategory.parent);
+    this.form.get('displayName').setValue(this.editedCategory.displayName);
+    this.form.get('parentId').setValue(this.editedCategory.parentId);
   }
 
   onClear() {
@@ -76,8 +76,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     const newCategory = new Category(
       id,
       this.form.value.name,
-      this.form.value.normal_name,
-      this.form.value.parent,
+      this.form.value.displayName,
+      this.form.value.parentId,
     );
     this.categoryService.addCategory(newCategory, this.editMode);
     this.form.reset();
@@ -85,19 +85,19 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   initCategoriesForm() {
     let name = '';
-    let normal_name = '';
-    let parent = '';
+    let displayName = '';
+    let parentId = '';
 
     if (this.editMode) {
       name = this.form.value.name;
-      normal_name = this.form.value.normal_name;
-      parent = this.form.value.parent;
+      displayName = this.form.value.displayName;
+      parentId = this.form.value.parentId;
     }
 
     this.form = new FormGroup({
       'name': new FormControl(name, [Validators.required, Validators.minLength(3)]),
-      'normal_name': new FormControl(normal_name, [Validators.required, Validators.minLength(4)]),
-      'parent': new FormControl(parent)
+      'displayName': new FormControl(displayName, [Validators.required, Validators.minLength(4)]),
+      'parentId': new FormControl(parentId)
     });
   }
 
