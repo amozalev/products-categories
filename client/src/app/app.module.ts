@@ -14,7 +14,7 @@ import {ProductDetailsComponent} from './content/product-details/product-details
 import {ProductService} from './content/product.service';
 import {AppRoutingModule} from './app-routing.module';
 import {CartComponent} from './content/cart/cart.component';
-import {CategoryService} from './content/product-list/category.service';
+import {CategoryService} from './content/category.service';
 import {AdminComponent} from './admin/admin.component';
 import {AppConfig} from './app.config';
 import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';

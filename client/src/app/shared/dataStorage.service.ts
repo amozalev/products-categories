@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ProductService} from '../content/product.service';
-import {CategoryService} from '../content/product-list/category.service';
+import {CategoryService} from '../content/category.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AppConfig} from '../app.config';
 import {Category} from './category.model';
@@ -19,8 +19,8 @@ export class DataStorageService {
 
   }
 
-  getCategories(objectNamePlural: string, id: string = '') {
-    this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/' + objectNamePlural + '/' + id)
+  getCategories(id: string = '') {
+    this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/categories/' + id)
       .subscribe(res => {
           this.categoryService.setCategories(res['data']);
         },
@@ -39,5 +39,15 @@ export class DataStorageService {
   deleteCategory() {
 
   }
+
+  getProducts(objectNamePlural: string, id: string = '') {
+    this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/' + objectNamePlural + '/' + id)
+      .subscribe(res => {
+          this.categoryService.setCategories(res['data']);
+        },
+        error => console.log('error: ', error)
+      );
+  }
+
 
 }

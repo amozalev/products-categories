@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CategoryService} from '../content/product-list/category.service';
+import {CategoryService} from '../content/category.service';
 import {Category} from '../shared/category.model';
 import {ProductService} from '../content/product.service';
 import {DataStorageService} from '../shared/dataStorage.service';
@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // this.categories = this.categoryService.getCategories();
-    this.dataStorageService.getCategories('categories');
+    this.dataStorageService.getCategories();
   }
 
   getCategories() {

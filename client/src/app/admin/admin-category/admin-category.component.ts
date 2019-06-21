@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CategoryService} from '../../content/product-list/category.service';
+import {CategoryService} from '../../content/category.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Category} from '../../shared/category.model';

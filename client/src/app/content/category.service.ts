@@ -1,4 +1,4 @@
-import {Category} from '../../shared/category.model';
+import {Category} from '../shared/category.model';
 import {Subject} from 'rxjs';
 
 export class CategoryService {
