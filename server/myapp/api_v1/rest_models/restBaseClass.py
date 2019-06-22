@@ -117,6 +117,7 @@ class RestBaseClass(Resource):
         })
         response = make_response(jsonify(self.result), 201)
         response.mimetype = "application/json"
+        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
         response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})
         # response = MyResponse(self.result, status=201)
         # response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})

@@ -1,6 +1,6 @@
 import bson
 from typing import Any, Dict
-from flask import jsonify
+from flask import jsonify, make_response
 from flask_restful import Resource, abort
 from mongoengine import DoesNotExist
 
@@ -35,4 +35,9 @@ class RestProductsByCategory(Resource):
         else:
             abort(404, error=404, message='Category id is absent')
 
-        return jsonify(self.result)
+        # return jsonify(self.result)
+        response = make_response(jsonify(self.result), 200)
+        response.mimetype = "application/json"
+        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        return response
+

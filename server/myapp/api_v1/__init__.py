@@ -7,7 +7,7 @@ api = Api(api_v1_bp)
 
 api.add_resource(restCategory.RestCategory, '/categories/', endpoint='categories')
 api.add_resource(restCategory.RestCategory, '/categories/<string:cat_id>', endpoint='category')
-api.add_resource(restProductsByCategory.RestProductsByCategory, '/categories/<string:cat_id>/products',
+api.add_resource(restProductsByCategory.RestProductsByCategory, '/categories/<string:cat_id>/products/',
                  endpoint='productsByCategory')
 api.add_resource(restProduct.RestProduct, '/products/', endpoint='products')
 api.add_resource(restProduct.RestProduct, '/products/<string:prod_id>')
