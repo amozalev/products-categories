@@ -1,6 +1,13 @@
 <app-header></app-header>
 <div class="container page-wrap">
-  <router-outlet></router-outlet>
+  <div class="row">
+    <div class="col-lg-3">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-lg-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
 <footer class="py-5 bg-dark">
   <div class="container">

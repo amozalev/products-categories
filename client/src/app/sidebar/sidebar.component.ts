@@ -10,17 +10,12 @@ import {ProductService} from '../content/product.service';
 })
 export class SidebarComponent implements OnInit {
   // @Input() categoryId: number;
-  categories: Category[];
 
   constructor(private categoryService: CategoryService,
               private productService: ProductService) {
   }
 
   ngOnInit() {
-    this.categoryService.getCategories2().subscribe(data => {
-      this.categories = data;
-    });
-
   }
 
   getCategories() {
