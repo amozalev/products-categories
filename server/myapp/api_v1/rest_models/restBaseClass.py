@@ -1,5 +1,6 @@
 import json
 import bson
+import math
 from flask import jsonify, request, make_response
 from flask_restful import Resource, abort
 from mongoengine import DoesNotExist, ValidationError
@@ -17,7 +18,7 @@ class RestBaseClass(Resource):
         self.obj_title = obj_title
         super(RestBaseClass, self).__init__()
 
-    def get(self, item_id: str = None, offset: int = 0, limit: int = 10) -> json:
+    def get(self, item_id: str = None, offset: int = 0, limit: int = 3) -> json:
         args = self.reqparse.parse_args()
         if args['offset'] is not None:
             offset = args['offset']
@@ -32,25 +33,31 @@ class RestBaseClass(Resource):
 
             self.result.update({
                 'data': self.schema.dump(item).data,
-                '_links': {
-                    f'all_{self.obj_title}': {'href': f'{request.base_url}'.strip(item_id)}
+                'links': {
+                    f'{self.obj_title}': {'href': f'{request.base_url}'.strip(item_id)}
                 }
             })
         else:
             items = self.cls.objects.order_by('id').skip(offset).limit(limit)
             total = items.count()
             self.result.update({
-                'from': offset,
-                'to': offset + limit,
-                'next': f'{request.base_url}?offset={offset + limit}&limit={limit}',
-                'total': total,
+                'pages': {
+                    'from': offset + 1,
+                    'to': offset + limit,
+                    'offset': offset,
+                    'limit': limit,
+                    'next': f'{request.base_url}',
+                    'current_page': math.ceil((offset + limit) / limit),
+                    'pages_count': math.ceil(total / limit),
+                    'items_count': total
+                },
                 'data': [self.schema.dump(item).data for item in items],
-                '_links': {
+                'links': {
                     f'{self.obj_title}': {'href': f'{request.base_url}'}
                 }
             })
             if offset - limit > 0:
-                self.result.update({'previous': f'{request.base_url}?offset={offset - limit}&limit={limit}', })
+                self.result['pages']['prev'] = f'{request.base_url}'
 
         # return jsonify(self.result)
         response = make_response(jsonify(self.result), 200)
@@ -81,9 +88,9 @@ class RestBaseClass(Resource):
         item = self.cls.objects.get(pk=bson.ObjectId(item_id))
         self.result.update({
             'data': self.schema.dump(item).data,
-            '_links': {
+            'links': {
                 'self': {'href': f'{request.base_url}{self.obj_title}/{item_id}'},
-                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
             }
         })
         # return jsonify(self.result)
@@ -110,9 +117,9 @@ class RestBaseClass(Resource):
 
         self.result.update({
             'data': self.schema.dump(self.saved_item).data,
-            '_links': {
+            'links': {
                 'self': {'href': f'{request.base_url}{self.obj_title}/{self.saved_item.id}'},
-                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
             }
         })
         response = make_response(jsonify(self.result), 201)
@@ -136,8 +143,8 @@ class RestBaseClass(Resource):
 
         self.result.update({
             'status': 'accepted',
-            '_links': {
-                f'all_{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+            'links': {
+                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
             }
         })
         response = make_response(jsonify(self.result), 200)

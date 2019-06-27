@@ -20,7 +20,7 @@ class CategorySchema(Schema):
                 in_data[k] = ''
 
         if not request.base_url.endswith(in_data['id']):
-            in_data['_links'] = {
+            in_data['links'] = {
                 'self': {
                     'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}' + in_data['id']
                 },
@@ -30,7 +30,7 @@ class CategorySchema(Schema):
                 }
             }
         else:
-            in_data['_links'] = {
+            in_data['links'] = {
                 'self': {
                     'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}'
                 }

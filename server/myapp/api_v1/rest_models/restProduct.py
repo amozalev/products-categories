@@ -25,7 +25,7 @@ class ProductSchema(Schema):
                 in_data[k] = ''
 
         if not request.base_url.endswith(in_data['id']):
-            in_data['_links'] = {
+            in_data['links'] = {
                 'self': {
                     'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.products")}' + in_data['id']
                 }
@@ -57,7 +57,7 @@ class RestProduct(RestBaseClass):
 
         super(RestProduct, self).__init__(getattr(Product, 'Product'), self.title, self.schema)
 
-    def get(self, prod_id: str = None, offset: int = 0, limit: int = 10) -> json:
+    def get(self, prod_id: str = None, **kwargs) -> json:
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.replace_argument('_id', type=str)
         self.reqparse.replace_argument('title', type=str)
@@ -71,7 +71,7 @@ class RestProduct(RestBaseClass):
         self.reqparse.add_argument('offset', type=int)
         self.reqparse.add_argument('limit', type=int)
 
-        return super(RestProduct, self).get(item_id=prod_id, offset=offset, limit=limit)
+        return super(RestProduct, self).get(item_id=prod_id, **kwargs)
 
     def put(self, prod_id: str = None) -> json:
         self.reqparse.remove_argument('_id')
