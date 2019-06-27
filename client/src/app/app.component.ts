@@ -9,11 +9,11 @@ import {CategoryService} from './content/category.service';
 export class AppComponent implements OnInit {
   title = 'products-categories';
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoriesService: CategoryService) {
   }
 
 
   ngOnInit() {
-    this.categoryService.fetchCategories().subscribe();
+    this.categoriesService.fetchCategories().subscribe();
   }
 }

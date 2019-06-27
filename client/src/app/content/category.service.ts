@@ -14,48 +14,17 @@ export class CategoryService {
 
   private categories: Category[] = [];
 
-  constructor(private httpService: HttpClient) {}
+  constructor(private httpService: HttpClient) {
+  }
 
 
   getCategories() {
-    // this.final_categories = this.categories.slice();
-    // this.categories.slice().forEach((val) => {
-    //
-    //   if (val.parentId != null) {
-    //     const parent_category = this.categories[val.parentId];
-    //
-    //     const _index = this.final_categories.findIndex((category) => {
-    //       if (parent_category.id === category.id) {
-    //         return category;
-    //       }
-    //     });
-    //     if (_index === -1) {
-    //       this.final_categories.push(parent_category);
-    //     }
-    //     this.final_categories[_index].children.push(val);
-    //
-    //   } else {
-    //     const _index = this.final_categories.findIndex((category) => {
-    //       if (val.id === category.id) {
-    //         return category;
-    //       }
-    //     });
-    //     if (_index === -1) {
-    //       this.final_categories.push(val);
-    //     }
-    //   }
-    //
-    // });
-    // console.log('final_categories: ', this.final_categories);
-    // this.categoryListChanged.next(this.final_categories);
-    // return this.final_categories;
     return this.categories.slice();
   }
 
-  getCategories2(id: string = '') {
+  fetchCategories(id: string = '') {
     return this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/categories/' + id).pipe(
       map(res => {
-        console.log('--------', res['data']);
         return res['data'];
       }),
       tap(res => {
@@ -67,6 +36,8 @@ export class CategoryService {
 
   setCategories(categories: Category[]) {
     this.categories = categories;
+    console.log('set categories: ', this.categories);
+
     this.categoryListChanged.next(this.categories);
   }
 

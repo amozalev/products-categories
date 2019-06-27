@@ -10,20 +10,11 @@ export class ProductsResolverService implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('route', route);
-    console.log('state', state);
-    const catName = route.params['category_name'];
-
     const categories = this.categoriesService.getCategories();
-    console.log('--------resolver categories', categories);
-
-    const products = this.productsService.getProducts();
-    console.log('--------resolver pr list', products);
-
-    // if (!products.length) {
-    //   return this.dataStorageService.getProducts();
-    // } else {
-    //   return products;
-    // }
+    if (!categories.length) {
+      return this.categoriesService.fetchCategories();
+    } else {
+      return categories;
+    }
   }
 }

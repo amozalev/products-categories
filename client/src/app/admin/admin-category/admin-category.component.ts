@@ -24,7 +24,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initCategoriesForm();
-    this.categoryService.getCategories2().subscribe(data => {
+    this.categoryService.fetchCategories().subscribe(data => {
       this.categories = data;
     });
     this.categorySubscription = this.categoryService.categoryListChanged.subscribe((categories) => {

@@ -13,7 +13,10 @@ const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
   {path: 'products', component: ProductListComponent, pathMatch: 'full'},
   {path: 'products/:id', component: ProductDetailsComponent, pathMatch: 'full'},
-  {path: 'products/category/:category_name', component: ProductListComponent, resolve: [ProductsResolverService]},
+  {
+    path: 'products/category/:category_name', component: ProductListComponent,
+    resolve: {categories: ProductsResolverService}
+  },
   {path: 'cart', component: CartComponent, canActivate: [CartGuardService]},
   {path: 'admin', component: AdminComponent},
   {path: 'admin/category', component: AdminCategoryComponent},

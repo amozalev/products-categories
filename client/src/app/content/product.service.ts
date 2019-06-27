@@ -1,7 +1,6 @@
 import {Product} from '../shared/product.model';
 import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Category} from '../shared/category.model';
 import {AppConfig} from '../app.config';
 import {map, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -9,21 +8,26 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class ProductService {
   private products: Product[] = [];
-  private filteredProducts: Product[];
 
   cartProducts: Product[] = [];
   cartProductsCountChanged = new Subject<number>();
   cartProductsCount = 0;
   productsListChanged = new Subject<Product[]>();
   editedProduct = new Subject<number>();
-  activeCategoryId: string = null;
 
   constructor(private httpService: HttpClient) {
   }
 
-  getProducts(prod_id: string = '', cat_id: string = null) {
+  getProducts() {
+    return this.products.slice();
+  }
+
+  fetchProducts(prod_id: string = null, cat_id?: string) {
+    if (!prod_id) {
+      prod_id = '';
+    }
     let url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}`;
-    if (cat_id) {
+    if (cat_id && cat_id.length === 24) {
       url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${cat_id}/products/`;
     }
 

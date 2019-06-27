@@ -24,7 +24,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initProductsForm();
-    this.productService.getProducts().subscribe(
+    this.productService.fetchProducts().subscribe(
       data => this.products = data
     );
     this.productSubscription = this.productService.productsListChanged.subscribe((products) => {
@@ -73,7 +73,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       this.editMode = true;
       id = this.editedId;
     } else {
-      id = this.productService.getProducts();
+      id = this.productService.fetchProducts();
     }
     const newProduct = new Product(
       id,

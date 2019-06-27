@@ -8,21 +8,17 @@ import {ProductService} from '../content/product.service';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
-  // @Input() categoryId: number;
+export class SidebarComponent {
 
   constructor(private categoryService: CategoryService,
               private productService: ProductService) {
   }
 
-  ngOnInit() {
-  }
-
   getCategories() {
-    return this.categories;
+    return this.categoryService.getCategories();
   }
 
   filterBy(cat_id: string) {
-    this.productService.getProducts(null, cat_id).subscribe();
+    this.productService.fetchProducts(null, cat_id).subscribe();
   }
 }
