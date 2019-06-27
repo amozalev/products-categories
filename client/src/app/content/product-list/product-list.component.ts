@@ -14,6 +14,7 @@ import {Category} from '../../shared/category.model';
 export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[];
   productsSubscription: Subscription;
+  pages: {};
 
   constructor(private productService: ProductService,
               private categoriesService: CategoryService,
@@ -44,7 +45,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
 
     this.productService.fetchProducts(null, active_cat_id).subscribe(
-      data => this.products = data
+      data => {
+        this.products = data['data'];
+        this.pages = data['pages'];
+      }
     );
 
     this.productsSubscription = this.productService.productsListChanged.subscribe((products: Product[]) => {
@@ -56,4 +60,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productsSubscription.unsubscribe();
   }
 
+  onClick(cur_page: number, offset: number, limit: number) {
+    console.log('this.route.snapshot.params:', cur_page, offset, limit);
+    this.productService.fetchProducts(null, null, offset, limit).subscribe();
+  }
 }

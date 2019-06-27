@@ -25,7 +25,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.editMode = false;
     this.initProductsForm();
     this.productService.fetchProducts().subscribe(
-      data => this.products = data
+      data => this.products = data['data']
     );
     this.productSubscription = this.productService.productsListChanged.subscribe((products) => {
       this.products = products;

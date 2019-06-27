@@ -22,21 +22,26 @@ export class ProductService {
     return this.products.slice();
   }
 
-  fetchProducts(prod_id: string = null, cat_id?: string) {
+  fetchProducts(prod_id: string = null, cat_id?: string, offset: number = null, limit: number = null) {
     if (!prod_id) {
       prod_id = '';
     }
     let url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}`;
+
+    if (offset && limit) {
+      url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}?offset=${offset}&limit=${limit}`;
+    }
     if (cat_id && cat_id.length === 24) {
-      url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${cat_id}/products/`;
+      url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${cat_id}/products/?offset=${offset}&limit=${limit}`;
     }
 
     return this.httpService.get(url).pipe(
       map(res => {
-        return res['data'];
+        console.log('res:', res);
+        return res;
       }),
       tap(res => {
-        this.productsListChanged.next(res);
+        this.productsListChanged.next(res['data']);
       })
     );
   }
