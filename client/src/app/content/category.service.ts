@@ -7,8 +7,6 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class CategoryService {
-  // final_categories: { [id: number]: { category: Category }[] }[];
-  // final_categories: any[] = [];
   categoryListChanged = new Subject<Category[]>();
   editedCategory = new Subject<string>();
 
