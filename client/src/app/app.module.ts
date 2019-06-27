@@ -22,7 +22,7 @@ import {AdminProductComponent} from './admin/admin-product/admin-product.compone
 import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
 import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
-import {DataStorageService} from './shared/dataStorage.service';
+import {ProductsResolverService} from './content/products-resolver.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import {DataStorageService} from './shared/dataStorage.service';
     ProductService,
     CategoryService,
     CartGuardService,
-    DataStorageService
+    ProductsResolverService
   ],
   bootstrap: [AppComponent]
 })

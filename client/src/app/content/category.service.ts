@@ -1,34 +1,21 @@
 import {Category} from '../shared/category.model';
 import {Subject} from 'rxjs';
+import {AppConfig} from '../app.config';
+import {map, tap} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
+@Injectable()
 export class CategoryService {
   // final_categories: { [id: number]: { category: Category }[] }[];
   // final_categories: any[] = [];
   categoryListChanged = new Subject<Category[]>();
-  editedCategory = new Subject<number>();
+  editedCategory = new Subject<string>();
 
-  private categories: Category[] = [
-    // new Category(
-    //   1,
-    //   'fruit',
-    //   'Fruits',
-    //   null,
-    //   []),
-    // new Category(
-    //   2,
-    //   'vegetable',
-    //   'Vegetables',
-    //   null,
-    //   []
-    // ),
-    // new Category(
-    //   3,
-    //   'tropical_fruit',
-    //   'Tropical fruits',
-    //   0,
-    //   []
-    // )
-  ];
+  private categories: Category[] = [];
+
+  constructor(private httpService: HttpClient) {}
+
 
   getCategories() {
     // this.final_categories = this.categories.slice();
@@ -65,17 +52,30 @@ export class CategoryService {
     return this.categories.slice();
   }
 
+  getCategories2(id: string = '') {
+    return this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/categories/' + id).pipe(
+      map(res => {
+        console.log('--------', res['data']);
+        return res['data'];
+      }),
+      tap(res => {
+        this.setCategories(res);
+      })
+    );
+  }
+
+
   setCategories(categories: Category[]) {
     this.categories = categories;
     this.categoryListChanged.next(this.categories);
   }
 
-  getCategoryById(cat_id: number) {
+  getCategoryById(cat_id: string) {
     console.log('cat_id: ', cat_id);
     console.log('categories: ', this.categories);
 
     const category = this.categories.find((r) => {
-      return r.id === cat_id;
+      return r.name === cat_id;
     });
     return category;
   }
@@ -96,9 +96,9 @@ export class CategoryService {
   }
 
 
-  deleteCategory(id: number) {
+  deleteCategory(name: string) {
     const index = this.categories.findIndex((c) => {
-      return c.id === id;
+      return c.name === name;
     });
     if (index !== -1) {
       this.categories.splice(index, 1);

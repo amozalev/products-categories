@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CategoryService} from '../content/category.service';
 import {Category} from '../shared/category.model';
 import {ProductService} from '../content/product.service';
-import {DataStorageService} from '../shared/dataStorage.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,22 +13,21 @@ export class SidebarComponent implements OnInit {
   categories: Category[];
 
   constructor(private categoryService: CategoryService,
-              private productService: ProductService,
-              private dataStorageService: DataStorageService) {
+              private productService: ProductService) {
   }
 
   ngOnInit() {
-    // this.categories = this.categoryService.getCategories();
-    this.dataStorageService.getCategories();
+    this.categoryService.getCategories2().subscribe(data => {
+      this.categories = data;
+    });
+
   }
 
   getCategories() {
-    // return this.categories;
-    return this.categoryService.getCategories();
+    return this.categories;
   }
 
-  filterBy(id: number) {
-    const category = this.categoryService.getCategoryById(id);
-    this.productService.getFilteredProducts(category.name);
+  filterBy(cat_id: string) {
+    this.productService.getProducts(null, cat_id).subscribe();
   }
 }

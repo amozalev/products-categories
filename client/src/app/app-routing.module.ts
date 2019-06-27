@@ -7,12 +7,13 @@ import {AdminComponent} from './admin/admin.component';
 import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
 import {AdminProductComponent} from './admin/admin-product/admin-product.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
+import {ProductsResolverService} from './content/products-resolver.service';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
   {path: 'products', component: ProductListComponent, pathMatch: 'full'},
   {path: 'products/:id', component: ProductDetailsComponent, pathMatch: 'full'},
-  {path: 'products/category/:category_name', component: ProductListComponent, pathMatch: 'full'},
+  {path: 'products/category/:category_name', component: ProductListComponent, resolve: [ProductsResolverService]},
   {path: 'cart', component: CartComponent, canActivate: [CartGuardService]},
   {path: 'admin', component: AdminComponent},
   {path: 'admin/category', component: AdminCategoryComponent},

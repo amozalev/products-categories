@@ -23,7 +23,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.category_name = params['category_name'];
     });
 
-    this.products = this.productService.getFilteredProducts(this.category_name);
+    this.productService.getProducts(this.category_name).subscribe(
+      data => this.products = data
+    );
+
     this.productsSubscription = this.productService.productsListChanged.subscribe((products: Product[]) => {
       this.products = products;
     });

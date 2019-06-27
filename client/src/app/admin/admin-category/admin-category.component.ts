@@ -11,7 +11,7 @@ import {Category} from '../../shared/category.model';
 })
 export class AdminCategoryComponent implements OnInit, OnDestroy {
   editMode: boolean;
-  editedId: number;
+  editedId: string;
   form: FormGroup;
   categories: Category[];
   categorySubscription: Subscription;
@@ -24,7 +24,9 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initCategoriesForm();
-    this.categories = this.categoryService.getCategories();
+    this.categoryService.getCategories2().subscribe(data => {
+      this.categories = data;
+    });
     this.categorySubscription = this.categoryService.categoryListChanged.subscribe((categories) => {
       this.categories = categories;
     });
@@ -48,7 +50,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.editMode = false;
   }
 
-  onEdit(id: number) {
+  onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
     this.categoryService.editedCategory.next(id);
