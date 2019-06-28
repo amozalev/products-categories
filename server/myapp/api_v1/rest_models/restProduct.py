@@ -27,13 +27,13 @@ class ProductSchema(Schema):
         if not request.base_url.endswith(in_data['id']):
             in_data['links'] = {
                 'self': {
-                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.products")}' + in_data['id']
+                    'href': f'{url_for("api_v1.products")}' + in_data['id']
                 }
             }
         else:
             in_data['_links'] = {
                 'self': {
-                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.products")}'
+                    'href': f'{url_for("api_v1.products")}'
                 }
             }
         return in_data

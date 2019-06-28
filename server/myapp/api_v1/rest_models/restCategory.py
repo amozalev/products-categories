@@ -22,17 +22,16 @@ class CategorySchema(Schema):
         if not request.base_url.endswith(in_data['id']):
             in_data['links'] = {
                 'self': {
-                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}' + in_data['id']
+                    'href': f'{url_for("api_v1.categories")}' + in_data['id']
                 },
                 'productsOfCategory': {
-                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}' +
-                            in_data['id'] + '/products'
+                    'href': f'{url_for("api_v1.categories")}' + in_data['id'] + '/products'
                 }
             }
         else:
             in_data['links'] = {
                 'self': {
-                    'href': f'{request.host_url.rstrip("/")}{url_for("api_v1.categories")}'
+                    'href': f'{url_for("api_v1.categories")}'
                 }
             }
         return in_data
