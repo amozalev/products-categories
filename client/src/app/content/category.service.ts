@@ -49,6 +49,15 @@ export class CategoryService {
     return category;
   }
 
+  getCategoryByName(cat_name: string = null, categories: Category[]) {
+    if (cat_name && categories.length) {
+      return categories.find(cat => {
+        return cat.name === cat_name;
+      });
+    }
+    return null;
+  }
+
   addCategory(category: Category, editMode = false) {
     if (!editMode) {
       this.categories.push(category);
