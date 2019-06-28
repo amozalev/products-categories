@@ -40,9 +40,9 @@
        aria-label="Previous"
        [routerLink]="['./']"
        [queryParams]="{offset: (pages['offset'] - pages['limit']), limit: pages['limit']}"
-       (click)="onClick(1, pages['offset'], pages['limit'])">
+       (click)="onPageClick(1, 0, pages['limit'])">
       <span aria-hidden="true">&laquo;</span>
-      <span class="sr-only">Previous</span>
+      <span class="sr-only">First</span>
     </a>
   </li>
   <li class="page-item"
@@ -50,7 +50,7 @@
     <a class="page-link"
        [routerLink]="['./']"
        [queryParams]="{offset: (pages['offset'] + pages['limit']), limit: pages['limit']}"
-       (click)="onClick(i+1, i*(pages['limit']+pages['offset']), pages['limit'])">
+       (click)="onPageClick(i+1, i*pages['limit'], pages['limit'])">
       {{i + 1}}
     </a>
   </li>
@@ -59,9 +59,9 @@
        aria-label="Next"
        [routerLink]="['./']"
        [queryParams]="{offset: (pages['offset'] + pages['limit']), limit: pages['limit']}"
-       (click)="onClick(pages['pages_count'], pages['items_count']-pages['limit']+1, pages['limit'])">
+       (click)="onPageClick(pages['pages_count'], pages['items_count']-pages['limit']+1, pages['limit'])">
       <span aria-hidden="true">&raquo;</span>
-      <span class="sr-only">Next</span>
+      <span class="sr-only">Last</span>
     </a>
   </li>
 </ul>

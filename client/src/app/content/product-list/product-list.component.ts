@@ -14,6 +14,7 @@ import {Category} from '../../shared/category.model';
 export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[];
   productsSubscription: Subscription;
+  pagesSubscription: Subscription;
   pages: {};
 
   constructor(private productService: ProductService,
@@ -23,11 +24,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    let cat_name: string;
     let active_cat: Category;
+    let active_cat_id: string = null;
+    let active_cat_name: string = null;
+    let offset: number = null;
+    let limit: number = null;
 
     this.route.params.subscribe((params: Params) => {
-      cat_name = params['category_name'];
+      active_cat_name = params['category_name'];
+    });
+
+    this.route.queryParams.subscribe((params: Params) => {
+      offset = params['offset'];
+      limit = params['limit'];
     });
 
     const categories = this.categoriesService.getCategories();
@@ -36,15 +45,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //   categories = this.categoriesService.getCategories();
     // }
 
-    let active_cat_id = null;
-    if (cat_name !== undefined && categories.length) {
-      active_cat = categories.find(cat => {
-        return cat.name === cat_name;
-      });
-      active_cat_id = active_cat.id;
+    if (active_cat_name) {
+      active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
+      active_cat_id = active_cat['id'];
     }
 
-    this.productService.fetchProducts(null, active_cat_id).subscribe(
+    this.productService.fetchProducts(null, active_cat_id, offset, limit).subscribe(
       data => {
         this.products = data['data'];
         this.pages = data['pages'];
@@ -54,14 +60,35 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productsSubscription = this.productService.productsListChanged.subscribe((products: Product[]) => {
       this.products = products;
     });
+    this.pagesSubscription = this.productService.pagesChanged.subscribe(pages => {
+      this.pages = pages;
+    });
+
   }
 
   ngOnDestroy() {
     this.productsSubscription.unsubscribe();
   }
 
-  onClick(cur_page: number, offset: number, limit: number) {
-    console.log('this.route.snapshot.params:', cur_page, offset, limit);
-    this.productService.fetchProducts(null, null, offset, limit).subscribe();
+  onPageClick(cur_page: number, offset: number, limit: number) {
+    let active_cat_name: string = null;
+    let active_cat_id: string = null;
+
+    this.route.params.subscribe((params: Params) => {
+      active_cat_name = params['category_name'];
+    });
+
+    const categories = this.categoriesService.getCategories();
+    const active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
+    if (active_cat) {
+      active_cat_id = active_cat['id'];
+    }
+
+    this.productService.fetchProducts(null, active_cat_id, offset, limit).subscribe(
+      data => {
+        this.products = data['data'];
+        this.pages = data['pages'];
+      }
+    );
   }
 }

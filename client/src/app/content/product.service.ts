@@ -13,6 +13,7 @@ export class ProductService {
   cartProductsCountChanged = new Subject<number>();
   cartProductsCount = 0;
   productsListChanged = new Subject<Product[]>();
+  pagesChanged = new Subject<{}>();
   editedProduct = new Subject<number>();
 
   constructor(private httpService: HttpClient) {
@@ -22,15 +23,12 @@ export class ProductService {
     return this.products.slice();
   }
 
-  fetchProducts(prod_id: string = null, cat_id?: string, offset: number = null, limit: number = null) {
+  fetchProducts(prod_id: string = null, cat_id?: string, offset: number = 0, limit: number = 6) {
     if (!prod_id) {
       prod_id = '';
     }
-    let url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}`;
+    let url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}?offset=${offset}&limit=${limit}`;
 
-    if (offset && limit) {
-      url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}?offset=${offset}&limit=${limit}`;
-    }
     if (cat_id && cat_id.length === 24) {
       url = `${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${cat_id}/products/?offset=${offset}&limit=${limit}`;
     }
@@ -42,6 +40,7 @@ export class ProductService {
       }),
       tap(res => {
         this.productsListChanged.next(res['data']);
+        this.pagesChanged.next(res['pages']);
       })
     );
   }

@@ -18,7 +18,7 @@ class RestBaseClass(Resource):
         self.obj_title = obj_title
         super(RestBaseClass, self).__init__()
 
-    def get(self, item_id: str = None, offset: int = 0, limit: int = 3) -> json:
+    def get(self, item_id: str = None, offset: int = 0, limit: int = 6) -> json:
         args = self.reqparse.parse_args()
         if args['offset'] is not None:
             offset = args['offset']
@@ -41,29 +41,33 @@ class RestBaseClass(Resource):
             items = self.cls.objects.order_by('id').skip(offset).limit(limit)
             total = items.count()
             self.result.update({
-                'pages': {
-                    'from': offset + 1,
-                    'to': offset + limit,
-                    'offset': offset,
-                    'limit': limit,
-                    'next': f'{request.base_url}',
-                    'current_page': math.ceil((offset + limit) / limit),
-                    'pages_count': math.ceil(total / limit),
-                    'items_count': total
-                },
                 'data': [self.schema.dump(item).data for item in items],
                 'links': {
                     f'{self.obj_title}': {'href': f'{request.base_url}'}
                 }
             })
-            if offset - limit > 0:
-                self.result['pages']['prev'] = f'{request.base_url}'
+            if total:
+                print('total', total)
+                self.result.update({
+                    'pages': {
+                        'from': offset + 1,
+                        'to': offset + limit,
+                        'offset': offset,
+                        'limit': limit,
+                        'next': f'{request.base_url}',
+                        'current_page': math.ceil((offset + limit) / limit),
+                        'pages_count': math.ceil(total / limit),
+                        'items_count': total
+                    }
+                })
+                if offset - limit > 0:
+                    self.result['pages']['prev'] = f'{request.base_url}'
 
-        # return jsonify(self.result)
-        response = make_response(jsonify(self.result), 200)
-        response.mimetype = "application/json"
-        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
-        return response
+            # return jsonify(self.result)
+            response = make_response(jsonify(self.result), 200)
+            response.mimetype = "application/json"
+            response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+            return response
 
     def put(self, item_id: str = None) -> json:
         if item_id is None:
@@ -89,8 +93,8 @@ class RestBaseClass(Resource):
         self.result.update({
             'data': self.schema.dump(item).data,
             'links': {
-                'self': {'href': f'{request.base_url}{self.obj_title}/{item_id}'},
-                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                'self': {'href': f'{self.obj_title}/{item_id}'},
+                f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
         # return jsonify(self.result)
@@ -119,7 +123,7 @@ class RestBaseClass(Resource):
             'data': self.schema.dump(self.saved_item).data,
             'links': {
                 'self': {'href': f'{request.base_url}{self.obj_title}/{self.saved_item.id}'},
-                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
         response = make_response(jsonify(self.result), 201)
@@ -144,7 +148,7 @@ class RestBaseClass(Resource):
         self.result.update({
             'status': 'accepted',
             'links': {
-                f'{self.obj_title}': {'href': f'{request.base_url}{self.obj_title}'}
+                f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
         response = make_response(jsonify(self.result), 200)
