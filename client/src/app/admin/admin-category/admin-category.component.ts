@@ -54,7 +54,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.editedId = id;
     this.categoryService.editedCategory.next(id);
-    this.editedCategory = this.categoryService.getCategoryById(this.editedId);
+    this.editedCategory = this.categoryService.getCategoryById(id);
 
     this.form.get('name').setValue(this.editedCategory.name);
     this.form.get('displayName').setValue(this.editedCategory.displayName);
@@ -71,17 +71,15 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.editMode = true;
       id = this.editedId;
-    } else {
-      // console.log('adminCategoriesForm: ', this.form.value);
-      id = this.categoryService.getCategories().length + 1;
     }
+
     const newCategory = new Category(
       id,
       this.form.value.name,
       this.form.value.displayName,
       this.form.value.parentId,
     );
-    this.categoryService.addCategory(newCategory, this.editMode);
+    this.categoryService.saveCategory(newCategory, this.editMode).subscribe();
     this.form.reset();
   }
 

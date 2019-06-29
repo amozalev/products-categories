@@ -23,6 +23,12 @@ export class ProductService {
     return this.products.slice();
   }
 
+  getProductById(id: number) {
+    return this.products.find((prod) => {
+      return prod.id === id;
+    });
+  }
+
   fetchProducts(prod_id: string = null, cat_id?: string, offset: number = 0, limit: number = 6) {
     if (!prod_id) {
       prod_id = '';
@@ -39,6 +45,7 @@ export class ProductService {
         return res;
       }),
       tap(res => {
+        this.products = res['data'];
         this.productsListChanged.next(res['data']);
         this.pagesChanged.next(res['pages']);
       })
@@ -73,13 +80,6 @@ export class ProductService {
 
   getCartProducts() {
     return this.cartProducts.slice();
-  }
-
-  getProductById(id: number) {
-    const product = this.products.find((prod) => {
-      return prod.id === id;
-    });
-    return product;
   }
 
   addToCart(product_id: number) {

@@ -43,10 +43,13 @@ class RestBaseClass(Resource):
                         headers: [list, dict] = None):
         response = make_response(jsonify(result), status_code)
         response.mimetype = mimetype
-        response.headers.extend({'Access-Control-Allow-Origin': Config.CLIENT_HOST})
+        response.headers.extend(
+            {'Access-Control-Allow-Origin': Config.CLIENT_HOST,
+             'Access-Control-Allow-Methods': ['GET', 'PUT', 'POST', 'DELETE'],
+             'Access-Control-Allow-Headers': 'Content-Type'}
+        )
         if headers is not None:
             response.headers.extend(headers)
-
         return response
 
     def get(self, item_id: str = None, offset: int = 0, limit: int = 6) -> json:
@@ -140,7 +143,7 @@ class RestBaseClass(Resource):
         })
         response = self.create_response(self.result,
                                         status_code=201,
-                                        headers={"Location": f'{request.url}/{self.saved_item.id}'})
+                                        headers={"Location": f'{request.url}{self.saved_item.id}'})
         return response
 
     def delete(self, item_id: str = None) -> json:
@@ -161,4 +164,8 @@ class RestBaseClass(Resource):
             }
         })
         response = self.create_response(self.result)
+        return response
+
+    def options(self, **kwargs):
+        response = self.create_response({})
         return response

@@ -53,7 +53,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.editedId = id;
     this.productService.editedProduct.next(id);
-    this.editedProduct = this.productService.getProductById(this.editedId);
+    this.editedProduct = this.productService.getProductById(id);
 
     this.form.get('title').setValue(this.editedProduct.title);
     this.form.get('price').setValue(this.editedProduct.price);

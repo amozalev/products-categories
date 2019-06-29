@@ -3,12 +3,17 @@ import {Subject} from 'rxjs';
 import {AppConfig} from '../app.config';
 import {map, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class CategoryService {
   categoryListChanged = new Subject<Category[]>();
   editedCategory = new Subject<string>();
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   })
+  // };
 
   private categories: Category[] = [];
 
@@ -43,10 +48,9 @@ export class CategoryService {
     console.log('cat_id: ', cat_id);
     console.log('categories: ', this.categories);
 
-    const category = this.categories.find((r) => {
-      return r.name === cat_id;
+    return this.categories.find((r) => {
+      return r.id === cat_id;
     });
-    return category;
   }
 
   getCategoryByName(cat_name: string = null, categories: Category[]) {
@@ -58,18 +62,39 @@ export class CategoryService {
     return null;
   }
 
-  addCategory(category: Category, editMode = false) {
+  saveCategory(category: Category, editMode = false) {
     if (!editMode) {
-      this.categories.push(category);
-      this.categoryListChanged.next(this.categories.slice());
+      return this.httpService.post(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/`,
+        category)
+        .pipe(
+          map(res => {
+            return res['data'];
+          }),
+          tap(res => {
+            const categories = this.categories;
+            categories.push(res);
+            this.setCategories(categories);
+          })
+        );
     } else {
-      const index = this.categories.findIndex((c) => {
-        return c.id === category.id;
-      });
-      if (index !== -1) {
-        this.categories[index] = category;
-        this.categoryListChanged.next(this.categories.slice());
-      }
+      return this.httpService.put(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${category['id']}`,
+        category)
+        .pipe(
+          map(res => {
+            return res['data'];
+          }),
+          tap(res => {
+            const categories = this.categories;
+            const index = this.categories.findIndex((c) => {
+              return c.id === res.id;
+            });
+            if (index !== -1) {
+              categories[index] = res;
+            }
+            this.setCategories(categories);
+          })
+        );
+
     }
   }
 
