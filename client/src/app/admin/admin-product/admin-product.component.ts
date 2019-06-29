@@ -23,7 +23,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.editMode = false;
-    this.initProductsForm();
+    this.initForm();
     this.productService.fetchProducts().subscribe(
       data => this.products = data['data']
     );
@@ -87,7 +87,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  initProductsForm() {
+  initForm() {
     let title = '';
     let price = '';
     let description = '';

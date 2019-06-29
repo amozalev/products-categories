@@ -97,14 +97,24 @@ export class CategoryService {
     }
   }
 
-
-  deleteCategory(name: string) {
-    const index = this.categories.findIndex((c) => {
-      return c.name === name;
-    });
-    if (index !== -1) {
-      this.categories.splice(index, 1);
-      this.categoryListChanged.next(this.categories.slice());
-    }
+  deleteCategory(cat_id: string) {
+    return this.httpService.delete(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${cat_id}`)
+      .pipe(
+        map(res => {
+          return res;
+        }),
+        tap(res => {
+          if (res['status'] === 'accepted') {
+            const categories = this.categories;
+            const index = this.categories.findIndex((c) => {
+              return c.id === cat_id;
+            });
+            if (index !== -1) {
+              categories.splice(index, 1);
+            }
+            this.setCategories(categories);
+          }
+        })
+      );
   }
 }

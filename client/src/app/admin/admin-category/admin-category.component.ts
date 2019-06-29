@@ -23,7 +23,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.editMode = false;
-    this.initCategoriesForm();
+    this.initForm();
     this.categoryService.fetchCategories().subscribe(data => {
       this.categories = data;
     });
@@ -41,15 +41,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.editedCategorySubscription.unsubscribe();
   }
 
-  onDelete() {
-    if (this.editedId !== undefined) {
-      this.categoryService.deleteCategory(this.editedId);
-      this.form.reset();
-    }
-    this.editedId = undefined;
-    this.editMode = false;
-  }
-
   onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
@@ -59,6 +50,15 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.form.get('name').setValue(this.editedCategory.name);
     this.form.get('displayName').setValue(this.editedCategory.displayName);
     this.form.get('parentId').setValue(this.editedCategory.parentId);
+  }
+
+  onDelete() {
+    if (this.editedId !== undefined) {
+      this.categoryService.deleteCategory(this.editedId).subscribe();
+      this.form.reset();
+    }
+    this.editedId = undefined;
+    this.editMode = false;
   }
 
   onClear() {
@@ -83,7 +83,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  initCategoriesForm() {
+  initForm() {
     let name = '';
     let displayName = '';
     let parentId = '';
