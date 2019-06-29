@@ -52,7 +52,7 @@ export class ProductService {
     );
   }
 
-  addProduct(product: Product, editMode = false) {
+  saveProduct(product: Product, editMode = false) {
     if (!editMode) {
       this.products.push(product);
       this.productsListChanged.next(this.products.slice());

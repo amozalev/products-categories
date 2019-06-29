@@ -25,25 +25,6 @@ export class CategoryService {
     return this.categories.slice();
   }
 
-  fetchCategories(id: string = '') {
-    return this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/categories/' + id).pipe(
-      map(res => {
-        return res['data'];
-      }),
-      tap(res => {
-        this.setCategories(res);
-      })
-    );
-  }
-
-
-  setCategories(categories: Category[]) {
-    this.categories = categories;
-    console.log('set categories: ', this.categories);
-
-    this.categoryListChanged.next(this.categories);
-  }
-
   getCategoryById(cat_id: string) {
     console.log('cat_id: ', cat_id);
     console.log('categories: ', this.categories);
@@ -60,6 +41,24 @@ export class CategoryService {
       });
     }
     return null;
+  }
+
+  fetchCategories(id: string = '') {
+    return this.httpService.get(AppConfig.apiURL + '/' + AppConfig.apiPrefix + '/categories/' + id).pipe(
+      map(res => {
+        return res['data'];
+      }),
+      tap(res => {
+        this.setCategories(res);
+      })
+    );
+  }
+
+  setCategories(categories: Category[]) {
+    this.categories = categories;
+    console.log('set categories: ', this.categories);
+
+    this.categoryListChanged.next(this.categories);
   }
 
   saveCategory(category: Category, editMode = false) {

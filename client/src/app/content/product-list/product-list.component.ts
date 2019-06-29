@@ -47,7 +47,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     if (active_cat_name) {
       active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
-      active_cat_id = active_cat['id'];
+      if (active_cat !== undefined) {
+        active_cat_id = active_cat['id'];
+      }
     }
 
     this.productService.fetchProducts(null, active_cat_id, offset, limit).subscribe(
@@ -80,7 +82,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     const categories = this.categoriesService.getCategories();
     const active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
-    if (active_cat) {
+    if (active_cat !== undefined) {
       active_cat_id = active_cat['id'];
     }
 

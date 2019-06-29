@@ -83,7 +83,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       this.form.value.picture,
       this.form.value.categoryId
     );
-    this.productService.addProduct(newProduct, this.editMode);
+    this.productService.saveProduct(newProduct, this.editMode);
     this.form.reset();
   }
 
