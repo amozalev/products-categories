@@ -1,10 +1,9 @@
 import bson
-import math
 from typing import Any, Dict
-from flask import jsonify, make_response, request
 from flask_restful import Resource, abort, reqparse
 from mongoengine import DoesNotExist
 
+from myapp.api_v1.rest_models.restBaseClass import RestBaseClass
 from myapp.db_models.Category import Category
 from myapp.db_models.Product import Product
 from .restProduct import ProductSchema
@@ -43,25 +42,9 @@ class RestProductsByCategory(Resource):
             })
             if total:
                 print('total2', total)
-                self.result.update({
-                    'pages': {
-                        'from': offset + 1,
-                        'to': offset + limit,
-                        'offset': offset,
-                        'limit': limit,
-                        'next': f'{request.base_url}',
-                        'current_page': math.ceil((offset + limit) / limit),
-                        'pages_count': math.ceil(total / limit),
-                        'items_count': total
-                    }
-                })
-                if offset - limit > 0:
-                    self.result['pages']['prev'] = f'{request.base_url}'
+                self.result = RestBaseClass.add_pages_to_result(self.result, total, offset, limit)
         else:
             abort(404, error=404, message='Category id is absent')
 
-        # return jsonify(self.result)
-        response = make_response(jsonify(self.result), 200)
-        response.mimetype = "application/json"
-        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        response = RestBaseClass.create_response(self.result)
         return response

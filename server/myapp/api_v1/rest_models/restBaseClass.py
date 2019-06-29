@@ -5,6 +5,8 @@ from flask import jsonify, request, make_response
 from flask_restful import Resource, abort
 from mongoengine import DoesNotExist, ValidationError
 
+from config import Config
+
 
 class RestBaseClass(Resource):
     saved_item = None
@@ -17,6 +19,35 @@ class RestBaseClass(Resource):
         self.cls = classname
         self.obj_title = obj_title
         super(RestBaseClass, self).__init__()
+
+    @staticmethod
+    def add_pages_to_result(result: dict, items_count: int, offset: int, limit: int) -> json:
+        result.update({
+            'pages': {
+                'from': offset + 1,
+                'to': offset + limit,
+                'offset': offset,
+                'limit': limit,
+                'next': f'{request.base_url}',
+                'current_page': math.ceil((offset + limit) / limit),
+                'pages_count': math.ceil(items_count / limit),
+                'items_count': items_count
+            }
+        })
+        if offset - limit > 0:
+            result['pages']['prev'] = f'{request.base_url}'
+        return result
+
+    @staticmethod
+    def create_response(result: dict, status_code: int = 200, mimetype: str = "application/json",
+                        headers: [list, dict] = None):
+        response = make_response(jsonify(result), status_code)
+        response.mimetype = mimetype
+        response.headers.extend({'Access-Control-Allow-Origin': Config.CLIENT_HOST})
+        if headers is not None:
+            response.headers.extend(headers)
+
+        return response
 
     def get(self, item_id: str = None, offset: int = 0, limit: int = 6) -> json:
         args = self.reqparse.parse_args()
@@ -48,25 +79,9 @@ class RestBaseClass(Resource):
             })
             if total:
                 print('total', total)
-                self.result.update({
-                    'pages': {
-                        'from': offset + 1,
-                        'to': offset + limit,
-                        'offset': offset,
-                        'limit': limit,
-                        'next': f'{request.base_url}',
-                        'current_page': math.ceil((offset + limit) / limit),
-                        'pages_count': math.ceil(total / limit),
-                        'items_count': total
-                    }
-                })
-                if offset - limit > 0:
-                    self.result['pages']['prev'] = f'{request.base_url}'
+                self.result = self.add_pages_to_result(self.result, total, offset, limit)
 
-            # return jsonify(self.result)
-            response = make_response(jsonify(self.result), 200)
-            response.mimetype = "application/json"
-            response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+            response = self.create_response(self.result)
             return response
 
     def put(self, item_id: str = None) -> json:
@@ -97,10 +112,7 @@ class RestBaseClass(Resource):
                 f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
-        # return jsonify(self.result)
-        response = make_response(jsonify(self.result), 200)
-        response.mimetype = "application/json"
-        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        response = self.create_response(self.result)
         return response
 
     def post(self) -> json:
@@ -126,12 +138,9 @@ class RestBaseClass(Resource):
                 f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
-        response = make_response(jsonify(self.result), 201)
-        response.mimetype = "application/json"
-        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
-        response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})
-        # response = MyResponse(self.result, status=201)
-        # response.headers.extend({"Location": f'{request.url}/{self.saved_item.id}'})
+        response = self.create_response(self.result,
+                                        status_code=201,
+                                        headers={"Location": f'{request.url}/{self.saved_item.id}'})
         return response
 
     def delete(self, item_id: str = None) -> json:
@@ -151,7 +160,5 @@ class RestBaseClass(Resource):
                 f'{self.obj_title}': {'href': f'/{self.obj_title}/'}
             }
         })
-        response = make_response(jsonify(self.result), 200)
-        response.mimetype = "application/json"
-        response.headers.extend({'Access-Control-Allow-Origin': 'http://localhost:4200'})
+        response = self.create_response(self.result)
         return response

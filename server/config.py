@@ -5,3 +5,5 @@ class Config(object):
     DB_TEST_DB = 'test_products'
     DB_USER = 'admin'
     DB_USER_PASSWORD = 'password'
+
+    CLIENT_HOST = 'http://localhost:4200'
