@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 })
 export class AdminProductComponent implements OnInit, OnDestroy {
   editMode: boolean;
-  editedId: number;
+  editedId: string;
   form: FormGroup;
   products: Product[];
   productSubscription: Subscription;
@@ -30,7 +30,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.productSubscription = this.productService.productsListChanged.subscribe((products) => {
       this.products = products;
     });
-    this.editedProductSubscription = this.productService.editedProduct.subscribe((id) => {
+    this.editedProductSubscription = this.productService.editedProductId.subscribe((id) => {
       this.editedId = id;
     });
   }
@@ -49,10 +49,10 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.editMode = false;
   }
 
-  onEdit(id: number) {
+  onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
-    this.productService.editedProduct.next(id);
+    this.productService.editedProductId.next(id);
     this.editedProduct = this.productService.getProductById(id);
 
     this.form.get('title').setValue(this.editedProduct.title);
@@ -72,18 +72,20 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.editMode = true;
       id = this.editedId;
-    } else {
-      id = this.productService.fetchProducts();
     }
+
     const newProduct = new Product(
       id,
       this.form.value.title,
       this.form.value.price,
       this.form.value.description,
       this.form.value.picture,
-      this.form.value.categoryId
+      this.form.value.categoryId,
+      this.form.value.volume,
+      this.form.value.units,
+      this.form.value.producer
     );
-    this.productService.saveProduct(newProduct, this.editMode);
+    this.productService.saveProduct(newProduct, this.editMode).subscribe();
     this.form.reset();
   }
 
@@ -92,14 +94,22 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     let price = '';
     let description = '';
     let picture = '';
-    let category = '';
+    let categoryId = '';
+    let volume = '';
+    let units = '';
+    let producer = '';
+
 
     if (this.editMode) {
       title = this.form.value.title;
       price = this.form.value.price;
       description = this.form.value.description;
       picture = this.form.value.picture;
-      category = this.form.value.categoryId;
+      categoryId = this.form.value.categoryId;
+      volume = this.form.value.volume;
+      units = this.form.value.units;
+      producer = this.form.value.producer;
+
     }
 
     this.form = new FormGroup({
@@ -109,7 +119,10 @@ export class AdminProductComponent implements OnInit, OnDestroy {
         Validators.minLength(1)]),
       'description': new FormControl(description, Validators.required),
       'picture': new FormControl(picture, Validators.required),
-      'category': new FormControl(category, Validators.required)
+      'categoryId': new FormControl(categoryId, Validators.required),
+      'volume': new FormControl(volume, Validators.required),
+      'units': new FormControl(units, Validators.required),
+      'producer': new FormControl(producer, Validators.required)
     });
   }
 }

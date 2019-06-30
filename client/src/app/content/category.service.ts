@@ -8,7 +8,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 @Injectable()
 export class CategoryService {
   categoryListChanged = new Subject<Category[]>();
-  editedCategory = new Subject<string>();
+  editedCategoryId = new Subject<string>();
   // httpOptions = {
   //   headers: new HttpHeaders({
   //     'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ export class ProductService {
   cartProductsCount = 0;
   productsListChanged = new Subject<Product[]>();
   pagesChanged = new Subject<{}>();
-  editedProduct = new Subject<number>();
+  editedProductId = new Subject<string>();
 
   constructor(private httpService: HttpClient) {
   }
@@ -23,13 +23,24 @@ export class ProductService {
     return this.products.slice();
   }
 
-  getProductById(id: number) {
+  getProductById(id: string) {
     return this.products.find((prod) => {
       return prod.id === id;
     });
   }
 
-  fetchProducts(prod_id: string = null, cat_id?: string, offset: number = 0, limit: number = 6) {
+  setProducts(products: Product[], pages: {} = null) {
+    this.products = products;
+    console.log('set products: ', this.products);
+
+    this.productsListChanged.next(this.products);
+    if (pages) {
+      this.pagesChanged.next(pages);
+    }
+  }
+
+
+  fetchProducts(prod_id: string = null, cat_id?: string, offset: number = 0, limit: number = 16) {
     if (!prod_id) {
       prod_id = '';
     }
@@ -45,30 +56,54 @@ export class ProductService {
         return res;
       }),
       tap(res => {
-        this.products = res['data'];
-        this.productsListChanged.next(res['data']);
-        this.pagesChanged.next(res['pages']);
+        this.setProducts(res['data'], res['pages']);
       })
     );
   }
 
   saveProduct(product: Product, editMode = false) {
     if (!editMode) {
-      this.products.push(product);
-      this.productsListChanged.next(this.products.slice());
+      return this.httpService.post(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/`,
+        product)
+        .pipe(
+          map(res => {
+            return res;
+          }),
+          tap(res => {
+              const products = this.products;
+              products.push(res['data']);
+              this.setProducts(products);
+            },
+            error => {
+              console.log('updateProduct tap error: ', error);
+            })
+        );
     } else {
-      const index = this.products.findIndex((c) => {
-        return c.id === product.id;
-      });
-      if (index !== -1) {
-        this.products[index] = product;
-        this.productsListChanged.next(this.products.slice());
-      }
-    }
+      return this.httpService.put(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${product['id']}`,
+        product)
+        .pipe(
+          map(res => {
+            return res['data'];
+          }),
+          tap(res => {
+              const products = this.products;
+              const index = this.products.findIndex((c) => {
+                return c.id === res.id;
+              });
+              if (index !== -1) {
+                products[index] = res;
+              }
+              this.setProducts(products);
+            },
+            error => {
+              console.log('saveProduct tap error: ', error);
+            })
+        );
 
+    }
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: string) {
     const index = this.products.findIndex((c) => {
       return c.id === id;
     });
@@ -82,7 +117,7 @@ export class ProductService {
     return this.cartProducts.slice();
   }
 
-  addToCart(product_id: number) {
+  addToCart(product_id: string) {
     const product = this.getProductById(product_id);
     const product_exists = this.cartProducts.find((prod) => {
       if (prod.id === product_id) {
@@ -97,9 +132,9 @@ export class ProductService {
     }
   }
 
-  removeFromCart(index: number) {
+  removeFromCart(index: string) {
     const product = this.cartProducts[index];
-    this.cartProducts.splice(index, 1);
+    // this.cartProducts.splice(index, 1); # TODO Fix this: index is changed by ObjectId string
     this.cartProductsCount -= product.amount;
     if (this.cartProductsCount < 0) {
       this.cartProductsCount = 0;

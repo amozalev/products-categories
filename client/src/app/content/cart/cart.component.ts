@@ -39,14 +39,14 @@ export class CartComponent implements OnInit {
     return products_in_cart;
   }
 
-  removeFromCart(index: number) {
-    this.productService.removeFromCart(index);
+  removeFromCart(prod_id: string) {
+    this.productService.removeFromCart(prod_id);
     if (!this.productService.cartProductsCount) {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 
-  onAmountChanged(index: number, product_id: number, event) {
+  onAmountChanged(index: number, product_id: string, event) {
     console.log('event: ', event.target.value);
     this.subtotal_price = 0;
 

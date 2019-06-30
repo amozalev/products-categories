@@ -65,14 +65,54 @@
               <input
                 type="text"
                 id="category"
-                formControlName="category"
+                formControlName="categoryId"
                 class="form-control"
                 placeholder="category_title">
-              <span *ngIf="!form.get('category').valid && form.get('category').touched"
+              <span *ngIf="!form.get('categoryId').valid && form.get('categoryId').touched"
                     class="help-block">
                 Please add category
               </span>
             </div>
+            <div class="form-group col">
+              <label for="volume">Volume</label>
+              <input
+                type="text"
+                id="volume"
+                formControlName="volume"
+                class="form-control"
+                placeholder="volume">
+              <span *ngIf="!form.get('volume').valid && form.get('volume').touched"
+                    class="help-block">
+                Please add volume
+              </span>
+            </div>
+            <div class="form-group col">
+              <label for="units">Units</label>
+              <input
+                type="text"
+                id="units"
+                formControlName="units"
+                class="form-control"
+                placeholder="units_title">
+              <span *ngIf="!form.get('units').valid && form.get('units').touched"
+                    class="help-block">
+                Please add units
+              </span>
+            </div>
+            <div class="form-group col">
+              <label for="producer">Producer</label>
+              <input
+                type="text"
+                id="producer"
+                formControlName="producer"
+                class="form-control"
+                placeholder="producer_title">
+              <span *ngIf="!form.get('producer').valid && form.get('producer').touched"
+                    class="help-block">
+                Please add producer
+              </span>
+            </div>
+
             <div class="col-xs-12">
               <button type="button"
                       class="btn btn-warning"
@@ -105,6 +145,10 @@
               <th scope="col">Description</th>
               <th scope="col">Picture</th>
               <th scope="col">Category</th>
+              <th scope="col">Volume</th>
+              <th scope="col">Units</th>
+              <th scope="col">Producer</th>
+
             </tr>
             </thead>
             <tbody>
@@ -116,6 +160,9 @@
               <td>{{product.description}}</td>
               <td>{{product.picture}}</td>
               <td>{{product.categoryId}}</td>
+              <td>{{product.volume}}</td>
+              <td>{{product.units}}</td>
+              <td>{{product.producer}}</td>
             </tr>
             </tbody>
           </table>

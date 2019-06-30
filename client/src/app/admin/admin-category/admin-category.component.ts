@@ -31,7 +31,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
       this.categories = categories;
     });
 
-    this.editedCategorySubscription = this.categoryService.editedCategory.subscribe((id) => {
+    this.editedCategorySubscription = this.categoryService.editedCategoryId.subscribe((id) => {
       this.editedId = id;
     });
   }
@@ -44,7 +44,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
-    this.categoryService.editedCategory.next(id);
+    this.categoryService.editedCategoryId.next(id);
     this.editedCategory = this.categoryService.getCategoryById(id);
 
     this.form.get('name').setValue(this.editedCategory.name);
