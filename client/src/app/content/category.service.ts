@@ -49,8 +49,11 @@ export class CategoryService {
         return res['data'];
       }),
       tap(res => {
-        this.setCategories(res);
-      })
+          this.setCategories(res);
+        },
+        error => {
+          console.log('fetchCategories tap error: ', error);
+        }),
     );
   }
 
@@ -70,10 +73,13 @@ export class CategoryService {
             return res['data'];
           }),
           tap(res => {
-            const categories = this.categories;
-            categories.push(res);
-            this.setCategories(categories);
-          })
+              const categories = this.categories;
+              categories.push(res);
+              this.setCategories(categories);
+            },
+            error => {
+              console.log('updateCategory tap error: ', error);
+            })
         );
     } else {
       return this.httpService.put(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/categories/${category['id']}`,
@@ -83,15 +89,18 @@ export class CategoryService {
             return res['data'];
           }),
           tap(res => {
-            const categories = this.categories;
-            const index = this.categories.findIndex((c) => {
-              return c.id === res.id;
-            });
-            if (index !== -1) {
-              categories[index] = res;
-            }
-            this.setCategories(categories);
-          })
+              const categories = this.categories;
+              const index = this.categories.findIndex((c) => {
+                return c.id === res.id;
+              });
+              if (index !== -1) {
+                categories[index] = res;
+              }
+              this.setCategories(categories);
+            },
+            error => {
+              console.log('saveCategory tap error: ', error);
+            })
         );
 
     }
@@ -104,17 +113,20 @@ export class CategoryService {
           return res;
         }),
         tap(res => {
-          if (res['status'] === 'accepted') {
-            const categories = this.categories;
-            const index = this.categories.findIndex((c) => {
-              return c.id === cat_id;
-            });
-            if (index !== -1) {
-              categories.splice(index, 1);
+            if (res['status'] === 'accepted') {
+              const categories = this.categories;
+              const index = this.categories.findIndex((c) => {
+                return c.id === cat_id;
+              });
+              if (index !== -1) {
+                categories.splice(index, 1);
+              }
+              this.setCategories(categories);
             }
-            this.setCategories(categories);
-          }
-        })
+          },
+          error => {
+            console.log('deleteCategory tap error: ', error);
+          })
       );
   }
 }
