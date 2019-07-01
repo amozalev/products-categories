@@ -59,7 +59,10 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.form.get('price').setValue(this.editedProduct.price);
     this.form.get('description').setValue(this.editedProduct.description);
     this.form.get('picture').setValue(this.editedProduct.picture);
-    this.form.get('category').setValue(this.editedProduct.categoryId);
+    this.form.get('categoryId').setValue(this.editedProduct.categoryId);
+    this.form.get('volume').setValue(this.editedProduct.volume);
+    this.form.get('units').setValue(this.editedProduct.units);
+    this.form.get('producer').setValue(this.editedProduct.producer);
   }
 
   onClear() {
