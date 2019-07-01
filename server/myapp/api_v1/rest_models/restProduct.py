@@ -46,7 +46,7 @@ class RestProduct(RestBaseClass):
     def __init__(self):
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.add_argument('_id', type=str, required=True)
-        self.reqparse.add_argument('title', type=str, required=True)
+        self.reqparse.add_argument('name', type=str, required=True)
         self.reqparse.add_argument('price', type=float, required=True)
         self.reqparse.add_argument('description', type=str, required=True)
         self.reqparse.add_argument('picture', type=str, required=True)
