@@ -1,6 +1,6 @@
-export class Product {
-  id: string;
-  name: string;
+import {BaseModel} from './base.model';
+
+export class Product extends BaseModel {
   price: number;
   description: string;
   picture: string;
@@ -21,10 +21,7 @@ export class Product {
               units: string,
               producer: string,
               amount = 0) {
-    if (id) {
-      this.id = id;
-    }
-    this.name = name;
+    super(id, name);
     this.price = price;
     this.description = description;
     this.picture = picture;
