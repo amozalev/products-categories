@@ -24,13 +24,13 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initForm();
-    this.productService.fetchProducts().subscribe(
+    this.productService.fetchItems().subscribe(
       data => this.products = data['data']
     );
-    this.productSubscription = this.productService.productsListChanged.subscribe((products) => {
+    this.productSubscription = this.productService.itemsListChanged.subscribe((products) => {
       this.products = products;
     });
-    this.editedProductSubscription = this.productService.editedProductId.subscribe((id) => {
+    this.editedProductSubscription = this.productService.editedItemId.subscribe((id) => {
       this.editedId = id;
     });
   }
@@ -42,7 +42,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
 
   onDelete() {
     if (this.editedId !== undefined) {
-      this.productService.deleteProduct(this.editedId).subscribe();
+      this.productService.deleteItem(this.editedId).subscribe();
       this.form.reset();
     }
     this.editedId = undefined;
@@ -52,8 +52,8 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
-    this.productService.editedProductId.next(id);
-    this.editedProduct = this.productService.getProductById(id);
+    this.productService.editedItemId.next(id);
+    this.editedProduct = this.productService.getItemById(id);
 
     this.form.get('name').setValue(this.editedProduct.name);
     this.form.get('price').setValue(this.editedProduct.price);
@@ -88,7 +88,12 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       this.form.value.units,
       this.form.value.producer
     );
-    this.productService.saveProduct(newProduct, this.editMode).subscribe();
+
+    if (this.editMode) {
+      this.productService.updateItem(newProduct).subscribe();
+    } else {
+      this.productService.saveItem(newProduct).subscribe();
+    }
     this.form.reset();
   }
 

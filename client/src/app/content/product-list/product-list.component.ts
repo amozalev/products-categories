@@ -39,27 +39,27 @@ export class ProductListComponent implements OnInit, OnDestroy {
       limit = params['limit'];
     });
 
-    const categories = this.categoriesService.getCategories();
+    const categories = this.categoriesService.getItems();
     // if (!categories.length) {
     //   this.categoriesService.fetchCategories().subscribe();
     //   categories = this.categoriesService.getCategories();
     // }
 
     if (active_cat_name) {
-      active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
+      active_cat = this.categoriesService.getItemByName(active_cat_name, categories);
       if (active_cat !== undefined) {
         active_cat_id = active_cat['id'];
       }
     }
 
-    this.productService.fetchProducts(null, active_cat_id, offset, limit).subscribe(
+    this.productService.fetchItems(null, active_cat_id, offset, limit).subscribe(
       data => {
         this.products = data['data'];
         this.pages = data['pages'];
       }
     );
 
-    this.productsSubscription = this.productService.productsListChanged.subscribe((products: Product[]) => {
+    this.productsSubscription = this.productService.itemsListChanged.subscribe((products: Product[]) => {
       this.products = products;
     });
     this.pagesSubscription = this.productService.pagesChanged.subscribe(pages => {
@@ -80,13 +80,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
       active_cat_name = params['category_name'];
     });
 
-    const categories = this.categoriesService.getCategories();
-    const active_cat = this.categoriesService.getCategoryByName(active_cat_name, categories);
+    const categories = this.categoriesService.getItems();
+    const active_cat = this.categoriesService.getItemByName(active_cat_name, categories);
     if (active_cat !== undefined) {
       active_cat_id = active_cat['id'];
     }
 
-    this.productService.fetchProducts(null, active_cat_id, offset, limit).subscribe(
+    this.productService.fetchItems(null, active_cat_id, offset, limit).subscribe(
       data => {
         this.products = data['data'];
         this.pages = data['pages'];

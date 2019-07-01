@@ -24,14 +24,14 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initForm();
-    this.categoryService.fetchCategories().subscribe(data => {
-      this.categories = data;
+    this.categoryService.fetchItems().subscribe(data => {
+      this.categories = data['data'];
     });
-    this.categorySubscription = this.categoryService.categoryListChanged.subscribe((categories) => {
+    this.categorySubscription = this.categoryService.itemsListChanged.subscribe((categories) => {
       this.categories = categories;
     });
 
-    this.editedCategorySubscription = this.categoryService.editedCategoryId.subscribe((id) => {
+    this.editedCategorySubscription = this.categoryService.editedItemId.subscribe((id) => {
       this.editedId = id;
     });
   }
@@ -44,8 +44,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   onEdit(id: string) {
     this.editMode = true;
     this.editedId = id;
-    this.categoryService.editedCategoryId.next(id);
-    this.editedCategory = this.categoryService.getCategoryById(id);
+    this.categoryService.editedItemId.next(id);
+    this.editedCategory = this.categoryService.getItemById(id);
 
     this.form.get('name').setValue(this.editedCategory.name);
     this.form.get('displayName').setValue(this.editedCategory.displayName);
@@ -54,7 +54,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   onDelete() {
     if (this.editedId !== undefined) {
-      this.categoryService.deleteCategory(this.editedId).subscribe();
+      this.categoryService.deleteItem(this.editedId).subscribe();
       this.form.reset();
     }
     this.editedId = undefined;
@@ -79,7 +79,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
       this.form.value.displayName,
       this.form.value.parentId,
     );
-    this.categoryService.saveCategory(newCategory, this.editMode).subscribe();
+    if (this.editMode) {
+      this.categoryService.updateItem(newCategory).subscribe();
+    } else {
+      this.categoryService.saveItem(newCategory).subscribe();
+    }
     this.form.reset();
   }
 

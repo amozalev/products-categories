@@ -10,9 +10,9 @@ export class ProductsResolverService implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const categories = this.categoriesService.getCategories();
+    const categories = this.categoriesService.getItems();
     if (!categories.length) {
-      return this.categoriesService.fetchCategories();
+      return this.categoriesService.fetchItems();
     } else {
       return categories;
     }
