@@ -42,7 +42,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
 
   onDelete() {
     if (this.editedId !== undefined) {
-      this.productService.deleteProduct(this.editedId);
+      this.productService.deleteProduct(this.editedId).subscribe();
       this.form.reset();
     }
     this.editedId = undefined;

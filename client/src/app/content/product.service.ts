@@ -103,14 +103,28 @@ export class ProductService {
     }
   }
 
-  deleteProduct(id: string) {
-    const index = this.products.findIndex((c) => {
-      return c.id === id;
-    });
-    if (index !== -1) {
-      this.products.splice(index, 1);
-      this.productsListChanged.next(this.products.slice());
-    }
+  deleteProduct(prod_id: string) {
+    return this.httpService.delete(`${AppConfig.apiURL}/${AppConfig.apiPrefix}/products/${prod_id}`)
+      .pipe(
+        map(res => {
+          return res;
+        }),
+        tap(res => {
+            if (res['status'] === 'accepted') {
+              const products = this.products;
+              const index = this.products.findIndex((p) => {
+                return p.id === prod_id;
+              });
+              if (index !== -1) {
+                products.splice(index, 1);
+              }
+              this.setProducts(products);
+            }
+          },
+          error => {
+            console.log('deleteProduct tap error: ', error);
+          })
+      );
   }
 
   getCartProducts() {
