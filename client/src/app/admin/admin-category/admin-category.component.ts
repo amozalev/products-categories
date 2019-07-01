@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CategoryService} from '../../content/category.service';
+import {CategoryService} from '../../services/category.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {Category} from '../../shared/category.model';
+import {Category} from '../../shared/models/category.model';
 
 @Component({
   selector: 'app-admin-category',

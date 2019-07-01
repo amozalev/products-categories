@@ -14,7 +14,7 @@ class TestCategory(unittest.TestCase):
 
     def setUp(self):
         # Simple Pymongo DB connection is used in order to eliminate ODM validation during data
-        # creation, because ODM models doesn't include _id fields, but it's necessary to add
+        # creation, because ODM shared doesn't include _id fields, but it's necessary to add
         # references in some documents. ODM is used after creation of testing data.
 
         self.db_conn = Mongo(self.mongodb_uri, config.Config.DB_PORT, config.Config.DB_DB)

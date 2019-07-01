@@ -7,7 +7,7 @@ import {AdminComponent} from './admin/admin.component';
 import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
 import {AdminProductComponent} from './admin/admin-product/admin-product.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
-import {ProductsResolverService} from './content/products-resolver.service';
+import {ProductsResolverService} from './services/products-resolver.service';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},

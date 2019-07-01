@@ -11,10 +11,10 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {ProductItemComponent} from './content/product-item/product-item.component';
 import {ProductListComponent} from './content/product-list/product-list.component';
 import {ProductDetailsComponent} from './content/product-details/product-details.component';
-import {ProductService} from './content/product.service';
+import {ProductService} from './services/product.service';
 import {AppRoutingModule} from './app-routing.module';
 import {CartComponent} from './content/cart/cart.component';
-import {CategoryService} from './content/category.service';
+import {CategoryService} from './services/category.service';
 import {AdminComponent} from './admin/admin.component';
 import {AppConfig} from './app.config';
 import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
@@ -22,7 +22,7 @@ import {AdminProductComponent} from './admin/admin-product/admin-product.compone
 import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component';
 import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
-import {ProductsResolverService} from './content/products-resolver.service';
+import {ProductsResolverService} from './services/products-resolver.service';
 
 @NgModule({
   declarations: [

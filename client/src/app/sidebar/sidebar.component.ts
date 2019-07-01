@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CategoryService} from '../content/category.service';
-import {Category} from '../shared/category.model';
-import {ProductService} from '../content/product.service';
+import {CategoryService} from '../services/category.service';
+import {Category} from '../shared/models/category.model';
+import {ProductService} from '../services/product.service';
 
 @Component({
   selector: 'app-sidebar',

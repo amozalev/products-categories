@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Product} from '../../shared/product.model';
-import {ProductService} from '../product.service';
+import {Product} from '../../shared/models/product.model';
+import {ProductService} from '../../services/product.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Params} from '@angular/router';
-import {CategoryService} from '../category.service';
-import {Category} from '../../shared/category.model';
+import {CategoryService} from '../../services/category.service';
+import {Category} from '../../shared/models/category.model';
 
 @Component({
   selector: 'app-product-list',

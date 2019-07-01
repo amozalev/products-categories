@@ -1,4 +1,4 @@
-import {Category} from '../shared/category.model';
+import {Category} from '../shared/models/category.model';
 import {Subject} from 'rxjs';
 import {AppConfig} from '../app.config';
 import {map, tap} from 'rxjs/operators';
