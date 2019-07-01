@@ -36,7 +36,7 @@ class TestCategory(unittest.TestCase):
             with open('tests/products_test_data.json') as _file:
                 data = json.load(_file)
             self.db.product.insert_many({
-                                            'title': prod['title'],
+                                            'name': prod['name'],
                                             'price': prod['price'],
                                             'description': prod['description'],
                                             'picture': prod['picture'],

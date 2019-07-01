@@ -55,7 +55,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.productService.editedProductId.next(id);
     this.editedProduct = this.productService.getProductById(id);
 
-    this.form.get('title').setValue(this.editedProduct.title);
+    this.form.get('name').setValue(this.editedProduct.name);
     this.form.get('price').setValue(this.editedProduct.price);
     this.form.get('description').setValue(this.editedProduct.description);
     this.form.get('picture').setValue(this.editedProduct.picture);
@@ -79,7 +79,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
 
     const newProduct = new Product(
       id,
-      this.form.value.title,
+      this.form.value.name,
       this.form.value.price,
       this.form.value.description,
       this.form.value.picture,
@@ -93,7 +93,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    let title = '';
+    let name = '';
     let price = '';
     let description = '';
     let picture = '';
@@ -104,7 +104,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
 
 
     if (this.editMode) {
-      title = this.form.value.title;
+      name = this.form.value.name;
       price = this.form.value.price;
       description = this.form.value.description;
       picture = this.form.value.picture;
@@ -116,7 +116,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     }
 
     this.form = new FormGroup({
-      'title': new FormControl(title, [Validators.required, Validators.minLength(3)]),
+      'name': new FormControl(name, [Validators.required, Validators.minLength(3)]),
       'price': new FormControl(price, [Validators.required,
         Validators.pattern(/^[1-9]+[0-9]*$/),
         Validators.minLength(1)]),

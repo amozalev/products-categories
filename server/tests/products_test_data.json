@@ -1,7 +1,7 @@
 [
   {
     "_id": "5d0909d47da46a70431dd578",
-    "title": "Молоко",
+    "name": "Молоко",
     "price": 64.5,
     "description": "Топлёное молоко",
     "picture": "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -12,7 +12,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d3",
-    "title": "Хлеб",
+    "name": "Хлеб",
     "price": 50,
     "description": "Ржаной из муки крупного помола",
     "picture": "https://zdraveda.ru/wp-content/uploads/2019/01/rzhanoj-hleb-1-300x195.jpg",
@@ -23,7 +23,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d4",
-    "title": "Красное яблоко",
+    "name": "Красное яблоко",
     "price": 25.5,
     "description": "Сорт красных яблок",
     "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/300px-Red_Apple.jpg",
@@ -34,7 +34,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d5",
-    "title": "Зелёное яблоко",
+    "name": "Зелёное яблоко",
     "price": 36.5,
     "description": "Яблоки сорта \"Антоновка\"",
     "picture": "https://ru0.anyfad.com/items/t2@91855199-6b17-4538-8599-55583e517052/Frukty-yabloko-zelenyy-8-sm.jpg",
@@ -45,7 +45,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d6",
-    "title": "Жёлтое яблоко",
+    "name": "Жёлтое яблоко",
     "price": 23,
     "description": "Яблоки сорта \"Гольден\"",
     "picture": "https://apolytosdiallaktikos.files.wordpress.com/2018/04/images.jpeg",
@@ -57,7 +57,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d7",
-    "title": "Томат тепличный",
+    "name": "Томат тепличный",
     "price": 50,
     "description": "Томат алый вытянутый",
     "picture": "https://static.ruvita.ru/store/product/243x243_e670ea3a9e423780f3c7787efc204dd1.jpg",
@@ -68,7 +68,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d8",
-    "title": "Огурец длинноплодный",
+    "name": "Огурец длинноплодный",
     "price": 50,
     "description": "Ржаной из муки крупного помола",
     "picture": "https://sklep.swiatkwiatow.pl/images/thumbnails/320/290/detailed/45/010473.jpg",
@@ -79,7 +79,7 @@
   },
   {
     "_id": "5d09127d250725a152f798d9",
-    "title": "Тыква",
+    "name": "Тыква",
     "price": 50,
     "description": "Жёлтая тыква",
     "picture": "https://purepng.com/public/uploads/thumbnail/purepng.com-pumpkinpumpkinvegetablefoodroundedfruitpumpkins-1701527312953yikz1.png",

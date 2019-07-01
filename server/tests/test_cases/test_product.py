@@ -36,7 +36,7 @@ class TestProduct(unittest.TestCase):
             with open('tests/products_test_data.json') as _file:
                 data = json.load(_file)
             self.db.product.insert_many({'_id': bson.ObjectId(prod['_id']),
-                                         'title': prod['title'],
+                                         'name': prod['name'],
                                          'price': prod['price'],
                                          'description': prod['description'],
                                          'picture': prod['picture'],
@@ -68,7 +68,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_success_put_product_by_id(self):
-        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'title': 'updated_fruit',
+        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'name': 'updated_fruit',
                                                                                'price': 10.5,
                                                                                'description': 'f',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -80,7 +80,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_fail_put_description_is_None(self):
-        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'title': 'updated_fruit',
+        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'name': 'updated_fruit',
                                                                                'price': 1.1,
                                                                                'description': None,
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -92,7 +92,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_put_float_field_with_string(self):
-        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'title': 'updated_fruit',
+        resp = self.app.put('/api/v1/products/5d0909d47da46a70431dd578', json={'name': 'updated_fruit',
                                                                                'price': 1.1,
                                                                                'description': 'Description',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -112,11 +112,11 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_put_product_without_necessary_argument(self):
-        resp = self.app.put('/api/v1/products/000000000000000000000000', json={'title': 'updated_fruit'})
+        resp = self.app.put('/api/v1/products/000000000000000000000000', json={'name': 'updated_fruit'})
         self.assertEqual(resp.status_code, 400)
 
     def test_fail_put_product_doesnt_exist_with_arguments(self):
-        resp = self.app.put('/api/v1/products/000000000000000000000000', json={'title': 'updated_fruit',
+        resp = self.app.put('/api/v1/products/000000000000000000000000', json={'name': 'updated_fruit',
                                                                                'price': 2.2,
                                                                                'description': 'descr',
                                                                                'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -128,7 +128,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_success_post_product(self):
-        resp = self.app.post('/api/v1/products/', json={'title': 'updated_fruit',
+        resp = self.app.post('/api/v1/products/', json={'name': 'updated_fruit',
                                                         'price': 2.2,
                                                         'description': 'descr',
                                                         'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",
@@ -140,7 +140,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 201)
 
     def test_success_post_product_producer_has_null_length(self):
-        resp = self.app.post('/api/v1/products/', json={'title': 'updated_fruit',
+        resp = self.app.post('/api/v1/products/', json={'name': 'updated_fruit',
                                                         'price': 2.2,
                                                         'description': 'descr',
                                                         'picture': "https://more-vsego.net/wp-content/uploads/2018/01/rjazhenka-polza-i-vred-dlja-zdorovja-organizma.jpg",

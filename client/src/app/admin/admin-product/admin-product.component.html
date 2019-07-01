@@ -9,16 +9,16 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-row">
             <div class="form-group col">
-              <label for="title">Title</label>
+              <label for="name">Name</label>
               <input
                 type="text"
-                id="title"
-                formControlName="title"
+                id="name"
+                formControlName="name"
                 class="form-control"
-                placeholder="Title">
-              <span *ngIf="!form.get('title').valid && form.get('title').touched"
+                placeholder="Name">
+              <span *ngIf="!form.get('name').valid && form.get('name').touched"
                     class="help-block">
-                Please add title
+                Please add name
               </span>
             </div>
             <div class="form-group col">
@@ -155,7 +155,7 @@
             <tr *ngFor="let product of products; let i = index"
                 (click)="onEdit(product.id)">
               <td>{{i + 1}}</td>
-              <td>{{product.title}}</td>
+              <td>{{product.name}}</td>
               <td>{{product.price}}</td>
               <td>{{product.description}}</td>
               <td>{{product.picture}}</td>

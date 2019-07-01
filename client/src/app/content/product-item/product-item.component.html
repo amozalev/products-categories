@@ -1,10 +1,10 @@
 <div class="card h-100">
   <a [routerLink]="['/', 'products', product.id]">
-    <img class="card-img-top" src="{{ product.picture }}" alt="{{ product.title }}">
+    <img class="card-img-top" src="{{ product.picture }}" alt="{{ product.name }}">
   </a>
   <div class="card-body">
     <h4 class="card-title">
-      <a [routerLink]="['/', 'products', product.id]">{{ product.title }}</a>
+      <a [routerLink]="['/', 'products', product.id]">{{ product.name }}</a>
     </h4>
     <!--<h5>${{ product.price }}</h5>-->
     <div class="action-wrap">

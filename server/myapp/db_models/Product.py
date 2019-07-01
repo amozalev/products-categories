@@ -2,7 +2,7 @@ from mongoengine import *
 
 
 class Product(Document):
-    title = StringField(required=True)
+    name = StringField(required=True)
     price = FloatField(required=True)
     description = StringField(required=True)
     picture = StringField(required=True)

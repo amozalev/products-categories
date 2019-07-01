@@ -9,7 +9,7 @@ from myapp.db_models import Product
 
 class ProductSchema(Schema):
     id = fields.Str()
-    title = fields.Str()
+    name = fields.Str()
     price = fields.Float()
     description = fields.Str()
     picture = fields.Str()
@@ -60,7 +60,7 @@ class RestProduct(RestBaseClass):
     def get(self, prod_id: str = None, **kwargs) -> json:
         self.reqparse = reqparse.RequestParser(bundle_errors=True)
         self.reqparse.replace_argument('_id', type=str)
-        self.reqparse.replace_argument('title', type=str)
+        self.reqparse.replace_argument('name', type=str)
         self.reqparse.replace_argument('price', type=float)
         self.reqparse.replace_argument('description', type=str)
         self.reqparse.replace_argument('picture', type=str)
@@ -85,7 +85,7 @@ class RestProduct(RestBaseClass):
 
     def delete(self, prod_id: str = None) -> json:
         self.reqparse.replace_argument('_id', type=str)
-        self.reqparse.replace_argument('title', type=str)
+        self.reqparse.replace_argument('name', type=str)
         self.reqparse.replace_argument('price', type=float)
         self.reqparse.replace_argument('description', type=str)
         self.reqparse.replace_argument('picture', type=str)
