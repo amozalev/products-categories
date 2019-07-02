@@ -28,12 +28,12 @@ export class ProductService extends AbstractService<Product> {
       }
     });
 
-    this.cartProductsCount++;
-    this.cartProductsCountChanged.next(this.cartProductsCount);
     if (!product_exists) {
       product.amount = 1;
       this.cartProducts.push(product);
     }
+    this.cartProductsCount++;
+    this.cartProductsCountChanged.next(this.cartProductsCount);
   }
 
   reduceAmount(index: number) {

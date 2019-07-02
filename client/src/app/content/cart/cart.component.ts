@@ -50,7 +50,7 @@ export class CartComponent implements OnInit {
   onAmountChanged(index: number, prod_id: string, event) {
     this.subtotal_price = 0;
 
-    if (event.target.value > this.productService.cartProductsCount) {
+    if (event.target.value > this.productService.cartProducts[index]['amount']) {
       this.productService.addToCart(prod_id);
     } else {
       this.productService.reduceAmount(index);
