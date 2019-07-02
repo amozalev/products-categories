@@ -15,7 +15,7 @@
                 id="name"
                 formControlName="name"
                 class="form-control"
-                placeholder="Name">
+                placeholder="Кекс черничный">
               <span *ngIf="!form.get('name').valid && form.get('name').touched"
                     class="help-block">
                 Please add name
@@ -28,7 +28,7 @@
                 id="price"
                 formControlName="price"
                 class="form-control"
-                placeholder="10">
+                placeholder="55.5">
               <span *ngIf="!form.get('price').valid && form.get('price').touched"
                     class="help-block">
                 {{form.get('price').invalid ? 'Price must consist of numbers' : 'Please add price'}}
@@ -41,7 +41,7 @@
                 id="description"
                 formControlName="description"
                 class="form-control"
-                placeholder="Some description">
+                placeholder="Кекс с начинкой">
               <span *ngIf="!form.get('description').valid && form.get('description').touched"
                     class="help-block">
                 Please add description
@@ -54,7 +54,7 @@
                 id="picture"
                 formControlName="picture"
                 class="form-control"
-                placeholder="Picture URL">
+                placeholder="http://test.ru">
               <span *ngIf="!form.get('picture').valid && form.get('picture').touched"
                     class="help-block">
                 Please add picture
@@ -67,7 +67,7 @@
                 id="category"
                 formControlName="categoryId"
                 class="form-control"
-                placeholder="category_title">
+                placeholder="cake">
               <span *ngIf="!form.get('categoryId').valid && form.get('categoryId').touched"
                     class="help-block">
                 Please add category
@@ -80,7 +80,7 @@
                 id="volume"
                 formControlName="volume"
                 class="form-control"
-                placeholder="volume">
+                placeholder="150">
               <span *ngIf="!form.get('volume').valid && form.get('volume').touched"
                     class="help-block">
                 Please add volume
@@ -93,7 +93,7 @@
                 id="units"
                 formControlName="units"
                 class="form-control"
-                placeholder="units_title">
+                placeholder="грамм">
               <span *ngIf="!form.get('units').valid && form.get('units').touched"
                     class="help-block">
                 Please add units
@@ -106,7 +106,7 @@
                 id="producer"
                 formControlName="producer"
                 class="form-control"
-                placeholder="producer_title">
+                placeholder="ООО &quot;Кексошная&quot;">
               <span *ngIf="!form.get('producer').valid && form.get('producer').touched"
                     class="help-block">
                 Please add producer
