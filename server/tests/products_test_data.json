@@ -87,5 +87,82 @@
     "volume": 1,
     "units": "кг",
     "producer": "ООО \"Псковский сад\""
+  },
+  {
+    "_id": "5d09127d250725a153f798d9",
+    "name": "Абрикос",
+    "price": 50,
+    "description": "Жёлтый абрикос",
+    "picture": "http://www.healthyfoodhealthyplanet.org/wp-content/uploads/2011/10/Fruit_Apricots1-300x175.jpg",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Псковский сад\""
+  },
+  {
+    "_id": "5d09121d250725a152f798d9",
+    "name": "Персик",
+    "price": 25.2,
+    "description": "Просто пэрсик",
+    "picture": "https://purepng.com/public/uploads/thumbnail/purepng.com-peachpeachjuicy-fruitnectarinefoodfruitpeachescutted-peaches-1701527354461qtqky.png",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
+  },
+  {
+    "_id": "5d09127d250825a252f798d9",
+    "name": "Виноград зелёный",
+    "price": 34,
+    "description": "Виноград без косточек сорта киш миш",
+    "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Table_grapes_on_white.jpg/220px-Table_grapes_on_white.jpg",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
+  },
+  {
+    "_id": "5d09127d250825a252f713d9",
+    "name": "Виноград синий",
+    "price": 38,
+    "description": "Виноград синий с косточками",
+    "picture": "https://img5.goodfon.ru/original/320x240/f/5c/chiornyi-mokryi-vinograd-listia-kapli-belyi-fon.jpg",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
+  },
+  {
+    "_id": "5d09136d250825a252f713d9",
+    "name": "Арбуз",
+    "price": 38,
+    "description": "Арбуз классический",
+    "picture": "https://instamart.ru/spree/products/54322/product/60797.jpg?1531420437",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
+  },
+  {
+    "_id": "5d09146d250825a252f713d9",
+    "name": "Дыня",
+    "price": 38,
+    "description": "Дыня круглая",
+    "picture": "https://c7.uihere.com/files/322/205/65/5bbd998e7d820-thumb.jpg",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
+  },
+  {
+    "_id": "5d09136d256822a252f713d9",
+    "name": "Дыня торпеда",
+    "price": 38,
+    "description": "Дыня овальная",
+    "picture": "http://www.pclady.ru/wp-content/uploads/2016/07/1-2.jpg",
+    "categoryId": "5d00ffbcedc0ef0a350fd1e5",
+    "volume": 1,
+    "units": "кг",
+    "producer": "ООО \"Фруктовый сад\""
   }
 ]
