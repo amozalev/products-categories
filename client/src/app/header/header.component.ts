@@ -9,16 +9,16 @@ import {Subscription} from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     productCountSubscription: Subscription;
-    product_count = 0;
+    productCount = 0;
     collapsedNav = true;
 
     constructor(private productService: ProductService) {
     }
 
     ngOnInit() {
-        this.productCountSubscription = this.productService.cartProductsCountChanged.subscribe(
+        this.productCountSubscription = this.productService.cartCountChanged.subscribe(
             (count: number) => {
-                this.product_count = count;
+                this.productCount = count;
             }
         );
     }
@@ -32,6 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     getProductsCount() {
-        return this.productService.cartProductsCount;
+        return this.productService.cartCount;
     }
 }

@@ -10,7 +10,7 @@ export class CartGuardService implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.productService.cartProductsCount) {
+    if (!this.productService.cartCount) {
       this.router.navigateByUrl('/');
       return false;
     }

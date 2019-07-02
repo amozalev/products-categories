@@ -8,8 +8,8 @@ import {AbstractService} from './abstract.service';
 @Injectable()
 export class ProductService extends AbstractService<Product> {
   cartProducts: Product[] = [];
-  cartProductsCountChanged = new Subject<number>();
-  cartProductsCount = 0;
+  cartCountChanged = new Subject<number>();
+  cartCount = 0;
 
   constructor(protected httpService: HttpClient) {
     super(httpService, [], `${AppConfig.apiURL}/${AppConfig.apiPrefix}`, 'products');
@@ -32,14 +32,14 @@ export class ProductService extends AbstractService<Product> {
       product.amount = 1;
       this.cartProducts.push(product);
     }
-    this.cartProductsCount++;
-    this.cartProductsCountChanged.next(this.cartProductsCount);
+    this.cartCount++;
+    this.cartCountChanged.next(this.cartCount);
   }
 
   reduceAmount(index: number) {
     this.cartProducts[index].amount--;
-    this.cartProductsCount--;
-    this.cartProductsCountChanged.next(this.cartProductsCount);
+    this.cartCount--;
+    this.cartCountChanged.next(this.cartCount);
 
     if (this.cartProducts[index].amount <= 0) {
       this.removeFromCart(index);
@@ -49,10 +49,10 @@ export class ProductService extends AbstractService<Product> {
   removeFromCart(index: number) {
     const product = this.cartProducts[index];
     this.cartProducts.splice(index, 1);
-    this.cartProductsCount -= product.amount;
-    if (this.cartProductsCount < 0) {
-      this.cartProductsCount = 0;
+    this.cartCount -= product.amount;
+    if (this.cartCount < 0) {
+      this.cartCount = 0;
     }
-    this.cartProductsCountChanged.next(this.cartProductsCount);
+    this.cartCountChanged.next(this.cartCount);
   }
 }

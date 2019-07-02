@@ -13,10 +13,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CartComponent implements OnInit {
   currency: string;
-  shipping_price: number;
-  subtotal_price: number;
+  shippingPrice: number;
+  subtotalPrice: number;
   cartForm: FormGroup;
-  product_count = 0;
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -25,36 +24,35 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.currency = AppConfig.currency;
-    this.shipping_price = AppConfig.shipping_price;
-    this.product_count = this.productService.cartProductsCount;
+    this.shippingPrice = AppConfig.shipping_price;
     this.initForm();
   }
 
   getCartProducts() {
-    this.subtotal_price = 0;
-    const products_in_cart = this.productService.getCartProducts();
-    products_in_cart.forEach((i) => {
-      this.subtotal_price += (i.amount * i.price);
+    this.subtotalPrice = 0;
+    const products = this.productService.getCartProducts();
+    products.forEach((i) => {
+      this.subtotalPrice += (i.amount * i.price);
     });
-    return products_in_cart;
+    return products;
   }
 
   removeFromCart(index: number) {
     this.productService.removeFromCart(index);
 
-    if (!this.productService.cartProductsCount) {
+    if (!this.productService.cartCount) {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 
   onAmountChanged(index: number, prod_id: string, event) {
-    this.subtotal_price = 0;
+    this.subtotalPrice = 0;
 
     if (event.target.value > this.productService.cartProducts[index]['amount']) {
       this.productService.addToCart(prod_id);
     } else {
       this.productService.reduceAmount(index);
-      if (!this.productService.cartProductsCount) {
+      if (!this.productService.cartCount) {
         this.router.navigate(['../'], {relativeTo: this.route});
       }
 
@@ -63,7 +61,7 @@ export class CartComponent implements OnInit {
 
     // products_in_cart[index].amount = this.cartForm.get('amount').value;
     products_in_cart.forEach((i) => {
-      this.subtotal_price += (i.amount * i.price);
+      this.subtotalPrice += (i.amount * i.price);
     });
   }
 
