@@ -126,7 +126,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       'name': new FormControl(name, [Validators.required, Validators.minLength(3)]),
       'price': new FormControl(price, [Validators.required,
-        Validators.pattern(/^[1-9]+[0-9]*$/),
+        Validators.pattern(/^[1-9]+[0-9.]*$/),
         Validators.minLength(1)]),
       'description': new FormControl(description, Validators.required),
       'picture': new FormControl(picture, Validators.required),

@@ -31,7 +31,7 @@
                 placeholder="55.5">
               <span *ngIf="!form.get('price').valid && form.get('price').touched"
                     class="help-block">
-                {{form.get('price').invalid ? 'Price must consist of numbers' : 'Please add price'}}
+                {{form.get('price').invalid ? 'Price must consist of numbers and "." sign' : 'Please add price'}}
               </span>
             </div>
             <div class="form-group col">
