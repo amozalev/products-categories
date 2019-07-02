@@ -39,21 +39,25 @@ export class CartComponent implements OnInit {
     return products_in_cart;
   }
 
-  removeFromCart(prod_id: string) {
-    this.productService.removeFromCart(prod_id);
+  removeFromCart(index: number) {
+    this.productService.removeFromCart(index);
+
     if (!this.productService.cartProductsCount) {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 
-  onAmountChanged(index: number, product_id: string, event) {
-    console.log('event: ', event.target.value);
+  onAmountChanged(index: number, prod_id: string, event) {
     this.subtotal_price = 0;
 
     if (event.target.value > this.productService.cartProductsCount) {
-      this.productService.addToCart(product_id);
+      this.productService.addToCart(prod_id);
     } else {
-      this.productService.removeFromCart(product_id);
+      this.productService.reduceAmount(index);
+      if (!this.productService.cartProductsCount) {
+        this.router.navigate(['../'], {relativeTo: this.route});
+      }
+
     }
     const products_in_cart = this.productService.getCartProducts();
 

@@ -23,20 +23,32 @@ export class ProductService extends AbstractService<Product> {
     const product = this.getItemById(prod_id);
     const product_exists = this.cartProducts.find((prod) => {
       if (prod.id === prod_id) {
+        prod.amount++;
         return true;
       }
     });
-    product.amount++;
+
     this.cartProductsCount++;
     this.cartProductsCountChanged.next(this.cartProductsCount);
     if (!product_exists) {
+      product.amount = 1;
       this.cartProducts.push(product);
     }
   }
 
-  removeFromCart(index: string) {
+  reduceAmount(index: number) {
+    this.cartProducts[index].amount--;
+    this.cartProductsCount--;
+    this.cartProductsCountChanged.next(this.cartProductsCount);
+
+    if (this.cartProducts[index].amount <= 0) {
+      this.removeFromCart(index);
+    }
+  }
+
+  removeFromCart(index: number) {
     const product = this.cartProducts[index];
-    // this.cartProducts.splice(index, 1); # TODO Fix this: index is changed by ObjectId string
+    this.cartProducts.splice(index, 1);
     this.cartProductsCount -= product.amount;
     if (this.cartProductsCount < 0) {
       this.cartProductsCount = 0;
