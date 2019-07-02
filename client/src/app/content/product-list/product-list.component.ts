@@ -71,26 +71,4 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.productsSubscription.unsubscribe();
   }
-
-  onPageClick(cur_page: number, offset: number, limit: number) {
-    let active_cat_name: string = null;
-    let active_cat_id: string = null;
-
-    this.route.params.subscribe((params: Params) => {
-      active_cat_name = params['category_name'];
-    });
-
-    const categories = this.categoriesService.getItems();
-    const active_cat = this.categoriesService.getItemByName(active_cat_name, categories);
-    if (active_cat !== undefined) {
-      active_cat_id = active_cat['id'];
-    }
-
-    this.productService.fetchItems(null, active_cat_id, offset, limit).subscribe(
-      data => {
-        this.products = data['data'];
-        this.pages = data['pages'];
-      }
-    );
-  }
 }

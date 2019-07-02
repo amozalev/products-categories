@@ -17,6 +17,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   categorySubscription: Subscription;
   editedCategorySubscription: Subscription;
   editedCategory: Category;
+  pages: {};
 
   constructor(private categoryService: CategoryService) {
   }
@@ -26,6 +27,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.initForm();
     this.categoryService.fetchItems().subscribe(data => {
       this.categories = data['data'];
+      this.pages = data['pages'];
     });
     this.categorySubscription = this.categoryService.itemsListChanged.subscribe((categories) => {
       this.categories = categories;

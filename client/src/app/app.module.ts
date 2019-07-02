@@ -23,6 +23,7 @@ import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.c
 import {AdminMenuComponent} from './admin/admin-menu/admin-menu.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
 import {ProductsResolverService} from './services/products-resolver.service';
+import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {ProductsResolverService} from './services/products-resolver.service';
     AdminCategoryComponent,
     AdminProductComponent,
     AdminDashboardComponent,
-    AdminMenuComponent
+    AdminMenuComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,

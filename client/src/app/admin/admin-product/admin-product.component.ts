@@ -17,6 +17,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   productSubscription: Subscription;
   editedProductSubscription: Subscription;
   editedProduct: Product;
+  pages: {};
 
   constructor(private productService: ProductService) {
   }
@@ -24,9 +25,11 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initForm();
-    this.productService.fetchItems().subscribe(
-      data => this.products = data['data']
-    );
+    this.productService.fetchItems(null, null, 0, 8).subscribe(
+      data => {
+        this.products = data['data'];
+        this.pages = data['pages'];
+      });
     this.productSubscription = this.productService.itemsListChanged.subscribe((products) => {
       this.products = products;
     });

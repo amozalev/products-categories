@@ -46,7 +46,7 @@ export class AbstractService<T extends BaseModel> {
     }
   }
 
-  fetchItems(id: string = null, cat_id?: string, offset: number = 0, limit: number = 16) {
+  fetchItems(id: string = null, cat_id?: string, offset: number = 0, limit: number = 6) {
     if (!id) {
       id = '';
     }

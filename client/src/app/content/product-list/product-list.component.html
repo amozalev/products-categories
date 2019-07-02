@@ -38,39 +38,7 @@
         [product]="product">
       </app-product-item>
     </div>
-
     <!-- Pagination -->
-    <ul class="pagination justify-content-center" *ngIf="pages !== undefined">
-      <li class="page-item">
-        <a class="page-link"
-           aria-label="Previous"
-           [routerLink]="['./']"
-           [queryParams]="{offset: (pages['offset'] - pages['limit']), limit: pages['limit']}"
-           (click)="onPageClick(1, 0, pages['limit'])">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">First</span>
-        </a>
-      </li>
-      <li class="page-item"
-          *ngFor="let num of [].constructor(pages['pages_count']); let i = index">
-        <a class="page-link"
-           [routerLink]="['./']"
-           [queryParams]="{offset: (pages['offset'] + pages['limit']), limit: pages['limit']}"
-           (click)="onPageClick(i+1, i*pages['limit'], pages['limit'])">
-          {{i + 1}}
-        </a>
-      </li>
-      <li class="page-item">
-        <a class="page-link"
-           aria-label="Next"
-           [routerLink]="['./']"
-           [queryParams]="{offset: (pages['offset'] + pages['limit']), limit: pages['limit']}"
-           (click)="onPageClick(pages['pages_count'], pages['items_count']-pages['limit']+1, pages['limit'])">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Last</span>
-        </a>
-      </li>
-    </ul>
-
+    <app-pages [pages]="pages"></app-pages>
   </div>
 </div>

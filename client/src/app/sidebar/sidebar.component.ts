@@ -17,6 +17,6 @@ export class SidebarComponent {
   }
 
   filterBy(cat_id: string) {
-    this.productService.fetchItems(null, cat_id, 0, 6).subscribe();
+    this.productService.fetchItems(null, cat_id, 0, 16).subscribe();
   }
 }
