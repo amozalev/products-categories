@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {CategoryService} from '../services/category.service';
 import {ProductService} from '../services/product.service';
+import {AppConfig} from '../app.config';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +18,6 @@ export class SidebarComponent {
   }
 
   filterBy(cat_id: string) {
-    this.productService.fetchItems(null, cat_id, 0, 16).subscribe();
+    this.productService.fetchItems(null, cat_id, 0, AppConfig.itemsPerPage).subscribe();
   }
 }

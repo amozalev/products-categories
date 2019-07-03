@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseModel} from '../shared/models/base.model';
 import {Subject} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
+import {AppConfig} from '../app.config';
 
 export class AbstractService<T extends BaseModel> {
   itemsListChanged = new Subject<T[]>();
@@ -46,7 +47,7 @@ export class AbstractService<T extends BaseModel> {
     }
   }
 
-  fetchItems(id: string = null, cat_id?: string, offset: number = 0, limit: number = 6) {
+  fetchItems(id: string = null, cat_id?: string, offset: number = 0, limit: number = AppConfig.itemsPerPage) {
     if (!id) {
       id = '';
     }

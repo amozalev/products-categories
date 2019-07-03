@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {CategoryService} from '../services/category.service';
 import {ProductService} from '../services/product.service';
-import {Category} from '../shared/models/category.model';
-import {Product} from '../shared/models/product.model';
 
 @Component({
   selector: 'app-pages',
@@ -11,42 +9,37 @@ import {Product} from '../shared/models/product.model';
   styleUrls: ['./pages.component.css']
 })
 export class PagesComponent implements OnInit {
-  private products: Product[];
-  private categories: Category[];
   @Input() pages: {};
+  @Input() endpoint: string;
 
-  constructor(private categoriesService: CategoryService,
+  constructor(private categoryService: CategoryService,
               private productService: ProductService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    // this.products = this.productService.getItems();
-    // this.categories
-    // this.pages =
   }
 
 
   onPageClick(cur_page: number, offset: number, limit: number) {
-    let active_cat_name: string = null;
-    let active_cat_id: string = null;
+    if (this.endpoint === 'products') {
+      let active_cat_name: string = null;
+      let active_cat_id: string = null;
 
-    this.route.params.subscribe((params: Params) => {
-      active_cat_name = params['category_name'];
-    });
+      this.route.params.subscribe((params: Params) => {
+        active_cat_name = params['category_name'];
+      });
 
-    const categories = this.categoriesService.getItems();
-    const active_cat = this.categoriesService.getItemByName(active_cat_name, categories);
-    if (active_cat !== undefined) {
-      active_cat_id = active_cat['id'];
-    }
-
-    this.productService.fetchItems(null, active_cat_id, offset, limit).subscribe(
-      data => {
-        this.products = data['data'];
-        this.pages = data['pages'];
+      const categories = this.categoryService.getItems();
+      const active_cat = this.categoryService.getItemByName(active_cat_name, categories);
+      if (active_cat !== undefined && active_cat !== null) {
+        active_cat_id = active_cat['id'];
       }
-    );
+
+      this.productService.fetchItems(null, active_cat_id, offset, limit).subscribe();
+    } else if (this.endpoint === 'categories') {
+      this.categoryService.fetchItems(null, null, offset, limit).subscribe();
+    }
   }
 
 }

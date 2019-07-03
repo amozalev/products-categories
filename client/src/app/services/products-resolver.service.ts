@@ -12,7 +12,7 @@ export class ProductsResolverService implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const categories = this.categoriesService.getItems();
     if (!categories.length) {
-      return this.categoriesService.fetchItems();
+      return this.categoriesService.fetchItems(null, null, 0, 20);
     } else {
       return categories;
     }

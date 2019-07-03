@@ -66,8 +66,6 @@ export class CartComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log('products_in_cart onSubmit', this.productService.products_in_cart);
-
   }
 
   initForm() {
