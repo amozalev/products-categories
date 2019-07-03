@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../shared/models/product.model';
 import {Subscription} from 'rxjs';
+import {CategoryService} from '../../services/category.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-product',
@@ -14,17 +16,32 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   editedId: string;
   form: FormGroup;
   products: Product[];
+  categoryNames: {} = {};
   productSubscription: Subscription;
   editedProductSubscription: Subscription;
   editedProduct: Product;
   pages: {};
+  objectKeys = Object.keys;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private categoryService: CategoryService) {
   }
 
   ngOnInit() {
     this.editMode = false;
     this.initForm();
+
+    this.categoryService.fetchItems(null, null, 0, 20).pipe(
+      map(data => {
+        return data['data'].reduce((obj, item) => {
+          obj[item.id] = item.displayName;
+          return obj;
+        }, {});
+      })
+    ).subscribe(categories => {
+      this.categoryNames = categories;
+    });
+
     this.productService.fetchItems(null, null, 0, 8).subscribe(
       data => {
         this.products = data['data'];
