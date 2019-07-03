@@ -9,6 +9,7 @@ import {ProductService} from '../services/product.service';
   styleUrls: ['./pages.component.css']
 })
 export class PagesComponent implements OnInit {
+  currentPage = 1;
   @Input() pages: {};
   @Input() endpoint: string;
 
@@ -22,6 +23,7 @@ export class PagesComponent implements OnInit {
 
 
   onPageClick(cur_page: number, offset: number, limit: number) {
+    this.currentPage = cur_page;
     if (this.endpoint === 'products') {
       let active_cat_name: string = null;
       let active_cat_id: string = null;

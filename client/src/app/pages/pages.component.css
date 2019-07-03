@@ -1,0 +1,5 @@
+li.active a {
+  color: #fff;
+  pointer-events: none;
+  cursor: default;
+}

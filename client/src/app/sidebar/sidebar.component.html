@@ -4,7 +4,7 @@
     <li *ngFor="let category of getCategories()"
         class="list-group-item"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{exact: true}">
+        [routerLinkActiveOptions]="{exact: false}">
       <a [routerLink]="['/products/category', category.name]"
          style="cursor: pointer"
          (click)="filterBy(category['id'])">
