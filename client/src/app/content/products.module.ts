@@ -21,13 +21,6 @@ import {SharedModule} from '../shared/shared.module';
     ReactiveFormsModule,
     AppRoutingModule,
     SharedModule
-  ],
-  exports: [
-    SidebarComponent,
-    ProductItemComponent,
-    ProductListComponent,
-    ProductDetailsComponent,
-    CartComponent,
   ]
 })
 export class ProductsModule {

@@ -21,8 +21,7 @@ import {AppRoutingModule} from '../app-routing.module';
     ReactiveFormsModule,
     AppRoutingModule,
     SharedModule
-  ],
-  exports: []
+  ]
 })
 export class AdminModule {
 
