@@ -3,6 +3,7 @@ import {CategoryService} from '../../services/category.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Category} from '../../shared/models/category.model';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-category',
@@ -14,10 +15,12 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   editedId: string;
   form: FormGroup;
   categories: Category[];
+  categoryNames: {} = {};
   categorySubscription: Subscription;
   editedCategorySubscription: Subscription;
   editedCategory: Category;
   pages: {};
+  objectKeys = Object.keys;
 
   constructor(private categoryService: CategoryService) {
   }
@@ -25,7 +28,15 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editMode = false;
     this.initForm();
-    this.categoryService.fetchItems().subscribe(data => {
+    this.categoryService.fetchItems().pipe(
+      map(data => {
+        this.categoryNames = data['data'].reduce((obj, item) => {
+          obj[item.id] = item.displayName;
+          return obj;
+        }, {});
+        return data;
+      })
+    ).subscribe(data => {
       this.categories = data['data'];
       this.pages = data['pages'];
     });

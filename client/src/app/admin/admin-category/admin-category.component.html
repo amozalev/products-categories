@@ -36,12 +36,12 @@
             </div>
             <div class="form-group col">
               <label for="parentId">Parent categories</label>
-              <input
-                type="text"
-                id="parentId"
-                formControlName="parentId"
-                class="form-control"
-                placeholder="5d078e806bc6c411efbdb550">
+              <select class="form-control"
+                      id="parentId"
+                      formControlName="parentId">
+                <option [ngValue]=""></option>
+                <option *ngFor="let key of objectKeys(categoryNames)" [ngValue]="key">{{categoryNames[key]}}</option>
+              </select>
             </div>
             <div class="col-xs-12">
               <button type="button"
@@ -81,7 +81,7 @@
               <td>{{i + 1}}</td>
               <td>{{category.name}}</td>
               <td>{{category.displayName}}</td>
-              <td>{{category.parentId}}</td>
+              <td>{{categoryNames[category.parentId]}}</td>
             </tr>
             </tbody>
           </table>
