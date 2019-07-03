@@ -1,24 +1,26 @@
-<h1 class="my-4">Shop Name</h1>
-<ul class="list-group">
-  <li *ngFor="let category of getCategories()"
-      class="list-group-item"
-      [routerLinkActive]="['active']"
-      [routerLinkActiveOptions]="{exact: true}">
-    <a [routerLink]="['/products/category', category.name]"
-       style="cursor: pointer"
-       (click)="filterBy(category['id'])">
-      {{category.displayName}}
-    </a>
+<div class="my-4">
+  <!--<h1 class="my-4">Shop Name</h1>-->
+  <ul class="list-group">
+    <li *ngFor="let category of getCategories()"
+        class="list-group-item"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a [routerLink]="['/products/category', category.name]"
+         style="cursor: pointer"
+         (click)="filterBy(category['id'])">
+        {{category.displayName}}
+      </a>
 
-    <!--    <ul *ngIf="category.children.length">-->
-    <!--      <li *ngFor="let childCat of category.children; let j = index"-->
-    <!--          class="list-group-item">-->
-    <!--        <a [routerLink]="['/products/category', childCat.name]"-->
-    <!--           style="cursor: pointer"-->
-    <!--           (click)="filterBy(j)">-->
-    <!--          {{childCat.displayName}}-->
-    <!--        </a>-->
-    <!--      </li>-->
-    <!--    </ul>-->
-  </li>
-</ul>
+      <!--    <ul *ngIf="category.children.length">-->
+      <!--      <li *ngFor="let childCat of category.children; let j = index"-->
+      <!--          class="list-group-item">-->
+      <!--        <a [routerLink]="['/products/category', childCat.name]"-->
+      <!--           style="cursor: pointer"-->
+      <!--           (click)="filterBy(j)">-->
+      <!--          {{childCat.displayName}}-->
+      <!--        </a>-->
+      <!--      </li>-->
+      <!--    </ul>-->
+    </li>
+  </ul>
+</div>
