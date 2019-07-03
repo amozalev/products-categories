@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {CategoryService} from '../services/category.service';
-import {ProductService} from '../services/product.service';
+import {CategoryService} from '../../../services/category.service';
+import {ProductService} from '../../../services/product.service';
 
 @Component({
   selector: 'app-pages',
