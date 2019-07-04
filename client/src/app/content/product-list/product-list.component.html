@@ -33,13 +33,18 @@
     </div>
 
     <div class="row">
-      <app-product-item
-        class="col-lg-4 col-md-6 mb-4"
-        *ngFor="let product of products"
-        [product]="product">
+      <div *ngIf="isLoading" style="text-align: center; width: 100%; margin-top: 25%;">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+      <app-product-item class="col-lg-4 col-md-6 mb-4"
+                        [style.display]="isLoading? 'none': 'inherit'"
+                        *ngFor="let product of products"
+                        [product]="product">
       </app-product-item>
     </div>
     <!-- Pagination -->
-    <app-pages [pages]="pages" endpoint="products"></app-pages>
+    <app-pages [style.display]="isLoading? 'none': 'inherit'"
+               [pages]="pages"
+               endpoint="products"></app-pages>
   </div>
 </div>

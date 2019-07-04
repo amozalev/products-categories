@@ -148,36 +148,44 @@
         </div>
       </form>
 
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">№</th>
-          <th scope="col">Title</th>
-          <th scope="col">Price</th>
-          <th scope="col">Description</th>
-          <th scope="col">Picture</th>
-          <th scope="col">Category</th>
-          <th scope="col">Volume</th>
-          <th scope="col">Units</th>
-          <th scope="col">Producer</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let product of products; let i = index"
-            (click)="onEdit(product.id)">
-          <td>{{i + 1}}</td>
-          <td>{{product.name}}</td>
-          <td>{{product.price}}</td>
-          <td>{{product.description}}</td>
-          <td>{{product.picture}}</td>
-          <td>{{categoryNames[product.categoryId]}}</td>
-          <td>{{product.volume}}</td>
-          <td>{{product.units}}</td>
-          <td>{{product.producer}}</td>
-        </tr>
-        </tbody>
-      </table>
+      <div *ngIf="isLoading; else table" style="text-align: center; width: 100%; margin-top: 25%;">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+      <ng-template #table>
+        <table class="table table-hover"
+               [style.display]="isLoading? 'none': 'inherit'">
+          <thead>
+          <tr>
+            <th scope="col">№</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Category</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Units</th>
+            <th scope="col">Producer</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let product of products; let i = index"
+              (click)="onEdit(product.id)">
+            <td>{{i + 1}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.picture}}</td>
+            <td>{{categoryNames[product.categoryId]}}</td>
+            <td>{{product.volume}}</td>
+            <td>{{product.units}}</td>
+            <td>{{product.producer}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-template>
     </div>
   </div>
-  <app-pages [pages]="pages" endpoint="products"></app-pages>
+  <app-pages [style.display]="isLoading? 'none': 'inherit'"
+             [pages]="pages"
+             endpoint="products"></app-pages>
 </div>

@@ -12,6 +12,7 @@ import {Category} from '../../shared/models/category.model';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  isLoading = false;
   products: Product[];
   productsSubscription: Subscription;
   pagesSubscription: Subscription;
@@ -29,6 +30,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     let active_cat_name: string = null;
     let offset: number = null;
     let limit: number = null;
+
+    this.isLoading = true;
 
     this.route.params.subscribe((params: Params) => {
       active_cat_name = params['category_name'];
@@ -56,6 +59,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       data => {
         this.products = data['data'];
         this.pages = data['pages'];
+        this.isLoading = false;
       }
     );
 

@@ -11,6 +11,7 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./admin-category.component.css']
 })
 export class AdminCategoryComponent implements OnInit, OnDestroy {
+  isLoading = false;
   editMode: boolean;
   editedId: string;
   form: FormGroup;
@@ -26,6 +27,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.editMode = false;
     this.initForm();
     this.categoryService.fetchItems().pipe(
@@ -39,7 +41,9 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     ).subscribe(data => {
       this.categories = data['data'];
       this.pages = data['pages'];
+      this.isLoading = false;
     });
+
     this.categorySubscription = this.categoryService.itemsListChanged.subscribe((categories) => {
       this.categories = categories;
     });

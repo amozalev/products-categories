@@ -12,6 +12,7 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./admin-product.component.css']
 })
 export class AdminProductComponent implements OnInit, OnDestroy {
+  isLoading = true;
   editMode: boolean;
   editedId: string;
   form: FormGroup;
@@ -28,6 +29,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.editMode = false;
     this.initForm();
 
@@ -40,6 +42,7 @@ export class AdminProductComponent implements OnInit, OnDestroy {
       })
     ).subscribe(categories => {
       this.categoryNames = categories;
+      this.isLoading = false;
     });
 
     this.productService.fetchItems(null, null, 0, 8).subscribe(
