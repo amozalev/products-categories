@@ -22,9 +22,9 @@
                        style="width: 72px; height: 72px;">
                 </a>
                 <div class="media-body">
-                  <h4 class="media-heading"><a [routerLink]="['/products', product.id]">{{product.name}}</a></h4>
-                  <h5 class="media-heading"> by <a [routerLink]="">Brand name</a></h5>
-                  <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                  <h4 class="media-heading"><a [routerLink]="['/products', product.id]">{{product.name}}, {{product.volume}} {{product.units}}</a></h4>
+                  <h5 class="media-heading"><a [routerLink]="">{{product.producer}}</a></h5>
+                  <span>Статус: </span><span class="text-success"><strong>В наличии</strong></span>
                 </div>
               </div>
             </td>
@@ -45,7 +45,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="{{ currency }}{{product.price}}"
+                value="{{product.price}} {{ currency }}"
                 [attr.disabled]="true"
                 formControlName="price">
             </td>
@@ -53,7 +53,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="{{ currency }}{{product.price * prod_amount.value}}"
+                value="{{product.price * prod_amount.value}} {{ currency }}"
                 [attr.disabled]="true"
                 formControlName="subtotal_price">
             </td>
@@ -91,21 +91,21 @@
             <td>  </td>
             <td>  </td>
             <td><h5>Subtotal</h5></td>
-            <td class="text-right"><h5><strong>{{ currency }} {{subtotalPrice}}</strong></h5></td>
+            <td class="text-right"><h5><strong>{{subtotalPrice}} {{ currency }}</strong></h5></td>
           </tr>
           <tr>
             <td>  </td>
             <td>  </td>
             <td>  </td>
             <td><h5>Estimated shipping</h5></td>
-            <td class="text-right"><h5><strong>{{ currency }}{{shippingPrice}}</strong></h5></td>
+            <td class="text-right"><h5><strong>{{shippingPrice}} {{ currency }}</strong></h5></td>
           </tr>
           <tr>
             <td>  </td>
             <td>  </td>
             <td>  </td>
             <td><h3>Total</h3></td>
-            <td class="text-right"><h3><strong>{{ currency }}{{subtotalPrice + shippingPrice}}</strong></h3></td>
+            <td class="text-right"><h3><strong>{{subtotalPrice + shippingPrice}} {{ currency }}</strong></h3></td>
           </tr>
           <tr>
             <td>  </td>

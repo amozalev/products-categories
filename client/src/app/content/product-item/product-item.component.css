@@ -1,4 +1,5 @@
 .product_img {
   min-height: 253px;
   max-height: 253px;
+  min-width: 253px;
 }

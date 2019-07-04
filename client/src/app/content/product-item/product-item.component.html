@@ -8,9 +8,11 @@
     </h4>
     <!--<h5>${{ product.price }}</h5>-->
     <div class="action-wrap">
-      <a [routerLink]="" class="float-right" (click)="addToCart()"><fa name="shopping-cart" size="lg"></fa></a>
-      <div class="price-wrap h5">
-        <span class="price-new">${{ product.price }}</span>
+      <a [routerLink]="" class="float-right" (click)="addToCart()">
+        <fa name="shopping-cart" size="lg"></fa>
+      </a>
+      <div class="price-wrap">
+        <span class="price-new h5">{{ product.price }} {{currency}}</span>, {{product.volume}} {{product.units}}
       </div>
     </div>
     <p class="card-text">{{ product.description }}</p>
