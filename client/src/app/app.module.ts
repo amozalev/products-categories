@@ -10,7 +10,6 @@ import {CartGuardService} from './content/cart/cart-guard.service';
 import {ProductsResolverService} from './services/products-resolver.service';
 import {ProductsModule} from './content/products.module';
 import {SharedModule} from './shared/shared.module';
-import {AdminModule} from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import {AdminModule} from './admin/admin.module';
     BrowserModule,
     HttpClientModule,
     ProductsModule,
-    AdminModule,
     SharedModule
   ],
   providers: [
