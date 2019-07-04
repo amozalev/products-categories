@@ -1,3 +1,7 @@
+h2 {
+  width: 100%;
+}
+
 .btn {
   margin-top: 32px;
 }
@@ -25,4 +29,8 @@ table td:nth-child(5) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.table-responsive {
+  display: table;
 }
