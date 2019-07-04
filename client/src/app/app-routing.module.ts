@@ -6,9 +6,7 @@ import {ProductDetailsComponent} from './content/product-details/product-details
 import {ProductsResolverService} from './services/products-resolver.service';
 import {CartComponent} from './content/cart/cart.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
-import {AdminComponent} from './admin/admin.component';
-import {AdminCategoryComponent} from './admin/admin-category/admin-category.component';
-import {AdminProductComponent} from './admin/admin-product/admin-product.component';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -19,7 +17,8 @@ const appRoutes: Routes = [
     resolve: {categories: ProductsResolverService}
   },
   {path: 'cart', component: CartComponent, canActivate: [CartGuardService]},
-  {path: 'admin', loadChildren: './admin/admin.module#AdminModule'}
+  {path: 'admin', loadChildren: './admin/admin.module#AdminModule'},
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({

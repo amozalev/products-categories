@@ -10,10 +10,12 @@ import {CartGuardService} from './content/cart/cart-guard.service';
 import {ProductsResolverService} from './services/products-resolver.service';
 import {ProductsModule} from './content/products.module';
 import {SharedModule} from './shared/shared.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
