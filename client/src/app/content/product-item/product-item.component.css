@@ -1,3 +1,8 @@
+.card {
+  min-width: 253px;
+  min-height: 458px;
+}
+
 .product_img {
   min-height: 253px;
   max-height: 253px;
