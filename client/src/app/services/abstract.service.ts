@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {BaseModel} from '../shared/models/base.model';
-import {Subject} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {Subject, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import {AppConfig} from '../app.config';
 
 export class AbstractService<T extends BaseModel> {
@@ -63,6 +63,10 @@ export class AbstractService<T extends BaseModel> {
         console.log('res:', res);
         return res;
       }),
+      catchError(err => {
+        console.log('fetchItems error: ', err);
+        return throwError(err);
+      }),
       tap(res => {
         this.setItems(res['data'], res['pages']);
       })
@@ -75,14 +79,15 @@ export class AbstractService<T extends BaseModel> {
         map(res => {
           return res;
         }),
+        catchError(err => {
+          console.log('fetchItems error: ', err);
+          return throwError(err);
+        }),
         tap(res => {
-            const new_items = this.items;
-            new_items.push(res['data']);
-            this.setItems(new_items);
-          },
-          error => {
-            console.log('save tap error: ', error);
-          })
+          const new_items = this.items;
+          new_items.push(res['data']);
+          this.setItems(new_items);
+        })
       );
   }
 
@@ -92,19 +97,20 @@ export class AbstractService<T extends BaseModel> {
         map(res => {
           return res['data'];
         }),
+        catchError(err => {
+          console.log('fetchItems error: ', err);
+          return throwError(err);
+        }),
         tap(res => {
-            const new_items = this.items;
-            const i = this.items.findIndex((c) => {
-              return c.id === res.id;
-            });
-            if (i !== -1) {
-              new_items[i] = res;
-            }
-            this.setItems(new_items);
-          },
-          error => {
-            console.log('update tap error: ', error);
-          })
+          const new_items = this.items;
+          const i = this.items.findIndex((c) => {
+            return c.id === res.id;
+          });
+          if (i !== -1) {
+            new_items[i] = res;
+          }
+          this.setItems(new_items);
+        })
       );
   }
 
@@ -114,21 +120,22 @@ export class AbstractService<T extends BaseModel> {
         map(res => {
           return res;
         }),
+        catchError(err => {
+          console.log('fetchItems error: ', err);
+          return throwError(err);
+        }),
         tap(res => {
-            if (res['status'] === 'accepted') {
-              const new_items = this.items;
-              const i = this.items.findIndex((item) => {
-                return item.id === id;
-              });
-              if (i !== -1) {
-                new_items.splice(i, 1);
-              }
-              this.setItems(new_items);
+          if (res['status'] === 'accepted') {
+            const new_items = this.items;
+            const i = this.items.findIndex((item) => {
+              return item.id === id;
+            });
+            if (i !== -1) {
+              new_items.splice(i, 1);
             }
-          },
-          error => {
-            console.log('delete tap error: ', error);
-          })
+            this.setItems(new_items);
+          }
+        })
       );
   }
 }
