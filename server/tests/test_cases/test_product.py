@@ -152,7 +152,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(resp.status_code, 201)
 
     def test_fail_post_product_without_name(self):
-        resp = self.app.post('/api/v1/products/', json={'displayName': 'TestCategory POST Item',
+        resp = self.app.post('/api/v1/products/', json={'displayName': 'TestUser POST Item',
                                                         'parentId': None})
         self.assertEqual(resp.status_code, 400)
 

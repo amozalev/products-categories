@@ -7,3 +7,5 @@ class Config(object):
     DB_USER_PASSWORD = 'password'
 
     CLIENT_HOST = 'http://localhost:4200'
+
+    SECRET_KEY = '\x97\xd4nr\x05\x9fP\xaa\xfbU\xdf\x84\xb9\xf6i\xbf\xdc\x96)p\xc2{\xdea'
