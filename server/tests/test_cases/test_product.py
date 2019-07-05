@@ -179,7 +179,7 @@ class TestProduct(unittest.TestCase):
                                                        })
         self.assertEqual(resp.status_code, 200)
         json_data = resp.get_json()
-        self.assertTrue('previous' in json_data)
+        self.assertTrue('prev' in json_data['pages'])
 
     def test_success_get_products_with_offset_limit(self):
         offset = 3
@@ -189,8 +189,8 @@ class TestProduct(unittest.TestCase):
                                                        })
         self.assertEqual(resp.status_code, 200)
         json_data = resp.get_json()
-        self.assertEqual((json_data['from'], json_data['to']), (offset, offset + limit))
-        self.assertTrue('previous' in json_data)
+        self.assertEqual((json_data['pages']['from'], json_data['pages']['to']), (offset + 1, offset + limit))
+        self.assertTrue('prev' in json_data['pages'])
 
     def test_success_get_products_previous_link_not_in_results(self):
         resp = self.app.get('/api/v1/products/', json={'offset': 0,
