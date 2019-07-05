@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
 
 import {SharedModule} from '../shared/shared.module';
 import {AdminComponent} from './admin.component';
@@ -21,7 +20,6 @@ import {RouterModule} from '@angular/router';
   imports: [
     RouterModule,
     AdminRoutingModule,
-    ReactiveFormsModule,
     SharedModule
   ]
 })

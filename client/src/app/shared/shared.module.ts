@@ -5,7 +5,8 @@ import {CommonModule} from '@angular/common';
 import {HeaderComponent} from './components/header/header.component';
 import {PagesComponent} from './components/pages/pages.component';
 import {RouterModule} from '@angular/router';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import {LoadingSpinnerComponent} from './components/loading-spinner/loading-spinner.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,11 +17,13 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     AngularFontAwesomeModule
   ],
   exports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     AngularFontAwesomeModule,
     HeaderComponent,
     PagesComponent,

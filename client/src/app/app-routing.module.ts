@@ -7,6 +7,7 @@ import {ProductsResolverService} from './services/products-resolver.service';
 import {CartComponent} from './content/cart/cart.component';
 import {CartGuardService} from './content/cart/cart-guard.service';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {AuthComponent} from './auth/auth.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -17,6 +18,7 @@ const appRoutes: Routes = [
     resolve: {categories: ProductsResolverService}
   },
   {path: 'cart', component: CartComponent, canActivate: [CartGuardService]},
+  {path: 'auth', component: AuthComponent},
   {path: 'admin', loadChildren: './admin/admin.module#AdminModule'},
   {path: '**', component: NotFoundComponent}
 ];
