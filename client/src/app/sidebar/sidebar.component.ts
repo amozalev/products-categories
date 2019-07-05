@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../services/category.service';
 import {ProductService} from '../services/product.service';
 import {AppConfig} from '../app.config';
@@ -8,9 +8,13 @@ import {AppConfig} from '../app.config';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
   constructor(private categoryService: CategoryService,
               private productService: ProductService) {
+  }
+
+  ngOnInit(): void {
+    this.categoryService.fetchItems().subscribe();
   }
 
   getCategories() {
