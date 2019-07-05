@@ -8,27 +8,40 @@
           formControlName="email"
           class="form-control fadeIn second"
           placeholder="login">
+        <div class="form-group">
         <span *ngIf="!form.get('email').valid && form.get('email').touched"
               class="help-block">
                 Please add login
         </span>
+        </div>
       </div>
       <div class="form-group">
         <input
-          type="text"
+          type="password"
           id="password"
           formControlName="password"
           class="form-control fadeIn third"
           placeholder="password">
+        <div class="form-group">
         <span *ngIf="!form.get('password').valid && form.get('password').touched"
               class="help-block">
                 Please add password
         </span>
+        </div>
       </div>
-      <input type="submit" class="fadeIn fourth" value="Log In">
+      <div class="form-group">
+        <input [disabled]="!form.valid"
+               id="auth_submit"
+               type="submit"
+               class="fadeIn fourth"
+               value="Log In">
+      </div>
+      <div class="form-group help-block">
+        {{response_msg}}
+      </div>
     </form>
     <div id="formFooter">
-<!--      <a class="underlineHover" [routerLink]="">Forgot Password?</a>-->
+      <!--      <a class="underlineHover" [routerLink]="">Forgot Password?</a>-->
     </div>
   </div>
 </div>

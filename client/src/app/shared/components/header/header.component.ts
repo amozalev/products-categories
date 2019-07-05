@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductService} from '../../../services/product.service';
 import {Subscription} from 'rxjs';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   productCountSubscription: Subscription;
   productCount = 0;
   collapsedNav = true;
+  isSignedIn = false;
+  signingInSubscription: Subscription;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -21,6 +25,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.productCount = count;
       }
     );
+
+    this.signingInSubscription = this.authService.isAuthorized.subscribe((data: boolean) => {
+      this.isSignedIn = data;
+    });
   }
 
   ngOnDestroy(): void {

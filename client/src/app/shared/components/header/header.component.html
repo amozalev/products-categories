@@ -21,13 +21,22 @@
       <ul class="navbar-nav ml-auto">
         <div class="btn-group d-flex" role="group">
           <li>
-            <a routerLink="admin" class="nav-link">
+            <a *ngIf="isSignedIn"
+               routerLink="admin"
+               class="nav-link">
               <fa name="cog" size="lg"></fa>
             </a>
           </li>
-          <li>
+          <li *ngIf="isSignedIn">
             <a routerLink="user" class="nav-link">
               <fa name="user" size="lg"></fa>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="!isSignedIn"
+               routerLink="auth"
+               class="nav-link">
+              <fa name="sign-in" size="lg"></fa>
             </a>
           </li>
           <li>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -9,8 +10,11 @@ import {AuthService} from '../services/auth.service';
 })
 export class AuthComponent implements OnInit {
   form: FormGroup;
+  response_msg = '';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -18,12 +22,21 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit() {
-    const email = this.form.value.email;
-    const password = this.form.value.password;
+    const val = this.form.value;
 
-    this.authService.login(email, password).subscribe(data => {
-      console.log('login data: ', data);
-    });
+    if (val.email && val.password) {
+      this.authService.login(val.email, val.password).subscribe(data => {
+          console.log('login data: ', data);
+          this.authService.set_token(data['auth_token']);
+          this.authService.isSignedIn = true;
+          this.authService.isAuthorized.next(true);
+          this.response_msg = data['message'];
+          this.router.navigate(['/'], {relativeTo: this.route});
+        },
+        err => {
+          this.response_msg = err['error']['message'];
+        });
+    }
   }
 
   initForm() {
