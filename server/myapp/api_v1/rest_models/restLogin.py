@@ -12,6 +12,7 @@ class RestLogin(Resource):
 
     def post(self):
         args = self.reqparse.parse_args()
+
         try:
             user = User.objects.get(email=args.get('email'))
             if user and check_password_hash(user.password, args.get('password')):
@@ -36,3 +37,7 @@ class RestLogin(Resource):
                 'message': 'Try again'
             }
             return RestBaseClass.create_response(result, status_code=500)
+
+    def options(self, **kwargs):
+        response = RestBaseClass.create_response({})
+        return response
