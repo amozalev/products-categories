@@ -7,6 +7,7 @@ import {shareReplay} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
+  isSignedIn = false;
 
   constructor(private httpService: HttpClient) {
   }
@@ -15,5 +16,7 @@ export class AuthService {
     return this.httpService.post(`${AppConfig.apiURL}/${AppConfig.apiURL}/auth/login`, {email, password}).pipe(
       shareReplay()
     );
+
+    this.isSignedIn = true;
   }
 }

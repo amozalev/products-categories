@@ -12,6 +12,7 @@ import {ProductsModule} from './content/products.module';
 import {SharedModule} from './shared/shared.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthComponent } from './auth/auth.component';
+import {AuthService} from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AuthComponent } from './auth/auth.component';
     ProductService,
     CategoryService,
     CartGuardService,
+    AuthService,
     ProductsResolverService
   ],
   bootstrap: [AppComponent]

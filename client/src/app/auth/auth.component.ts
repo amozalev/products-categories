@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -9,7 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class AuthComponent implements OnInit {
   form: FormGroup;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -17,8 +18,12 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit() {
-    const email = this.form.value.name;
-    const password = this.form.value.displayName;
+    const email = this.form.value.email;
+    const password = this.form.value.password;
+
+    this.authService.login(email, password).subscribe(data => {
+      console.log('login data: ', data);
+    });
   }
 
   initForm() {
@@ -26,8 +31,16 @@ export class AuthComponent implements OnInit {
     const password = '';
 
     this.form = new FormGroup({
-      'name': new FormControl(email, [Validators.required, Validators.email, Validators.minLength(3)]),
-      'displayName': new FormControl(password, [Validators.required, Validators.minLength(4)]),
+      'email': new FormControl(email, [
+          Validators.required,
+          Validators.email,
+          Validators.minLength(3)
+        ],
+      ),
+      'password': new FormControl(password, [
+        Validators.required,
+        Validators.minLength(4)
+      ])
     });
   }
 
