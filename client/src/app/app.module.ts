@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {ProductService} from './services/product.service';
@@ -10,15 +10,15 @@ import {CartGuardService} from './content/cart/cart-guard.service';
 import {ProductsResolverService} from './services/products-resolver.service';
 import {ProductsModule} from './content/products.module';
 import {SharedModule} from './shared/shared.module';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { AuthComponent } from './auth/auth.component';
+import {NotFoundComponent} from './not-found/not-found.component';
 import {AuthService} from './services/auth.service';
+import {InterceptorService} from './services/interceptor.service';
+import {AuthGuardService} from './auth/auth-guard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
-    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +32,13 @@ import {AuthService} from './services/auth.service';
     CategoryService,
     CartGuardService,
     AuthService,
-    ProductsResolverService
+    AuthGuardService,
+    ProductsResolverService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

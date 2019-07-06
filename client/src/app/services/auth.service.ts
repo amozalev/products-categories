@@ -21,11 +21,27 @@ export class AuthService {
     );
   }
 
+  // private setSession(authResult) {
+  //   const expiresAt = moment().add(authResult.expiresIn, 'second');
+  //
+  //   localStorage.setItem('id_token', authResult.idToken);
+  //   localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+  // }
+
   set_token(token: string) {
     this.auth_token = token;
+    localStorage.setItem('id_token', token);
+    // localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
   get_token() {
     return this.auth_token;
   }
+
+  isAuthenticated() {
+    const token = localStorage.getItem('id_token');
+    console.log('token:', token);
+    return token != null;
+  }
+
 }
