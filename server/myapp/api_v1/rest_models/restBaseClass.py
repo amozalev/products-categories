@@ -1,14 +1,19 @@
 import json
 import bson
 import math
-from flask import jsonify, request, make_response
+from flask import jsonify, request, make_response, current_app
 from flask_restful import Resource, abort
+from flask_jwt_extended import fresh_jwt_required, jwt_required
 from mongoengine import DoesNotExist, ValidationError
 
 from config import Config
+from myapp.utils import api_key_required
 
 
 class RestBaseClass(Resource):
+    method_decorators = {'post': [api_key_required],
+                         'put': [api_key_required],
+                         'delete': [api_key_required]}
     saved_item = None
 
     def __init__(self, classname, obj_title, schema):
@@ -87,6 +92,7 @@ class RestBaseClass(Resource):
             response = self.create_response(self.result)
             return response
 
+    @fresh_jwt_required
     def put(self, item_id: str = None) -> json:
         if item_id is None:
             abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
@@ -118,6 +124,7 @@ class RestBaseClass(Resource):
         response = self.create_response(self.result)
         return response
 
+    @fresh_jwt_required
     def post(self) -> json:
         args = self.reqparse.parse_args()
         tmp_dict = {}
@@ -146,6 +153,7 @@ class RestBaseClass(Resource):
                                         headers={"Location": f'{request.url}{self.saved_item.id}'})
         return response
 
+    @fresh_jwt_required
     def delete(self, item_id: str = None) -> json:
         if item_id is None:
             abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
