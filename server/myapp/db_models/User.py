@@ -1,6 +1,7 @@
 import datetime
 import jwt
 from flask import current_app
+from flask_jwt_extended import create_access_token, get_jwt_identity
 from mongoengine import *
 
 
@@ -21,11 +22,14 @@ class User(Document):
                 'iat': datetime.datetime.utcnow(),
                 'sub': str(user_id)
             }
-            return jwt.encode(
-                payload,
-                current_app.config.get('SECRET_KEY'),
-                algorithm='HS256'
-            )
+            user_id = str(user_id)
+            token = create_access_token(identity=user_id)
+            # return jwt.encode(
+            #     payload,
+            #     current_app.config.get('SECRET_KEY'),
+            #     algorithm='HS256'
+            # )
+            return token
         except Exception as e:
             return e
 

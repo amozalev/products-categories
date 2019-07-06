@@ -21,7 +21,7 @@ class RestLogin(Resource):
                     result = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'auth_token': auth_token.decode()
+                        'auth_token': auth_token
                     }
                     return RestBaseClass.create_response(result, status_code=200)
             else:

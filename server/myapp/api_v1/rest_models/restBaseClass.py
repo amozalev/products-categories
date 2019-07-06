@@ -3,7 +3,7 @@ import bson
 import math
 from flask import jsonify, request, make_response, current_app
 from flask_restful import Resource, abort
-from flask_jwt_extended import fresh_jwt_required, jwt_required
+from flask_jwt_extended import fresh_jwt_required, jwt_required, get_jwt_claims, get_jwt_identity
 from mongoengine import DoesNotExist, ValidationError
 
 from config import Config
@@ -51,7 +51,7 @@ class RestBaseClass(Resource):
         response.headers.extend(
             {'Access-Control-Allow-Origin': Config.CLIENT_HOST,
              'Access-Control-Allow-Methods': ['GET', 'PUT', 'POST', 'DELETE'],
-             'Access-Control-Allow-Headers': 'Content-Type'}
+             'Access-Control-Allow-Headers': ['Content-Type', 'Authorization']}
         )
         if headers is not None:
             response.headers.extend(headers)
@@ -92,8 +92,9 @@ class RestBaseClass(Resource):
             response = self.create_response(self.result)
             return response
 
-    @fresh_jwt_required
+    @jwt_required
     def put(self, item_id: str = None) -> json:
+        claims = get_jwt_identity()
         if item_id is None:
             abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
 
@@ -124,7 +125,7 @@ class RestBaseClass(Resource):
         response = self.create_response(self.result)
         return response
 
-    @fresh_jwt_required
+    @jwt_required
     def post(self) -> json:
         args = self.reqparse.parse_args()
         tmp_dict = {}
@@ -153,7 +154,7 @@ class RestBaseClass(Resource):
                                         headers={"Location": f'{request.url}{self.saved_item.id}'})
         return response
 
-    @fresh_jwt_required
+    @jwt_required
     def delete(self, item_id: str = None) -> json:
         if item_id is None:
             abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
