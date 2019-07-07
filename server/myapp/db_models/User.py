@@ -1,4 +1,3 @@
-import datetime
 import jwt
 from flask import current_app
 from flask_jwt_extended import create_access_token, get_jwt_identity
@@ -17,20 +16,11 @@ class User(Document):
         :return: string
         """
         try:
-            payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
-                'iat': datetime.datetime.utcnow(),
-                'sub': str(user_id)
-            }
             user_id = str(user_id)
             token = create_access_token(identity=user_id)
-            # return jwt.encode(
-            #     payload,
-            #     current_app.config.get('SECRET_KEY'),
-            #     algorithm='HS256'
-            # )
             return token
         except Exception as e:
+            print('User.encode_auth_token err:', e)
             return e
 
     @staticmethod

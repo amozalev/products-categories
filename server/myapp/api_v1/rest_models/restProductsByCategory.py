@@ -48,3 +48,8 @@ class RestProductsByCategory(Resource):
 
         response = RestBaseClass.create_response(self.result)
         return response
+
+    def options(self, **kwargs):
+        response = RestBaseClass.create_response({})
+        return response
+

@@ -26,12 +26,13 @@ export class AuthComponent implements OnInit {
 
     if (val.email && val.password) {
       this.authService.login(val.email, val.password).subscribe(data => {
-          console.log('login data: ', data);
-          this.authService.set_token(data['auth_token']);
-          this.authService.isSignedIn = true;
-          this.authService.isAuthorized.next(true);
-          this.response_msg = data['message'];
-          this.router.navigate(['/'], {relativeTo: this.route});
+          if (data['status'] === 'success') {
+            this.authService.setSession(data);
+            this.authService.isAuthorized.next(true);
+            this.response_msg = data['message'];
+            this.router.navigate(['/'], {relativeTo: this.route});
+
+          }
         },
         err => {
           this.response_msg = err['error']['message'];

@@ -39,7 +39,7 @@ export class AbstractService<T extends BaseModel> {
 
   setItems(items: T[], pages: {} = null) {
     this.items = items;
-    console.log('set items: ', this.items);
+    // console.log('set items: ', this.items);
 
     this.itemsListChanged.next(this.items);
     if (pages) {
@@ -60,7 +60,7 @@ export class AbstractService<T extends BaseModel> {
 
     return this.httpService.get(`${url}?offset=${offset}&limit=${limit}`).pipe(
       map(res => {
-        console.log('res:', res);
+        // console.log('res:', res);
         return res;
       }),
       catchError(err => {

@@ -94,7 +94,6 @@ class RestBaseClass(Resource):
 
     @jwt_required
     def put(self, item_id: str = None) -> json:
-        claims = get_jwt_identity()
         if item_id is None:
             abort(404, error=404, message=f'{self.cls.__name__} id is not set.')
 

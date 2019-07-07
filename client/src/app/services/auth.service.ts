@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
-import {AppConfig} from '../app.config';
 import {shareReplay} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import * as moment from 'moment';
+
+import {AppConfig} from '../app.config';
 
 
 @Injectable()
 export class AuthService {
-  private auth_token: string;
-  isSignedIn = false;
   isAuthorized = new Subject<boolean>();
 
   constructor(private httpService: HttpClient) {
@@ -21,27 +20,33 @@ export class AuthService {
     );
   }
 
-  // private setSession(authResult) {
-  //   const expiresAt = moment().add(authResult.expiresIn, 'second');
-  //
-  //   localStorage.setItem('id_token', authResult.idToken);
-  //   localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-  // }
-
-  set_token(token: string) {
-    this.auth_token = token;
-    localStorage.setItem('id_token', token);
-    // localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+  setSession(data: {}) {
+    // const expiresAt = moment().add(data['expires'], 'second').unix();
+    localStorage.setItem('token_id', data['auth_token']);
+    localStorage.setItem('expires_at', JSON.stringify(data['expires']));
   }
 
-  get_token() {
-    return this.auth_token;
+  logout() {
+    localStorage.removeItem('token_id');
+    localStorage.removeItem('expires_at');
+    this.isAuthorized.next(false);
   }
 
-  isAuthenticated() {
-    const token = localStorage.getItem('id_token');
-    console.log('token:', token);
-    return token != null;
+  public isLoggedIn() {
+    // console.log('momentt: ', moment().unix());
+    // console.log('expires: ', this.getExpiration());
+    return moment().unix() < this.getExpiration();
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
+
+  getExpiration() {
+    const expiration = localStorage.getItem('expires_at');
+    const expiresAt = JSON.parse(expiration);
+    // return moment(expiresAt);
+    return expiresAt;
   }
 
 }

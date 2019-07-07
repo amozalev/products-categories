@@ -1,5 +1,5 @@
 from bson import ObjectId
-from flask import request, make_response, jsonify, abort
+from flask import request, make_response, jsonify
 from functools import wraps
 
 
